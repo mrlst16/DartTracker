@@ -25,41 +25,90 @@ namespace DartTracker.Lib.Test.Games.Cricket
             Assert.AreEqual(2, service.Game.Players.Count);
             Assert.AreEqual(Model.Enum.GameType.Cricket, service.Game.Type);
 
-            Assert.IsTrue(service.ShotCount == 0);
-            Assert.IsTrue(service.Round == 1);
-            Assert.IsTrue(service.PlayerMarker == 0);
+            Assert.AreEqual(0, service.ShotCount());
+            Assert.AreEqual(1, service.Round);
+            Assert.AreEqual(0, service.PlayerMarker);
 
-            service.TakeShot(10, Model.Enum.ContactType.Miss);
-            service.TakeShot(10, Model.Enum.ContactType.Miss);
-            service.TakeShot(10, Model.Enum.ContactType.Miss);
+            await service.TakeShot(10, Model.Enum.ContactType.Miss);
+            await service.TakeShot(10, Model.Enum.ContactType.Miss);
+            await service.TakeShot(10, Model.Enum.ContactType.Miss);
 
-            Assert.IsTrue(service.ShotCount == 3);
-            Assert.IsTrue(service.Round == 1);
-            Assert.IsTrue(service.PlayerMarker == 1);
+            Assert.AreEqual(3, service.ShotCount());
+            Assert.AreEqual(1, service.Round);
+            Assert.AreEqual(1, service.PlayerMarker);
 
-            service.TakeShot(10, Model.Enum.ContactType.Miss);
-            service.TakeShot(10, Model.Enum.ContactType.Miss);
-            service.TakeShot(10, Model.Enum.ContactType.Miss);
+            await service.TakeShot(10, Model.Enum.ContactType.Miss);
+            await service.TakeShot(10, Model.Enum.ContactType.Miss);
+            await service.TakeShot(10, Model.Enum.ContactType.Miss);
 
-            Assert.IsTrue(service.ShotCount == 6);
-            Assert.IsTrue(service.Round == 2);
-            Assert.IsTrue(service.PlayerMarker == 0);
+            Assert.AreEqual(6, service.ShotCount());
+            Assert.AreEqual(2, service.Round);
+            Assert.AreEqual(0, service.PlayerMarker);
 
-            service.TakeShot(10, Model.Enum.ContactType.Miss);
-            service.TakeShot(10, Model.Enum.ContactType.Miss);
-            service.TakeShot(10, Model.Enum.ContactType.Miss);
+            await service.TakeShot(10, Model.Enum.ContactType.Miss);
+            await service.TakeShot(10, Model.Enum.ContactType.Miss);
+            await service.TakeShot(10, Model.Enum.ContactType.Miss);
 
-            Assert.IsTrue(service.ShotCount == 9);
-            Assert.IsTrue(service.Round == 2);
-            Assert.IsTrue(service.PlayerMarker == 0);
+            Assert.AreEqual(9, service.ShotCount());
+            Assert.AreEqual(2, service.Round);
+            Assert.AreEqual(1, service.PlayerMarker);
 
-            service.TakeShot(10, Model.Enum.ContactType.Miss);
-            service.TakeShot(10, Model.Enum.ContactType.Miss);
-            service.TakeShot(10, Model.Enum.ContactType.Miss);
+            await service.TakeShot(10, Model.Enum.ContactType.Miss);
+            await service.TakeShot(10, Model.Enum.ContactType.Miss);
+            await service.TakeShot(10, Model.Enum.ContactType.Miss);
 
-            Assert.IsTrue(service.ShotCount == 12);
-            Assert.IsTrue(service.Round == 2);
-            Assert.IsTrue(service.PlayerMarker == 1);
+            Assert.AreEqual(12, service.ShotCount());
+            Assert.AreEqual(3, service.Round);
+            Assert.AreEqual(0, service.PlayerMarker);
         }
+
+        [TestMethod]
+        public async Task BothBoardsClosed_HitsAllTripples_WinOnNextBullseye()
+        {
+            var service = new CricketGameService(
+                CricketGameServiceData.TwoPlayers()
+                );
+
+            Assert.AreEqual(2, service.Game.Players.Count);
+            Assert.AreEqual(Model.Enum.GameType.Cricket, service.Game.Type);
+
+            Assert.AreEqual(0, service.ShotCount());
+            Assert.AreEqual(1, service.Round);
+            Assert.AreEqual(0, service.PlayerMarker);
+
+            await service.TakeShot(15, Model.Enum.ContactType.Triple);
+            await service.TakeShot(16, Model.Enum.ContactType.Triple);
+            await service.TakeShot(17, Model.Enum.ContactType.Triple);
+
+            Assert.AreEqual(3, service.ShotCount());
+            Assert.AreEqual(1, service.Round);
+            Assert.AreEqual(1, service.PlayerMarker);
+
+            await service.TakeShot(15, Model.Enum.ContactType.Triple);
+            await service.TakeShot(16, Model.Enum.ContactType.Triple);
+            await service.TakeShot(17, Model.Enum.ContactType.Triple);
+
+            Assert.AreEqual(6, service.ShotCount());
+            Assert.AreEqual(2, service.Round);
+            Assert.AreEqual(0, service.PlayerMarker);
+
+            await service.TakeShot(18, Model.Enum.ContactType.Triple);
+            await service.TakeShot(19, Model.Enum.ContactType.Triple);
+            await service.TakeShot(20, Model.Enum.ContactType.Triple);
+
+            Assert.AreEqual(9, service.ShotCount());
+            Assert.AreEqual(2, service.Round);
+            Assert.AreEqual(1, service.PlayerMarker);
+
+            await service.TakeShot(18, Model.Enum.ContactType.Triple);
+            await service.TakeShot(19, Model.Enum.ContactType.Triple);
+            await service.TakeShot(20, Model.Enum.ContactType.Triple);
+
+            Assert.AreEqual(12, service.ShotCount());
+            Assert.AreEqual(3, service.Round);
+            Assert.AreEqual(0, service.PlayerMarker);
+
+        }
+
     }
 }

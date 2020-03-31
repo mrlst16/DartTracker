@@ -1,5 +1,6 @@
 ﻿using DartTracker.Interface.Games;
 using DartTracker.Model.Enum;
+using DartTracker.Model.Events;
 using DartTracker.Model.Games;
 using DartTracker.Model.Players;
 using DartTracker.Model.Shooting;
@@ -43,29 +44,23 @@ namespace DartTracker.Lib.Games.Cricket
 
         private Turn _turn;
 
-        /// <summary>
-        /// _shotCount starts at 3 so that we can use the modulus operator
-        /// </summary>
         public int PlayerMarker { get; protected set; } = 0;
         public int Round { get; protected set; } = 1;
 
+        /// <summary>
+        /// _shotCount starts at 3 so that we can use the modulus operator
+        /// </summary>
         private int _shotCount = 3;
-        public int ShotCount
-        {
-            get
-            {
-                return _shotCount - 3;
-            }
-            protected set
-            {
-                _shotCount = value;
-            }
-        }
+
+        public event EventHandler GameWonEvent;
+
+        public int ShotCount() => _shotCount - 3;
 
         public CricketGameService(
             Game game
             )
         {
+            game.Type = GameType.Cricket;
             Game = game;
             ShotBoard = StartShotboard(game.Players);
         }
@@ -77,6 +72,15 @@ namespace DartTracker.Lib.Games.Cricket
                 (y) => new CricketPlayerMarkTracker(y.ID));
         }
 
+        private Player WinningPlayer()
+        {
+            var winnningPlayerId = ShotBoard
+                .Select(kvp => kvp.Value)
+                .OrderBy(x => x.Score)
+                .First().PlayerID;
+            return this.Game.Players.FirstOrDefault(x => x.ID == winnningPlayerId);
+        }
+
         public async Task<bool> GameWon()
             => ShotBoard
                 .Select(kvp => kvp.Value)
@@ -86,7 +90,7 @@ namespace DartTracker.Lib.Games.Cricket
 
         private void IncrementEverything()
         {
-            if (ShotCount % 3 == 0)
+            if (_shotCount % 3 == 0)
             {
                 if (_turn != null)
                 {
@@ -94,29 +98,39 @@ namespace DartTracker.Lib.Games.Cricket
                 }
                 //We start a new turn
                 this._turn = new Turn();
-                if (Game.Players.Count - 1 >= PlayerMarker)
+            }
+            if ((_shotCount + 1) % 3 == 0)
+            {
+                if (PlayerMarker >= Game.Players.Count - 1)
                 {
                     PlayerMarker = 0;
                     Round++;
                 }
-                else
+                else if (_shotCount > 3)
                 {
                     PlayerMarker++;
                 }
             }
-            ShotCount++;
+            _shotCount++;
         }
 
         public async Task TakeShot(int numberHit, ContactType contactType)
         {
+            IncrementEverything();
             Shot shot = new Shot()
             {
                 TurnId = this._turn.ID
             };
-
-            IncrementEverything();
             _turn.Shots.Add(shot);
             ShotBoard[PlayerUp.ID].MarkShot(shot);
+            if (await GameWon())
+            {
+                GameWonEvent(this, new GameWonEvent()
+                {
+                    Players = this.Game.Players,
+                    WinningPlayer = this.WinningPlayer()
+                });
+            }
         }
     }
 }

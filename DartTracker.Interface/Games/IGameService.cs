@@ -10,6 +10,7 @@ namespace DartTracker.Interface.Games
 {
     public interface IGameService
     {
+        event EventHandler GameWonEvent;
         Game Game { get; }
         Task TakeShot(int numberHit, ContactType contactType);
         Task<bool> GameWon();

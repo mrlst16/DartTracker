@@ -11,6 +11,7 @@ namespace DartTracker.Model.Players
         public string Name { get; set; }
         public int Order { get; set; }
         public List<Turn> Turns { get; set; }
+            = new List<Turn>();
         public int Score { get; set; }
     }
 }
