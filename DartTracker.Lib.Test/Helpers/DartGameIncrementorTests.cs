@@ -46,5 +46,17 @@ namespace DartTracker.Lib.Test.Helpers
             Assert.AreEqual(3, incrementor.Shots);
         }
 
+        [TestMethod]
+        public async Task SixShots()
+        {
+            DartGameIncrementor incrementor = new DartGameIncrementor(2);
+            incrementor = incrementor.Increment(6);
+
+            Assert.AreEqual(2, incrementor.Round);
+            Assert.AreEqual(3, incrementor.Turn);
+            Assert.AreEqual(0, incrementor.PlayerUp);
+            Assert.AreEqual(6, incrementor.Shots);
+        }
+
     }
 }

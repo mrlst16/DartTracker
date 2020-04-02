@@ -1,4 +1,5 @@
 ﻿using DartTracker.Interface.Games;
+using DartTracker.Lib.Helpers;
 using DartTracker.Model.Enum;
 using DartTracker.Model.Events;
 using DartTracker.Model.Games;
@@ -13,12 +14,22 @@ namespace DartTracker.Lib.Games.Cricket
 {
     public class CricketGameService : IGameService
     {
+        public DartGameIncrementor Incrementor { get; protected set; }
         private Dictionary<Guid, CricketPlayerMarkTracker> ShotBoard;
+
         protected Player PlayerUp
         {
             get
             {
-                return Game.Players[PlayerMarker];
+                return Game.Players[Incrementor.PlayerUp];
+            }
+        }
+
+        protected CricketPlayerMarkTracker CurrentPlayerTracker
+        {
+            get
+            {
+                return ShotBoard[PlayerUp.ID];
             }
         }
 
@@ -42,19 +53,9 @@ namespace DartTracker.Lib.Games.Cricket
             }
         }
 
-        private Turn _turn;
-
-        public int PlayerMarker { get; protected set; } = 0;
-        public int Round { get; protected set; } = 1;
-
-        /// <summary>
-        /// _shotCount starts at 3 so that we can use the modulus operator
-        /// </summary>
-        private int _shotCount = 2;
-
         public event EventHandler GameWonEvent;
 
-        public int ShotCount() => _shotCount - 2;
+        private Turn _turn = new Turn();
 
         public CricketGameService(
             Game game
@@ -63,6 +64,7 @@ namespace DartTracker.Lib.Games.Cricket
             game.Type = GameType.Cricket;
             Game = game;
             ShotBoard = StartShotboard(game.Players);
+            Incrementor = new DartGameIncrementor(game.Players.Count);
         }
 
         private Dictionary<Guid, CricketPlayerMarkTracker> StartShotboard(List<Player> players)
@@ -84,57 +86,33 @@ namespace DartTracker.Lib.Games.Cricket
         public async Task<bool> GameWon()
             => ShotBoard
                 .Select(kvp => kvp.Value)
-                .OrderBy(x => x.Score)
+                .OrderByDescending(x => x.Score)
                 .First()
                 .IsClosedOut;
 
-        private void IncrementEverything()
-        {
-            _shotCount++;
-
-            if (_shotCount % 3 == 0)
-            {
-                if (_turn != null)
-                {
-                    Game.Players[PlayerMarker].Turns.Add(_turn);
-                }
-                //We start a new turn
-                this._turn = new Turn();
-            }
-            if ((_shotCount) % 3 == 0)
-            {
-                if (PlayerMarker >= Game.Players.Count - 1)
-                {
-                    PlayerMarker = 0;
-                    Round++;
-                }
-                else if (_shotCount > 3)
-                {
-                    PlayerMarker++;
-                }
-            }
-        }
+        private List<int> _scoringShots = new List<int>() { 15, 16, 17, 18, 19, 20, 25 };
 
         public async Task TakeShot(int numberHit, ContactType contactType)
         {
-            IncrementEverything();
             Shot shot = new Shot()
             {
                 TurnId = this._turn.ID,
                 Contact = contactType,
                 NumberHit = numberHit
             };
+
             _turn.Shots.Add(shot);
 
-            bool closedout = this.ShotBoard
-                .Where(x => x.Key != this.PlayerUp.ID)
-                .Select(x => x.Value.Marks[shot.NumberHit])
-                .Min() == 3;
+            bool closedout =
+                _scoringShots.Contains(numberHit)
+                && this.ShotBoard
+                    .Where(x => x.Key != this.PlayerUp.ID)
+                    .Select(x => x.Value.Marks[shot.NumberHit])
+                    .Min() == 3;
 
-            ShotBoard[PlayerUp.ID]
-                .MarkShot(shot, closedout);
+            CurrentPlayerTracker.MarkShot(shot, closedout);
 
-            if (await GameWon())
+            if (GameWonEvent != null && await GameWon())
             {
                 GameWonEvent(this, new GameWonEvent()
                 {
@@ -142,6 +120,7 @@ namespace DartTracker.Lib.Games.Cricket
                     WinningPlayer = this.WinningPlayer()
                 });
             }
+            Incrementor = Incrementor.Increment();
         }
     }
 }
