@@ -58,12 +58,12 @@ namespace DartTracker.Lib.Games.Cricket
             PlayerID = playerId;
         }
 
-        public Shot MarkShot(Shot shot)
+        public Shot MarkShot(Shot shot, bool isClosedOut)
         {
             if (
-                UnScorable.Contains(shot.Contact)
-                || !Marks.Select(x => x.Key)
-                        .Contains(shot.NumberHit)
+                isClosedOut
+                || UnScorable.Contains(shot.Contact)
+                || !Marks.ContainsKey(shot.NumberHit)
                 ) return shot;
 
             switch (shot.Contact)

@@ -4,7 +4,7 @@ using DartTracker.Model.Shooting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using NSubstitute;
 using System.Threading.Tasks;
 
 namespace DartTracker.Lib.Test.Games.Cricket
@@ -63,7 +63,7 @@ namespace DartTracker.Lib.Test.Games.Cricket
         }
 
         [TestMethod]
-        public async Task BothBoardsClosed_HitsAllTripples_WinOnNextBullseye()
+        public async Task BothBoardsClosed_HitsAllTripples_WinTwoDoubleBulls()
         {
             var service = new CricketGameService(
                 CricketGameServiceData.TwoPlayers()
@@ -71,6 +71,7 @@ namespace DartTracker.Lib.Test.Games.Cricket
 
             Assert.AreEqual(2, service.Game.Players.Count);
             Assert.AreEqual(Model.Enum.GameType.Cricket, service.Game.Type);
+            Assert.IsFalse(await service.GameWon());
 
             Assert.AreEqual(0, service.ShotCount());
             Assert.AreEqual(1, service.Round);
@@ -82,7 +83,7 @@ namespace DartTracker.Lib.Test.Games.Cricket
 
             Assert.AreEqual(3, service.ShotCount());
             Assert.AreEqual(1, service.Round);
-            Assert.AreEqual(1, service.PlayerMarker);
+            Assert.AreEqual(0, service.PlayerMarker);
 
             await service.TakeShot(15, Model.Enum.ContactType.Triple);
             await service.TakeShot(16, Model.Enum.ContactType.Triple);
@@ -90,7 +91,7 @@ namespace DartTracker.Lib.Test.Games.Cricket
 
             Assert.AreEqual(6, service.ShotCount());
             Assert.AreEqual(2, service.Round);
-            Assert.AreEqual(0, service.PlayerMarker);
+            Assert.AreEqual(1, service.PlayerMarker);
 
             await service.TakeShot(18, Model.Enum.ContactType.Triple);
             await service.TakeShot(19, Model.Enum.ContactType.Triple);
@@ -98,7 +99,7 @@ namespace DartTracker.Lib.Test.Games.Cricket
 
             Assert.AreEqual(9, service.ShotCount());
             Assert.AreEqual(2, service.Round);
-            Assert.AreEqual(1, service.PlayerMarker);
+            Assert.AreEqual(0, service.PlayerMarker);
 
             await service.TakeShot(18, Model.Enum.ContactType.Triple);
             await service.TakeShot(19, Model.Enum.ContactType.Triple);
@@ -106,8 +107,15 @@ namespace DartTracker.Lib.Test.Games.Cricket
 
             Assert.AreEqual(12, service.ShotCount());
             Assert.AreEqual(3, service.Round);
-            Assert.AreEqual(0, service.PlayerMarker);
+            Assert.AreEqual(1, service.PlayerMarker);
 
+            await service.TakeShot(25, Model.Enum.ContactType.DoubleBullsEye);
+
+            Assert.IsFalse(await service.GameWon());
+
+            await service.TakeShot(25, Model.Enum.ContactType.DoubleBullsEye);
+
+            Assert.IsTrue(await service.GameWon());
         }
 
     }

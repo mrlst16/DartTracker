@@ -3989,7 +3989,7 @@ namespace DartTracker.Mobile
 			public const int content_main = 2131427359;
 			
 			// aapt resource value: 0x7F0B0020
-			public const int criker_player_board = 2131427360;
+			public const int cricket_player_board = 2131427360;
 			
 			// aapt resource value: 0x7F0B0021
 			public const int design_bottom_navigation_item = 2131427361;

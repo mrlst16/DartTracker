@@ -19,7 +19,7 @@ namespace DartTracker.Lib.Test
             {
                 Contact = Model.Enum.ContactType.Single,
                 NumberHit = 20
-            });
+            }, false);
 
             Assert.IsTrue(tracker.Marks[20] == 1);
             Assert.IsTrue(tracker.Score == 0);
@@ -36,7 +36,7 @@ namespace DartTracker.Lib.Test
             {
                 Contact = Model.Enum.ContactType.Double,
                 NumberHit = 20
-            });
+            }, false);
 
             Assert.IsTrue(tracker.Marks[20] == 2);
             Assert.IsTrue(tracker.Score == 0);
@@ -53,7 +53,7 @@ namespace DartTracker.Lib.Test
             {
                 Contact = Model.Enum.ContactType.Triple,
                 NumberHit = 20
-            });
+            }, false);
 
             Assert.IsTrue(tracker.Marks[20] == 3);
             Assert.IsTrue(tracker.Score == 0);
@@ -70,7 +70,7 @@ namespace DartTracker.Lib.Test
             {
                 Contact = Model.Enum.ContactType.DoubleBullsEye,
                 NumberHit = 25
-            });
+            }, false);
 
             Assert.IsTrue(tracker.Marks[25] == 2);
             Assert.IsTrue(tracker.Score == 0);
@@ -79,7 +79,7 @@ namespace DartTracker.Lib.Test
             {
                 Contact = Model.Enum.ContactType.DoubleBullsEye,
                 NumberHit = 25
-            });
+            }, false);
 
             Assert.IsTrue(tracker.Marks[25] == 4);
             Assert.IsTrue(tracker.Score == 25);
@@ -88,7 +88,7 @@ namespace DartTracker.Lib.Test
             {
                 Contact = Model.Enum.ContactType.BullsEye,
                 NumberHit = 25
-            });
+            }, false);
 
             Assert.IsTrue(tracker.Marks[25] == 5);
             Assert.IsTrue(tracker.Score == 50);
