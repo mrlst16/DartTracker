@@ -8,41 +8,26 @@ using DartTracker.Model.Shooting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 namespace DartTracker.Lib.Games.Cricket
 {
     public class CricketGameService : IGameService
     {
-        public DartGameIncrementor Incrementor { get; protected set; }
+        public DartGameIncrementor Incrementor { get => new DartGameIncrementor(_game.Players.Count).SetShots(Shots.Count); }
         private Dictionary<Guid, CricketPlayerMarkTracker> ShotBoard;
 
-        protected Player PlayerUp
-        {
-            get
-            {
-                return Game.Players[Incrementor.PlayerUp];
-            }
-        }
-
-        protected CricketPlayerMarkTracker CurrentPlayerTracker
-        {
-            get
-            {
-                return ShotBoard[PlayerUp.ID];
-            }
-        }
+        public List<Shot> Shots { get; protected set; } = new List<Shot>();
 
         private Game _game;
         public Game Game
         {
             get
             {
-                if (this.ShotBoard == null) ShotBoard = StartShotboard(_game.Players);
+                var shotboard = _game.Players.Calculate(Shots);
 
                 _game.Players = _game.Players.Select(x =>
                 {
-                    x.Score = this.ShotBoard[x.ID].Score;
+                    x.Score = shotboard[x.ID].Score;
                     return x;
                 }).ToList();
                 return _game;
@@ -55,23 +40,12 @@ namespace DartTracker.Lib.Games.Cricket
 
         public event EventHandler GameWonEvent;
 
-        private Turn _turn = new Turn();
-
         public CricketGameService(
             Game game
             )
         {
             game.Type = GameType.Cricket;
             Game = game;
-            ShotBoard = StartShotboard(game.Players);
-            Incrementor = new DartGameIncrementor(game.Players.Count);
-        }
-
-        private Dictionary<Guid, CricketPlayerMarkTracker> StartShotboard(List<Player> players)
-        {
-            return players.ToDictionary(
-                (x) => x.ID,
-                (y) => new CricketPlayerMarkTracker(y.ID));
         }
 
         private Player WinningPlayer()
@@ -85,33 +59,23 @@ namespace DartTracker.Lib.Games.Cricket
 
         public async Task<bool> GameWon()
             => ShotBoard
-                .Select(kvp => kvp.Value)
+                ?.Select(kvp => kvp.Value)
                 .OrderByDescending(x => x.Score)
                 .First()
-                .IsClosedOut;
+                .IsClosedOut ?? false;
 
-        private List<int> _scoringShots = new List<int>() { 15, 16, 17, 18, 19, 20, 25 };
+        public static readonly List<int> ScoringNumbers = new List<int>() { 15, 16, 17, 18, 19, 20, 25 };
 
         public async Task TakeShot(int numberHit, ContactType contactType)
         {
             Shot shot = new Shot()
             {
-                TurnId = this._turn.ID,
                 Contact = contactType,
                 NumberHit = numberHit
             };
 
-            _turn.Shots.Add(shot);
-
-            bool closedout =
-                _scoringShots.Contains(numberHit)
-                && this.ShotBoard
-                    .Where(x => x.Key != this.PlayerUp.ID)
-                    .Select(x => x.Value.Marks[shot.NumberHit])
-                    .Min() == 3;
-
-            CurrentPlayerTracker.MarkShot(shot, closedout);
-
+            Shots.Add(shot);
+            ShotBoard = _game.Players.Calculate(Shots);
             if (GameWonEvent != null && await GameWon())
             {
                 GameWonEvent(this, new GameWonEvent()
@@ -120,7 +84,16 @@ namespace DartTracker.Lib.Games.Cricket
                     WinningPlayer = this.WinningPlayer()
                 });
             }
-            Incrementor = Incrementor.Increment();
+        }
+
+        public async Task RemoveLastShot()
+        {
+            if (Shots.Count < 1) return;
+
+            Shots.RemoveAt(Shots.Count - 1);
+            ShotBoard = _game.Players.Calculate(Shots);
         }
     }
+
+
 }

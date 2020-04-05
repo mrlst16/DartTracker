@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using NSubstitute;
 using System.Threading.Tasks;
+using DartTracker.Model.Players;
+using DartTracker.Lib.Test.Helpers;
 
 namespace DartTracker.Lib.Test.Games.Cricket
 {
@@ -117,6 +119,9 @@ namespace DartTracker.Lib.Test.Games.Cricket
             Assert.AreEqual(25, service.Game.Players[0].Score);
             Assert.IsTrue(await service.GameWon());
         }
+
+
+       
 
     }
 }

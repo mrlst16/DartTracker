@@ -61,27 +61,27 @@ namespace DartTracker.Lib.Games.Cricket
         public Shot MarkShot(Shot shot, bool isClosedOut)
         {
             if (
-                isClosedOut
-                || UnScorable.Contains(shot.Contact)
+                UnScorable.Contains(shot.Contact)
                 || !Marks.ContainsKey(shot.NumberHit)
                 ) return shot;
 
+            int remainingShots = isClosedOut ? (3 - this.Marks[shot.NumberHit]) : 100;
             switch (shot.Contact)
             {
                 case ContactType.Single:
-                    Marks[shot.NumberHit]++;
+                    Marks[shot.NumberHit]+= Math.Min(remainingShots, 1);
                     break;
                 case ContactType.Double:
-                    Marks[shot.NumberHit] += 2;
+                    Marks[shot.NumberHit] += Math.Min(remainingShots, 2);
                     break;
                 case ContactType.Triple:
-                    Marks[shot.NumberHit] += 3;
+                    Marks[shot.NumberHit] += Math.Min(remainingShots, 3);
                     break;
                 case ContactType.BullsEye:
-                    Marks[25]++;
+                    Marks[25]+= Math.Min(remainingShots, 1);
                     break;
                 case ContactType.DoubleBullsEye:
-                    Marks[25] += 2;
+                    Marks[25] += Math.Min(remainingShots, 2);
                     break;
                 default:
                     break;

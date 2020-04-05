@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DartTracker.Mobile.ViewModels
 {
-    public class PlayerScoreboardVM
+    public class CricketPlayerScoreboardVM
     {
         public string PlayerName { get; set; }
         public int Score { get; set; }

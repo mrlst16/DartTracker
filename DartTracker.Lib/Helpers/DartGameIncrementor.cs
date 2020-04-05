@@ -75,5 +75,11 @@ namespace DartTracker.Lib.Helpers
             return this;
         }
 
+        public DartGameIncrementor SetShots(int shots)
+        {
+            this.Shots = shots;
+            return this;
+        }
+
     }
 }
