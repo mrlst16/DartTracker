@@ -9,12 +9,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 namespace DartTracker.Lib.Games.Cricket
 {
     public class CricketGameService : IGameService
     {
         public DartGameIncrementor Incrementor { get => new DartGameIncrementor(_game.Players.Count).SetShots(Shots.Count); }
-        private Dictionary<Guid, CricketPlayerMarkTracker> ShotBoard;
+        private Dictionary<Guid, CricketPlayerMarkTracker> ShotBoard { get => _game.Players.CalculateForCricket(Shots); }
 
         public List<Shot> Shots { get; protected set; } = new List<Shot>();
 
@@ -23,7 +24,7 @@ namespace DartTracker.Lib.Games.Cricket
         {
             get
             {
-                var shotboard = _game.Players.Calculate(Shots);
+                var shotboard = ShotBoard;
 
                 _game.Players = _game.Players.Select((x, i) =>
                 {
@@ -53,18 +54,18 @@ namespace DartTracker.Lib.Games.Cricket
         private Player WinningPlayer()
         {
             var winnningPlayerId = ShotBoard
-                .Select(kvp => kvp.Value)
-                .OrderBy(x => x.Score)
-                .First().PlayerID;
+                ?.Select(kvp => kvp.Value)
+                ?.OrderByDescending(x => x.Score)
+                ?.First().PlayerID ?? Guid.Empty;
             return this.Game.Players.FirstOrDefault(x => x.ID == winnningPlayerId);
         }
 
         public async Task<bool> GameWon()
             => ShotBoard
                 ?.Select(kvp => kvp.Value)
-                .OrderByDescending(x => x.Score)
-                .First()
-                .IsClosedOut ?? false;
+                ?.OrderByDescending(x => x.Score)
+                ?.FirstOrDefault()
+                ?.IsClosedOut ?? false;
 
         public static readonly List<int> ScoringNumbers = new List<int>() { 15, 16, 17, 18, 19, 20, 25 };
 
@@ -77,10 +78,9 @@ namespace DartTracker.Lib.Games.Cricket
             };
 
             Shots.Add(shot);
-            ShotBoard = _game.Players.Calculate(Shots);
-            if (GameWonEvent != null && await GameWon())
+            if (await GameWon())
             {
-                GameWonEvent(this, new GameWonEvent()
+                GameWonEvent?.Invoke(this, new GameWonEvenArgs()
                 {
                     Players = this.Game.Players,
                     WinningPlayer = this.WinningPlayer()
@@ -93,9 +93,6 @@ namespace DartTracker.Lib.Games.Cricket
             if (Shots.Count < 1) return;
 
             Shots.RemoveAt(Shots.Count - 1);
-            ShotBoard = _game.Players.Calculate(Shots);
         }
     }
-
-
 }

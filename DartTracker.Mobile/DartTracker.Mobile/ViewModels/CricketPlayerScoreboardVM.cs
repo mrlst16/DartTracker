@@ -6,6 +6,8 @@ namespace DartTracker.Mobile.ViewModels
 {
     public class CricketPlayerScoreboardVM
     {
+        public string BackgroundColor { get; set; } = "BlanchedAlmond";
+        public string TextColor { get; set; } = "Black";
         public string PlayerName { get; set; }
         public int Score { get; set; }
         public int Fifteens { get; set; } = 0;

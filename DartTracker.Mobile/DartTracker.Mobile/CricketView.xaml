@@ -38,7 +38,7 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
-                    <Label Grid.Row="0" Grid.Column="0" Text="Player"/>
+                    <Label Grid.Row="0" Grid.Column="0" Text="Player" BackgroundColor="{Binding BackgroundColor}" TextColor="{Binding TextColor}" />
                     <Label Grid.Row="0" Grid.Column="1" Text="Score"/>
                     <Label Grid.Row="0" Grid.Column="2" Text="15"/>
                     <Label Grid.Row="0" Grid.Column="3" Text="16"/>
@@ -62,7 +62,7 @@
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
 
-                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding PlayerName}" />
+                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding PlayerName}" TextColor="{Binding TextColor}" BackgroundColor="{Binding BackgroundColor}" />
                             <Label Grid.Row="0" Grid.Column="1" Text="{Binding Score}"/>
                             <Label Grid.Row="0" Grid.Column="2" Text="{Binding Fifteens}"/>
                             <Label Grid.Row="0" Grid.Column="3" Text="{Binding Sixteens}"/>
@@ -96,33 +96,33 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Button Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Text="Miss" TextColor="Accent" Command="{Binding MissCommand}"/>
-            <Button Grid.Column="1" Grid.Row="0" BackgroundColor="Black" Text="15" TextColor="White" Command="{Binding HitSingleCommand}" CommandParameter="15" />
-            <Button Grid.Column="1" Grid.Row="1" BackgroundColor="Black" Text="15" TextColor="White"  Command="{Binding HitDoubleCommand}" CommandParameter="15"/>
+            <Button Grid.Column="1" Grid.Row="0" BackgroundColor="Green" Text="15" TextColor="White" Command="{Binding HitSingleCommand}" CommandParameter="15" />
+            <Button Grid.Column="1" Grid.Row="1" BackgroundColor="Red" Text="15" TextColor="White"  Command="{Binding HitDoubleCommand}" CommandParameter="15"/>
             <Button Grid.Column="1" Grid.Row="2" BackgroundColor="Black" Text="15" TextColor="White"  Command="{Binding HitTripleCommand}" CommandParameter="15"/>
 
-            <Button Grid.Column="2" Grid.Row="0" BackgroundColor="Black"  Text="16" TextColor="White"  Command="{Binding HitSingleCommand}" CommandParameter="16" />
-            <Button Grid.Column="2" Grid.Row="1" BackgroundColor="Black"  Text="16" TextColor="White"  Command="{Binding HitDoubleCommand}" CommandParameter="16" />
+            <Button Grid.Column="2" Grid.Row="0" BackgroundColor="Green"  Text="16" TextColor="Black"  Command="{Binding HitSingleCommand}" CommandParameter="16" />
+            <Button Grid.Column="2" Grid.Row="1" BackgroundColor="Red"  Text="16" TextColor="White"  Command="{Binding HitDoubleCommand}" CommandParameter="16" />
             <Button Grid.Column="2" Grid.Row="2" BackgroundColor="Black"  Text="16" TextColor="White"  Command="{Binding HitTripleCommand}" CommandParameter="16" />
 
-            <Button Grid.Column="3" Grid.Row="0" BackgroundColor="Black" Text="17" TextColor="White" Command="{Binding HitSingleCommand}" CommandParameter="17"/>
-            <Button Grid.Column="3" Grid.Row="1" BackgroundColor="Black" Text="17" TextColor="White" Command="{Binding HitDoubleCommand}" CommandParameter="17"/>
+            <Button Grid.Column="3" Grid.Row="0" BackgroundColor="Green" Text="17" TextColor="Black" Command="{Binding HitSingleCommand}" CommandParameter="17"/>
+            <Button Grid.Column="3" Grid.Row="1" BackgroundColor="Red" Text="17" TextColor="White" Command="{Binding HitDoubleCommand}" CommandParameter="17"/>
             <Button Grid.Column="3" Grid.Row="2" BackgroundColor="Black" Text="17" TextColor="White" Command="{Binding HitTripleCommand}" CommandParameter="17"/>
 
-
-            <Button Grid.Column="4" Grid.Row="0" BackgroundColor="Black" Text="18" TextColor="White" Command="{Binding HitSingleCommand}" CommandParameter="18"/>
-            <Button Grid.Column="4" Grid.Row="1" BackgroundColor="Black" Text="18" TextColor="White" Command="{Binding HitDoubleCommand}" CommandParameter="18"/>
+            <Button Grid.Column="4" Grid.Row="0" BackgroundColor="Green" Text="18" TextColor="Black" Command="{Binding HitSingleCommand}" CommandParameter="18"/>
+            <Button Grid.Column="4" Grid.Row="1" BackgroundColor="Red" Text="18" TextColor="White" Command="{Binding HitDoubleCommand}" CommandParameter="18"/>
             <Button Grid.Column="4" Grid.Row="2" BackgroundColor="Black" Text="18" TextColor="White" Command="{Binding HitTripleCommand}" CommandParameter="18"/>
 
-            <Button Grid.Column="5" Grid.Row="0" BackgroundColor="Black" Text="19" TextColor="White" Command="{Binding HitSingleCommand}" CommandParameter="19"/>
-            <Button Grid.Column="5" Grid.Row="1" BackgroundColor="Black" Text="19" TextColor="White" Command="{Binding HitDoubleCommand}" CommandParameter="19"/>
+            <Button Grid.Column="5" Grid.Row="0" BackgroundColor="Green" Text="19" TextColor="Black" Command="{Binding HitSingleCommand}" CommandParameter="19"/>
+            <Button Grid.Column="5" Grid.Row="1" BackgroundColor="Red" Text="19" TextColor="White" Command="{Binding HitDoubleCommand}" CommandParameter="19"/>
             <Button Grid.Column="5" Grid.Row="2" BackgroundColor="Black" Text="19" TextColor="White" Command="{Binding HitTripleCommand}" CommandParameter="19"/>
 
-            <Button Grid.Column="6" Grid.Row="0" BackgroundColor="Black" Text="20" TextColor="White" Command="{Binding HitSingleCommand}" CommandParameter="20"/>
-            <Button Grid.Column="6" Grid.Row="1" BackgroundColor="Black" Text="20" TextColor="White" Command="{Binding HitDoubleCommand}" CommandParameter="20"/>
+            <Button Grid.Column="6" Grid.Row="0" BackgroundColor="Green" Text="20" TextColor="Black" Command="{Binding HitSingleCommand}" CommandParameter="20"/>
+            <Button Grid.Column="6" Grid.Row="1" BackgroundColor="Red" Text="20" TextColor="White" Command="{Binding HitDoubleCommand}" CommandParameter="20"/>
             <Button Grid.Column="6" Grid.Row="2" BackgroundColor="Black" Text="20" TextColor="White" Command="{Binding HitTripleCommand}" CommandParameter="20"/>
 
-            <Button Grid.Column="7" Grid.Row="0" BackgroundColor="Black" Text="Bull" TextColor="White" Command="{Binding HitBullsEyeCommand}"/>
-            <Button Grid.Column="7" Grid.Row="1" BackgroundColor="Black" Text="Bull" TextColor="White" Command="{Binding HitDoubleBullCommand}"/>
+            <Button Grid.Column="7" Grid.Row="0" BackgroundColor="Green" Text="Bull" TextColor="Black" Command="{Binding HitBullsEyeCommand}"/>
+            <Button Grid.Column="7" Grid.Row="1" BackgroundColor="Red" Text="Bull" TextColor="White" Command="{Binding HitDoubleBullCommand}"/>
+            <Button Grid.Column="7" Grid.Row="2" BackgroundColor="Black" Text="Undo" TextColor="White" Command="{Binding UndoCommand}"/>
         </Grid>
     </Grid>
 </ContentPage>

@@ -30,8 +30,9 @@ namespace DartTracker.Mobile.ViewModels
         {
             GoToGameCommand = new Command(async () =>
             {
-                var page = new CricketView();
-                page.BindingContext = new CricketGameViewModel(NumberOfPlayers);
+                var vm = new CricketGameViewModel(NumberOfPlayers);
+                var page = new CricketView(vm.GameService);
+                page.BindingContext = vm;
                 await Application.Current.MainPage.Navigation.PushAsync(page);
             });
         }

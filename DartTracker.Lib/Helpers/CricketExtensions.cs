@@ -18,7 +18,7 @@ namespace DartTracker.Lib.Helpers
                 (y) => new CricketPlayerMarkTracker(y.ID));
         }
 
-        public static Dictionary<Guid, CricketPlayerMarkTracker> Calculate(this List<Player> players, List<Shot> shots)
+        public static Dictionary<Guid, CricketPlayerMarkTracker> CalculateForCricket(this List<Player> players, List<Shot> shots)
         {
             DartGameIncrementor incrementor = new DartGameIncrementor(players.Count);
             Dictionary<Guid, CricketPlayerMarkTracker> shotBoard = players.StartShotboard();
@@ -32,28 +32,13 @@ namespace DartTracker.Lib.Helpers
                 var tracker = shotBoard.ElementAt(playerUp).Value;
 
                 bool closedout =
-                CricketGameService.ScoringNumbers.Contains(shot.NumberHit)
-                && shotBoard
+                    players.Count > 1
+                && (CricketGameService.ScoringNumbers.Contains(shot.NumberHit)
+                && (shotBoard
                     .Where(x => x.Key != playerId)
-                    .Select(x => x.Value.Marks.TryGetValue(shot.NumberHit, out int res) ? res : 0)
-                    .Min() >= 3;
-
-                var step1 = shotBoard
-                    .Where(x => x.Key != playerId);
-
-                var step2 = shotBoard
-                    .Where(x => x.Key != playerId)
-                    .Select(x => x.Value.Marks.TryGetValue(shot.NumberHit, out int res) ? res : 0);
-
-                var step3 = shotBoard
-                    .Where(x => x.Key != playerId)
-                    .Select(x => x.Value.Marks.TryGetValue(shot.NumberHit, out int res) ? res : 0)
-                    .Min();
-
-                var step4 = shotBoard
-                    .Where(x => x.Key != playerId)
-                    .Select(x => x.Value.Marks.TryGetValue(shot.NumberHit, out int res) ? res : 0)
-                    .Min() >= 3;
+                    ?.Select(x => x.Value.Marks.TryGetValue(shot.NumberHit, out int res) ? res : 0)
+                    ?.Min() >= 3)
+                );
 
                 tracker.MarkShot(shot, closedout);
 

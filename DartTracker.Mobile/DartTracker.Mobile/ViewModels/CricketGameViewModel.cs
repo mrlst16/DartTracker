@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using DartTracker.Lib.Games.Cricket;
+using DartTracker.Lib.Helpers;
+using DartTracker.Model.Events;
 using DartTracker.Model.Games;
 using DartTracker.Model.Players;
 using Xamarin.Forms;
@@ -28,8 +30,11 @@ namespace DartTracker.Mobile.ViewModels
         public Command HitBullsEyeCommand { get; }
         public Command HitDoubleBullCommand { get; }
         public Command MissCommand { get; }
+        public Command UndoCommand { get; }
 
         public CricketGameService GameService { get; protected set; }
+
+        public event EventHandler GameWonEvent;
 
         public CricketGameViewModel(
             int players
@@ -49,6 +54,14 @@ namespace DartTracker.Mobile.ViewModels
             }
 
             GameService = new CricketGameService(game);
+
+            GameService.GameWonEvent += (sender, eventArgs) =>
+            {
+                if (eventArgs is GameWonEvenArgs args)
+                {
+                    this.GameWonEvent?.Invoke(this, args);
+                }
+            };
 
             HitSingleCommand = new Command(async (i) =>
             {
@@ -101,6 +114,13 @@ namespace DartTracker.Mobile.ViewModels
                 PropertyChanged?.Invoke(this, args);
             });
 
+            UndoCommand = new Command(async (i) =>
+            {
+                await GameService.RemoveLastShot();
+                var args = new PropertyChangedEventArgs(nameof(PlayerScoreboards));
+                PropertyChanged?.Invoke(this, args);
+            });
+
         }
 
         private ObservableCollection<CricketPlayerScoreboardVM> Calculate()
@@ -108,6 +128,7 @@ namespace DartTracker.Mobile.ViewModels
             ObservableCollection<CricketPlayerScoreboardVM> result
                 = new ObservableCollection<CricketPlayerScoreboardVM>();
             var players = GameService.Game.Players;
+            var playerUp = GameService.Incrementor.PlayerUp;
             foreach (var player in players)
             {
                 var vm = new CricketPlayerScoreboardVM()
@@ -117,14 +138,20 @@ namespace DartTracker.Mobile.ViewModels
                     Fifteens = player.Marks[15],
                     Sixteens = player.Marks[16],
                     Seventeens = player.Marks[17],
-                    Eighteens = player.Marks[19],
-                    Nineteens = player.Marks[18],
+                    Eighteens = player.Marks[18],
+                    Nineteens = player.Marks[19],
                     Twentys = player.Marks[20],
                     Bulls = player.Marks[25]
                 };
+                if (player.Order == playerUp) {
+                    vm.BackgroundColor = "Pink";
+                    vm.TextColor = "White";
+                }
                 result.Add(vm);
             }
             return result;
         }
+
+
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DartTracker.Lib.Games.Cricket;
+using DartTracker.Model.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,8 +14,17 @@ namespace DartTracker.Mobile
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CricketView : ContentPage
     {
-        public CricketView()
+        public CricketView(
+            CricketGameService gameService
+            )
         {
+            gameService.GameWonEvent += async (sender, eventArgs) =>
+            {
+                if (eventArgs is GameWonEvenArgs arg)
+                {
+                    await DisplayAlert("Winner", $"Player {arg.WinningPlayer.Order} wins!", "Finsih Game");
+                }
+            };
             InitializeComponent();
         }
     }
