@@ -10,8 +10,7 @@ namespace DartTracker.Model.Players
         public Guid GameID { get; set; }
         public string Name { get; set; }
         public int Order { get; set; }
-        public List<Turn> Turns { get; set; }
-            = new List<Turn>();
+        public Dictionary<int, int> Marks { get; set; } = new Dictionary<int, int>();
         public int Score { get; set; }
     }
 }

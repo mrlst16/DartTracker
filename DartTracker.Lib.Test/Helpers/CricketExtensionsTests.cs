@@ -46,5 +46,28 @@ namespace DartTracker.Lib.Test.Helpers
             var shotBoard = players.Calculate(shots);
             Assert.AreEqual(25, shotBoard.ElementAt(0).Value.Score);
         }
+
+        [TestMethod]
+        public async Task ScoreOnFifteensThenCloseFifteens()
+        {
+            var game = CricketGameServiceData.TwoPlayers();
+
+            List<Player> players = game.Players;
+            List<Shot> shots = new List<Shot>()
+            {
+                new Shot(){Contact = Model.Enum.ContactType.Triple, NumberHit = 15},
+                new Shot(){Contact = Model.Enum.ContactType.Double, NumberHit = 15},
+                new Shot(){Contact = Model.Enum.ContactType.Miss, NumberHit = 0},
+
+                new Shot(){Contact = Model.Enum.ContactType.Triple, NumberHit = 15},
+                new Shot(){Contact = Model.Enum.ContactType.Triple, NumberHit = 15},
+                new Shot(){Contact = Model.Enum.ContactType.Single, NumberHit = 16},
+
+            };
+
+            var shotBoard = players.Calculate(shots);
+            Assert.AreEqual(30, shotBoard.ElementAt(0).Value.Score);
+            Assert.AreEqual(0, shotBoard.ElementAt(1).Value.Score);
+        }
     }
 }

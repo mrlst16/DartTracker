@@ -18,4 +18,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\DartTracker.Lib\DartTracker.Lib.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="CricketView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

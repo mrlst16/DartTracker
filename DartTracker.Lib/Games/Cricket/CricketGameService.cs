@@ -25,9 +25,11 @@ namespace DartTracker.Lib.Games.Cricket
             {
                 var shotboard = _game.Players.Calculate(Shots);
 
-                _game.Players = _game.Players.Select(x =>
+                _game.Players = _game.Players.Select((x, i) =>
                 {
                     x.Score = shotboard[x.ID].Score;
+                    x.Order = i;
+                    x.Marks = shotboard[x.ID].Marks;
                     return x;
                 }).ToList();
                 return _game;

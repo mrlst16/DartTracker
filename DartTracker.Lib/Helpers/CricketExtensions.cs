@@ -35,8 +35,25 @@ namespace DartTracker.Lib.Helpers
                 CricketGameService.ScoringNumbers.Contains(shot.NumberHit)
                 && shotBoard
                     .Where(x => x.Key != playerId)
-                    .Select(x => x.Value.Marks[shot.NumberHit])
-                    .Min() == 3;
+                    .Select(x => x.Value.Marks.TryGetValue(shot.NumberHit, out int res) ? res : 0)
+                    .Min() >= 3;
+
+                var step1 = shotBoard
+                    .Where(x => x.Key != playerId);
+
+                var step2 = shotBoard
+                    .Where(x => x.Key != playerId)
+                    .Select(x => x.Value.Marks.TryGetValue(shot.NumberHit, out int res) ? res : 0);
+
+                var step3 = shotBoard
+                    .Where(x => x.Key != playerId)
+                    .Select(x => x.Value.Marks.TryGetValue(shot.NumberHit, out int res) ? res : 0)
+                    .Min();
+
+                var step4 = shotBoard
+                    .Where(x => x.Key != playerId)
+                    .Select(x => x.Value.Marks.TryGetValue(shot.NumberHit, out int res) ? res : 0)
+                    .Min() >= 3;
 
                 tracker.MarkShot(shot, closedout);
 

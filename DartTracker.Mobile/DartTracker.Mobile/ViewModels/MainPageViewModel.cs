@@ -11,31 +11,29 @@ namespace DartTracker.Mobile.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<CricketPlayerScoreboardVM> PlayerScoreboards { get; }
-            = new ObservableCollection<CricketPlayerScoreboardVM>()
-            {
-                new CricketPlayerScoreboardVM(){
-                    PlayerName = "1",
-                    Score = 0
-                },
-                new CricketPlayerScoreboardVM(){
-                    PlayerName = "2",
-                    Score = 0
-                }
-            };
+        public Command GoToGameCommand { get; protected set; }
 
-        public Command Add5PointsCommand { get; }
+        private int _numPlayers = 1;
+
+        public int NumberOfPlayers
+        {
+            get => _numPlayers;
+            set
+            {
+                _numPlayers = value;
+                var args = new PropertyChangedEventArgs(nameof(NumberOfPlayers));
+                PropertyChanged?.Invoke(this, args);
+            }
+        }
 
         public MainPageViewModel()
         {
-            HitSingleCommand = new Command((i) =>
+            GoToGameCommand = new Command(async () =>
             {
-
-                var args = new PropertyChangedEventArgs(nameof(PlayerScoreboards));
-                PropertyChanged?.Invoke(this, args);
+                var page = new CricketView();
+                page.BindingContext = new CricketGameViewModel(NumberOfPlayers);
+                await Application.Current.MainPage.Navigation.PushAsync(page);
             });
         }
-
-        public Command HitSingleCommand { get; }
     }
 }
