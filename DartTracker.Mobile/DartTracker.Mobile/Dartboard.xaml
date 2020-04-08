@@ -7,8 +7,21 @@
              mc:Ignorable="d"
              x:Class="DartTracker.Mobile.Dartboard">
     <ContentPage.Content>
-        <skia:SKCanvasView x:Name="canvasView" PaintSurface="canvasView_PaintSurface">
 
-        </skia:SKCanvasView>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="2*" />
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Column="0" Grid.Row="0">
+                
+            </StackLayout>
+            <skia:SKCanvasView Grid.Column="0" Grid.Row="1" x:Name="canvasView" PaintSurface="canvasView_PaintSurface">
+            </skia:SKCanvasView>
+        </Grid>
+        
     </ContentPage.Content>
 </ContentPage>

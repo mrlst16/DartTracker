@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DartTracker.Lib.Games.Cricket;
+using DartTracker.Model.Games;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -31,8 +33,8 @@ namespace DartTracker.Mobile.ViewModels
             GoToGameCommand = new Command(async () =>
             {
                 var vm = new CricketGameViewModel(NumberOfPlayers);
-                var page = new CricketView(vm.GameService);
-                page.BindingContext = vm;
+                var page = new Dartboard(vm.GameService);
+                page.BindingContext = page;
                 await Application.Current.MainPage.Navigation.PushAsync(page);
             });
         }
