@@ -15,11 +15,10 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <CollectionView
-        ItemsSource="{Binding PlayerScoreboards}"
-        BackgroundColor="BlanchedAlmond"
-        Grid.Column="0"
-        Grid.Row="0"
-        >
+            ItemsSource="{Binding PlayerScoreboards}"
+            BackgroundColor="BlanchedAlmond"
+            Grid.Column="0"
+            Grid.Row="0">
 
             <CollectionView.Header>
                 <Grid>
