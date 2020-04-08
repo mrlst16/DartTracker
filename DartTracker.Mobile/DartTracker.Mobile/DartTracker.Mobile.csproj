@@ -17,7 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\CommonStandard\CommonStandard.Interface\CommonStandard.Interface.csproj" />
     <ProjectReference Include="..\..\DartTracker.Lib\DartTracker.Lib.csproj" />
+    <ProjectReference Include="..\..\DartTracker.Mobile.Lib\DartTracker.Mobile.Lib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
