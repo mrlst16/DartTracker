@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,23 +7,25 @@
              xmlns:local="clr-namespace:DartTracker.Mobile.ViewModels"
              x:Class="DartTracker.Mobile.MainPage">
 
-    <ContentPage.BindingContext>
-        <local:MainPageViewModel></local:MainPageViewModel>
-    </ContentPage.BindingContext>
+    <ContentPage>
+        <ContentPage.BindingContext>
+            <local:MainPageViewModel></local:MainPageViewModel>
+        </ContentPage.BindingContext>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-        <Editor Keyboard="Numeric" Grid.Column="0" Grid.Row="0" Text="{Binding NumberOfPlayers}" />
-        <Label Text="Cricket" Grid.Column="1" Grid.Row="0" />
+            <Editor Keyboard="Numeric" Grid.Column="0" Grid.Row="0" Text="{Binding NumberOfPlayers}" />
+            <Label Text="Cricket" Grid.Column="1" Grid.Row="0" />
 
-        <Button Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Text="Go" Command="{Binding GoToGameCommand}" />
-    </Grid>
-</ContentPage>
+            <Button Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Text="Go" Command="{Binding GoToGameCommand}" />
+        </Grid>
+    </ContentPage>
+</TabbedPage>

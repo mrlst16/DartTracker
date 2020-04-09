@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CommonStandard\CommonStandard.Interface\CommonStandard.Interface.csproj" />
     <ProjectReference Include="..\DartTracker.Interface\DartTracker.Interface.csproj" />
   </ItemGroup>
 

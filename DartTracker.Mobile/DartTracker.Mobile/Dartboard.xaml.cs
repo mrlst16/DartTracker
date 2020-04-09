@@ -7,16 +7,13 @@ using SkiaSharp.Views.Forms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace DartTracker.Mobile
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Dartboard : ContentPage
+    public partial class Dartboard : TabbedPage
     {
         private readonly IGameService _gameService;
         private readonly IMapper<ShotPointFromZero, Shot> _shotPointToShotMapper;
@@ -57,20 +54,20 @@ namespace DartTracker.Mobile
             innerRect.Size = new SKSize(500, 500);
             innerRect.Location = new SKPoint(-250, -250);
 
-            canvas.DrawOval(outerRect, PaintHelper.blackFillPaint);
+            canvas.DrawOval(outerRect, PreDefinedPaints.BlackFillPaint);
 
             for (int i = 0; i < 20; i++)
             {
                 var degrees = (i * 18) - 9;
                 canvas.Save();
                 canvas.RotateDegrees(degrees);
-                canvas.DrawLine(0, 0, 0, 500, PaintHelper.whiteStrokePaint);
+                canvas.DrawLine(0, 0, 0, 500, PreDefinedPaints.WhiteStrokePaint);
 
                 SKPath outerPath = new SKPath();
                 outerPath.AddArc(outerRect, 0, 18);
 
-                SKPaint paint1 = i % 2 == 0 ? PaintHelper.redThickStrokePaint : PaintHelper.greenThickStrokePaint;
-                SKPaint paint2 = i % 2 != 0 ? PaintHelper.redThickStrokePaint : PaintHelper.greenThickStrokePaint;
+                SKPaint paint1 = i % 2 == 0 ? PreDefinedPaints.RedThickStrokePaint : PreDefinedPaints.GreenThickStrokePaint;
+                SKPaint paint2 = i % 2 != 0 ? PreDefinedPaints.RedThickStrokePaint : PreDefinedPaints.GreenThickStrokePaint;
 
                 canvas.DrawPath(outerPath, paint1);
 
@@ -79,19 +76,19 @@ namespace DartTracker.Mobile
 
                 canvas.DrawPath(innerPath, paint2);
                 canvas.RotateDegrees(-9);
-                canvas.DrawText(DisplayNumbers[i].ToString(), 0, 635, PaintHelper.BlackFontOutline);
+                canvas.DrawText(DisplayNumbers[i].ToString(), 0, 635, PreDefinedPaints.BlackFontOutline);
 
                 canvas.Restore();
             }
 
-            canvas.DrawCircle(0, 0, 100, PaintHelper.greenFillPaint);
-            canvas.DrawCircle(0, 0, 50, PaintHelper.redFillPaint);
+            canvas.DrawCircle(0, 0, 100, PreDefinedPaints.GreenFillPaint);
+            canvas.DrawCircle(0, 0, 50, PreDefinedPaints.RedFillPaint);
 
             //Draw the shots
             for (int i = 0; i < shotPoints.Count; i++)
             {
                 var shotPoint = shotPoints[i];
-                canvas.DrawCircle(new SKPoint(shotPoint.X, shotPoint.Y), 10, PaintHelper.whiteFillPaint);
+                canvas.DrawCircle(new SKPoint(shotPoint.X, shotPoint.Y), 10, PreDefinedPaints.WhiteFillPaint);
             }
 
             //Events

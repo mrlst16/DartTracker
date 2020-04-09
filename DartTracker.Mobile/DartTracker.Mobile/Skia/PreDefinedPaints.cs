@@ -5,33 +5,33 @@ using System.Text;
 
 namespace DartTracker.Mobile.Skia
 {
-    public static class PaintHelper
+    public static class PreDefinedPaints
     {
-        public static SKPaint blackFillPaint = new SKPaint()
+        public static SKPaint BlackFillPaint = new SKPaint()
         {
             Color = SKColors.Black,
             Style = SKPaintStyle.Fill
         };
 
-        public static SKPaint redFillPaint = new SKPaint()
+        public static SKPaint RedFillPaint = new SKPaint()
         {
             Color = SKColors.Red,
             Style = SKPaintStyle.Fill
         };
 
-        public static SKPaint greenFillPaint = new SKPaint()
+        public static SKPaint GreenFillPaint = new SKPaint()
         {
             Color = SKColors.Green,
             Style = SKPaintStyle.Fill
         };
 
-        public static SKPaint whiteFillPaint = new SKPaint()
+        public static SKPaint WhiteFillPaint = new SKPaint()
         {
             Color = SKColors.White,
             Style = SKPaintStyle.Fill
         };
 
-        public static SKPaint whiteStrokePaint = new SKPaint()
+        public static SKPaint WhiteStrokePaint = new SKPaint()
         {
             Style = SKPaintStyle.Stroke,
             Color = SKColors.White,
@@ -60,7 +60,7 @@ namespace DartTracker.Mobile.Skia
             IsAntialias = true
         };
 
-        public static SKPaint redThickStrokePaint = new SKPaint()
+        public static SKPaint RedThickStrokePaint = new SKPaint()
         {
             Style = SKPaintStyle.Stroke,
             Color = SKColors.Red,
@@ -68,7 +68,7 @@ namespace DartTracker.Mobile.Skia
             IsAntialias = true
         };
 
-        public static SKPaint greenThickStrokePaint = new SKPaint()
+        public static SKPaint GreenThickStrokePaint = new SKPaint()
         {
             Style = SKPaintStyle.Stroke,
             Color = SKColors.Green,
