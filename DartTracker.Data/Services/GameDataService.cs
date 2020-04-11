@@ -28,6 +28,7 @@ namespace DartTracker.Data.Services
             get
             {
                 var entity = _gameIndexResposity.Get("savedgames");
+                if (entity == null) return new List<EntityIndex>();
                 return entity.Value;
             }
         }

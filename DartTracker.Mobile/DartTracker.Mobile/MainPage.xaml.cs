@@ -19,13 +19,10 @@ namespace DartTracker.Mobile
             InitializeComponent();
         }
 
-        //protected override void OnBindingContextChanged()
-        //{
-        //    if (this.LoadGameTab != null && this.BindingContext != null)
-        //    {
-        //        this.LoadGameTab.BindingContext = this.BindingContext;
-        //    }
-        //    base.OnBindingContextChanged();
-        //}
+        protected override void OnBindingContextChanged()
+        {
+            this.LoadGameTab.BindingContext = this.BindingContext;
+            base.OnBindingContextChanged();
+        }
     }
 }
