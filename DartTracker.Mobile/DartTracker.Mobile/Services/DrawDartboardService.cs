@@ -6,13 +6,14 @@ using SkiaSharp.Views.Forms;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Forms;
 
 namespace DartTracker.Mobile.Services
 {
     public class DrawDartboardService : IDrawDartboardService
     {
-        public List<ShotPointFromZero> ShotPoints { get; }
-            = new List<ShotPointFromZero>();
+        public List<Point> ShotPoints { get; }
+            = new List<Point>();
 
         private List<int> _displayNumbers { get; } =
             new List<int>{
@@ -72,7 +73,7 @@ namespace DartTracker.Mobile.Services
             for (int i = 0; i < ShotPoints.Count; i++)
             {
                 var shotPoint = ShotPoints[i];
-                canvas.DrawCircle(new SKPoint(shotPoint.X, shotPoint.Y), 10, PreDefinedPaints.WhiteFillPaint);
+                canvas.DrawCircle(new SKPoint((float)shotPoint.X, (float)shotPoint.Y), 10, PreDefinedPaints.WhiteFillPaint);
             }
         }
     }

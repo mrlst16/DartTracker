@@ -4,12 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace DartTracker.Mobile.Interface.Services.Drawing
 {
     public interface IDrawDartboardService
     {
-        List<ShotPointFromZero> ShotPoints { get; }
+        List<Point> ShotPoints { get; }
         void Draw(SKPaintSurfaceEventArgs eventArgs);
     }
 }

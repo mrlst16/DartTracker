@@ -6,7 +6,6 @@ using DartTracker.Interface.Games;
 using DartTracker.Mobile.Interface.ViewModels;
 using DartTracker.Model.Events;
 using DartTracker.Model.Shooting;
-using Xamarin.Forms;
 
 namespace DartTracker.Mobile.ViewModels
 {

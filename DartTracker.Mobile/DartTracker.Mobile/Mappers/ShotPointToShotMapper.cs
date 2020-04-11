@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace DartTracker.Mobile.Mappers
 {
-    public class ShotPointToShotMapper : IMapper<ShotPointFromZero, Shot>
+    public class ShotPointToShotMapper : IMapper<Point, Shot>
     {
-        public async Task<Shot> Map(ShotPointFromZero source)
+        public async Task<Shot> Map(Point source)
         {
             var x = source.X;
             var y = source.Y * -1;

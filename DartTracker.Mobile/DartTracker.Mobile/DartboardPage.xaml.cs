@@ -1,18 +1,11 @@
 ﻿using CommonStandard.Interface.Mappers;
 using DartTracker.Interface.Games;
-using DartTracker.Mobile.Interface.Factories;
 using DartTracker.Mobile.Interface.Services.Drawing;
 using DartTracker.Mobile.Interface.ViewModels;
-using DartTracker.Mobile.Skia;
-using DartTracker.Mobile.ViewModels;
 using DartTracker.Model.Shooting;
-using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -24,12 +17,12 @@ namespace DartTracker.Mobile
         private readonly IGameService _gameService;
         private readonly IDrawDartboardService _drawDartboardService;
 
-        private readonly IMapper<ShotPointFromZero, Shot> _shotPointToShotMapper;
+        private readonly IMapper<Point, Shot> _shotPointToShotMapper;
         private readonly Page _scoreboard;
         public DartboardPage(
             IGameService gameService,
             IDrawDartboardService drawDartboardService,
-            IMapper<ShotPointFromZero, Shot> shotPointToShotMapper,
+            IMapper<Point, Shot> shotPointToShotMapper,
             Page scoreboard
             )
         {
@@ -60,8 +53,7 @@ namespace DartTracker.Mobile
                     if (_drawDartboardService.ShotPoints.Any()
                         && _drawDartboardService.ShotPoints.Last().X == x && _drawDartboardService.ShotPoints.Last().Y == y)
                         return;
-
-                    var shotPoint = new ShotPointFromZero(x, y);
+                    var shotPoint = new Point(x, y);
                     _drawDartboardService.ShotPoints.Add(shotPoint);
 
                     var shot = await this._shotPointToShotMapper.Map(shotPoint);
