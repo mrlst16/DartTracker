@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DartTracker.Data.Model\DartTracker.Data.Model.csproj" />
+    <ProjectReference Include="..\DartTracker.Model\DartTracker.Model.csproj" />
+  </ItemGroup>
+
+</Project>

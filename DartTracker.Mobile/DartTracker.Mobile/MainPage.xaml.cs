@@ -1,4 +1,5 @@
 ﻿using DartTracker.Interface.Games;
+using DartTracker.Mobile.ViewModels;
 using DartTracker.Model.Enum;
 using DartTracker.Model.Games;
 using System.ComponentModel;
@@ -12,12 +13,19 @@ namespace DartTracker.Mobile
     [DesignTimeVisible(false)]
     public partial class MainPage : TabbedPage
     {
-        public static IGameService GameService  { get; set; }
-
-        public MainPage()
+        public MainPage(
+            )
         {
             InitializeComponent();
         }
 
+        //protected override void OnBindingContextChanged()
+        //{
+        //    if (this.LoadGameTab != null && this.BindingContext != null)
+        //    {
+        //        this.LoadGameTab.BindingContext = this.BindingContext;
+        //    }
+        //    base.OnBindingContextChanged();
+        //}
     }
 }

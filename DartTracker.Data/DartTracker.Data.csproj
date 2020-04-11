@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Couchbase.Lite" Version="2.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CommonStandard\CommonStandard.Interface\CommonStandard.Interface.csproj" />
+    <ProjectReference Include="..\..\CommonStandard\CommonStandard\CommonStandard.csproj" />
+    <ProjectReference Include="..\DartTracker.Data.Interface\DartTracker.Data.Interface.csproj" />
+    <ProjectReference Include="..\DartTracker.Data.Model\DartTracker.Data.Model.csproj" />
+    <ProjectReference Include="..\DartTracker.Model\DartTracker.Model.csproj" />
+  </ItemGroup>
+
+</Project>

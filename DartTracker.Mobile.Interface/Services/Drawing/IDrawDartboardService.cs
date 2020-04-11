@@ -1,9 +1,5 @@
-﻿using DartTracker.Model.Shooting;
-using SkiaSharp.Views.Forms;
-using System;
+﻿using SkiaSharp.Views.Forms;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace DartTracker.Mobile.Interface.Services.Drawing

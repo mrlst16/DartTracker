@@ -21,6 +21,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\CommonStandard\CommonStandard.Interface\CommonStandard.Interface.csproj" />
     <ProjectReference Include="..\..\..\CommonStandard\CommonStandard.Interface\CommonStandard.Interface.csproj" />
+    <ProjectReference Include="..\..\..\CommonStandard\CommonStandard\CommonStandard.csproj" />
+    <ProjectReference Include="..\..\DartTracker.Data\DartTracker.Data.csproj" />
     <ProjectReference Include="..\..\DartTracker.Lib\DartTracker.Lib.csproj" />
     <ProjectReference Include="..\..\DartTracker.Mobile.Interface\DartTracker.Mobile.Interface.csproj" />
   </ItemGroup>
@@ -42,6 +44,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="SaveAs.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SaveGamePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
