@@ -1,7 +1,9 @@
-﻿using DartTracker.Lib.Games.Cricket;
+﻿using DartTracker.Interface.Factories;
+using DartTracker.Lib.Factories;
+using DartTracker.Lib.Games.Cricket;
+using DartTracker.Mobile.Factories;
 using DartTracker.Mobile.Interface.Factories;
-using DartTracker.Mobile.Lib.Factories;
-using DartTracker.Mobile.Lib.Mappers;
+using DartTracker.Mobile.Mappers;
 using DartTracker.Model.Enum;
 using DartTracker.Model.Games;
 using System;
@@ -64,8 +66,12 @@ namespace DartTracker.Mobile.ViewModels
             }
         }
 
-        private IScoreboardServiceFactory _scoreboardServiceFactory
+        private readonly IScoreboardServiceFactory _scoreboardServiceFactory
             = new ScoreboardServiceFactory();
+        private readonly IGameFactory<int> _gameFactory
+            = new GameFromNumberOfPlayersFactory();
+        private readonly IGameServiceFactory _gameServiceFactory
+            = new GameServiceFactory();
 
         public MainPageViewModel()
         {
@@ -77,14 +83,21 @@ namespace DartTracker.Mobile.ViewModels
         {
             return new Command(async () =>
              {
-                 var vm = new CricketGameViewModel(NumberOfPlayers);
-                 var gameType = ToGameType(GameType);
-                 var scoreboardService = _scoreboardServiceFactory.Create(gameType);
-                 var scoreboard = scoreboardService.BuildScoreboard(vm.GameService.Game);
-                 DartTracker.Mobile.MainPage.Game = vm.GameService.Game;
+                 if (NumberOfPlayers <= 0 || GameType.ToLowerInvariant() == "darts")
+                 {
+                     await Application.Current.MainPage.DisplayAlert("Put in better information", "Select a game type and number of players", "Thanks for telling me");
+                     return;
+                 }
+                 var game = _gameFactory.Create(NumberOfPlayers);
+                 game.Type = ToGameType(GameType);
+                 var gameService = await _gameServiceFactory.Create(game);
+                 DartTracker.Mobile.MainPage.GameService = gameService;
 
-                 var page = new Dartboard(
-                     vm.GameService,
+                 var scoreboardService = _scoreboardServiceFactory.Create(game.Type);
+                 var scoreboard = scoreboardService.BuildScoreboard(gameService);
+
+                 var page = new DartboardPage(
+                     gameService,
                      new ShotPointToShotMapper(),
                      scoreboard
                      );

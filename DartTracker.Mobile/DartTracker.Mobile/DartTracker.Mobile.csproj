@@ -21,20 +21,22 @@
     <ProjectReference Include="..\..\..\CommonStandard\CommonStandard.Interface\CommonStandard.Interface.csproj" />
     <ProjectReference Include="..\..\DartTracker.Lib\DartTracker.Lib.csproj" />
     <ProjectReference Include="..\..\DartTracker.Mobile.Interface\DartTracker.Mobile.Interface.csproj" />
-    <ProjectReference Include="..\..\DartTracker.Mobile.Lib\DartTracker.Mobile.Lib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Cricket200ScoreboardView.xaml.cs">
-      <DependentUpon>Cricket200ScoreboardView.xaml</DependentUpon>
+    <Compile Update="Cricket200ScoreboardPage.xaml.cs">
+      <DependentUpon>Cricket200ScoreboardPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="DartboardPage.xaml.cs">
+      <DependentUpon>DartboardPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Cricket200ScoreboardView.xaml">
+    <EmbeddedResource Update="Cricket200ScoreboardPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Dartboard.xaml">
+    <EmbeddedResource Update="DartboardPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="SaveAs.xaml">

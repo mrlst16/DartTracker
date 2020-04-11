@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DartTracker.Mobile", "DartT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DartTracker.Mobile.Interface", "DartTracker.Mobile.Interface\DartTracker.Mobile.Interface.csproj", "{E71C6A33-7B09-4046-A58C-F6BB128482F2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DartTracker.Mobile.Lib", "DartTracker.Mobile.Lib\DartTracker.Mobile.Lib.csproj", "{EEE4C084-A76C-4910-AF05-AF6C29186047}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommonStandard", "CommonStandard", "{442FD093-B42F-4F9F-AA22-6C7F6EED5E69}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonStandard.Interface", "..\CommonStandard\CommonStandard.Interface\CommonStandard.Interface.csproj", "{F961514F-324F-4E64-8FAD-17D4BB5C2870}"
@@ -135,18 +133,6 @@ Global
 		{E71C6A33-7B09-4046-A58C-F6BB128482F2}.Release|iPhone.Build.0 = Release|Any CPU
 		{E71C6A33-7B09-4046-A58C-F6BB128482F2}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{E71C6A33-7B09-4046-A58C-F6BB128482F2}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{EEE4C084-A76C-4910-AF05-AF6C29186047}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EEE4C084-A76C-4910-AF05-AF6C29186047}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EEE4C084-A76C-4910-AF05-AF6C29186047}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{EEE4C084-A76C-4910-AF05-AF6C29186047}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{EEE4C084-A76C-4910-AF05-AF6C29186047}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{EEE4C084-A76C-4910-AF05-AF6C29186047}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{EEE4C084-A76C-4910-AF05-AF6C29186047}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EEE4C084-A76C-4910-AF05-AF6C29186047}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EEE4C084-A76C-4910-AF05-AF6C29186047}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{EEE4C084-A76C-4910-AF05-AF6C29186047}.Release|iPhone.Build.0 = Release|Any CPU
-		{EEE4C084-A76C-4910-AF05-AF6C29186047}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{EEE4C084-A76C-4910-AF05-AF6C29186047}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{F961514F-324F-4E64-8FAD-17D4BB5C2870}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F961514F-324F-4E64-8FAD-17D4BB5C2870}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F961514F-324F-4E64-8FAD-17D4BB5C2870}.Debug|iPhone.ActiveCfg = Debug|Any CPU

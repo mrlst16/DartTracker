@@ -41,6 +41,8 @@ namespace DartTracker.Lib.Games.Cricket
             }
         }
 
+        public int PlayerUp => Incrementor.PlayerUp;
+
         public event EventHandler GameWonEvent;
 
         public CricketGameService(
@@ -61,11 +63,23 @@ namespace DartTracker.Lib.Games.Cricket
         }
 
         public async Task<bool> GameWon()
-            => ShotBoard
-                ?.Select(kvp => kvp.Value)
-                ?.OrderByDescending(x => x.Score)
-                ?.FirstOrDefault()
-                ?.IsClosedOut ?? false;
+        {
+            var result = ShotBoard
+                   ?.Select(kvp => kvp.Value)
+                   ?.OrderByDescending(x => x.Score)
+                   ?.FirstOrDefault()
+                   ?.IsClosedOut ?? false;
+            if (result) return result;
+
+            var winningPlayer = WinningPlayer();
+            result = winningPlayer.Score >= 200
+            && !ShotBoard
+                .Where(x => x.Key != winningPlayer.ID)
+                .Any(x => x.Value.IsClosedOut);
+
+            return result;
+        }
+
 
         public static readonly List<int> ScoringNumbers = new List<int>() { 15, 16, 17, 18, 19, 20, 25 };
 

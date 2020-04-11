@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="DartTracker.Mobile.Cricket200ScoreboardPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <CollectionView
+            ItemsSource="{Binding PlayerScoreboards}"
+            BackgroundColor="BlanchedAlmond"
+            Grid.Column="0"
+            Grid.Row="0">
+
+            <CollectionView.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0" Text="Player" BackgroundColor="{Binding BackgroundColor}" TextColor="{Binding TextColor}" />
+                    <Label Grid.Row="0" Grid.Column="1" Text="Score"/>
+                    <Label Grid.Row="0" Grid.Column="2" Text="15"/>
+                    <Label Grid.Row="0" Grid.Column="3" Text="16"/>
+                    <Label Grid.Row="0" Grid.Column="4" Text="17"/>
+                    <Label Grid.Row="0" Grid.Column="5" Text="18"/>
+                    <Label Grid.Row="0" Grid.Column="6" Text="19"/>
+                    <Label Grid.Row="0" Grid.Column="7" Text="20"/>
+                    <Label Grid.Row="0" Grid.Column="8" Text="Bull"/>
+                </Grid>
+            </CollectionView.Header>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding PlayerName}" TextColor="{Binding TextColor}" BackgroundColor="{Binding BackgroundColor}" />
+                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding Score}"/>
+                            <Label Grid.Row="0" Grid.Column="2" Text="{Binding Fifteens}"/>
+                            <Label Grid.Row="0" Grid.Column="3" Text="{Binding Sixteens}"/>
+                            <Label Grid.Row="0" Grid.Column="4" Text="{Binding Seventeens}"/>
+                            <Label Grid.Row="0" Grid.Column="5" Text="{Binding Eighteens}"/>
+                            <Label Grid.Row="0" Grid.Column="6" Text="{Binding Nineteens}"/>
+                            <Label Grid.Row="0" Grid.Column="7" Text="{Binding Twentys}"/>
+                            <Label Grid.Row="0" Grid.Column="8" Text="{Binding Bulls}"/>
+
+                        </Grid>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

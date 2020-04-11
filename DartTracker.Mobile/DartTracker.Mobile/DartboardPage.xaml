@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              mc:Ignorable="d"
-             x:Class="DartTracker.Mobile.Dartboard"
+             x:Class="DartTracker.Mobile.DartboardPage"
              Title="Dartboard"
             >
     <ContentPage Title="Dart Board">
@@ -19,15 +19,5 @@
             <skia:SKCanvasView Grid.Column="0" Grid.Row="0" x:Name="canvasView" PaintSurface="canvasView_PaintSurface" />
         </Grid>
     </ContentPage>
-
-    <ContentPage Title="Score Board">
-        <Grid x:Name="ScoreboardGrid">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-        </Grid>
-    </ContentPage>
+    
 </TabbedPage>

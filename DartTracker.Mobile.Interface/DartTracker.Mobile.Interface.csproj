@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DartTracker.Interface\DartTracker.Interface.csproj" />
     <ProjectReference Include="..\DartTracker.Model\DartTracker.Model.csproj" />
   </ItemGroup>
 

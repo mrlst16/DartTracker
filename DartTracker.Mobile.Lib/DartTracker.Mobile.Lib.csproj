@@ -11,4 +11,10 @@
     <ProjectReference Include="..\DartTracker.Model\DartTracker.Model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Factories\" />
+    <Folder Include="Mappers\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>

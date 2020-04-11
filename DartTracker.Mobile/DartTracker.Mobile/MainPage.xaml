@@ -55,7 +55,7 @@
         </ContentPage.BindingContext>
         <CollectionView ItemsSource="{Binding SavedGames}">
             <CollectionView.Header>
-                <Label Text="Monkey TYpe" />
+                <Label Text="Saved Games" />
             </CollectionView.Header>
         </CollectionView>
     </ContentPage>

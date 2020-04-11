@@ -1,4 +1,5 @@
-﻿using DartTracker.Lib.Games.Cricket;
+﻿using DartTracker.Interface.Games;
+using DartTracker.Lib.Games.Cricket;
 using DartTracker.Model.Events;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,16 @@ using Xamarin.Forms.Xaml;
 namespace DartTracker.Mobile
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Cricket200ScoreboardView : ContentPage
+    public partial class Cricket200ScoreboardPage : ContentPage
     {
-        public Cricket200ScoreboardView(
-            CricketGameService gameService
+        private readonly IGameService _gameService;
+
+        public Cricket200ScoreboardPage(
+            IGameService gameService
             )
         {
-            gameService.GameWonEvent += async (sender, eventArgs) =>
+            _gameService = gameService;
+            _gameService.GameWonEvent += async (sender, eventArgs) =>
             {
                 if (eventArgs is GameWonEvenArgs arg)
                 {

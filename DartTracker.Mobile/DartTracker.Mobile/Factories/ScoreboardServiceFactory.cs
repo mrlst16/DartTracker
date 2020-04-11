@@ -1,12 +1,12 @@
 ﻿using DartTracker.Mobile.Interface.Factories;
 using DartTracker.Mobile.Interface.Services.Scoreboard;
-using DartTracker.Mobile.Lib.Services;
+using DartTracker.Mobile.Services;
 using DartTracker.Model.Enum;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DartTracker.Mobile.Lib.Factories
+namespace DartTracker.Mobile.Factories
 {
     public class ScoreboardServiceFactory : IScoreboardServiceFactory
     {

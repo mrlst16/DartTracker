@@ -35,9 +35,9 @@ namespace DartTracker.Mobile
                     if (title.ToLowerInvariant() == "dartboard")
                     {
                         var result = await MainPage.DisplayAlert("Save game", "Would you like to save that game?", "yes", "No");
-                        if (result) {
-                            var game = DartTracker.Mobile.MainPage.Game;
-
+                        if (result)
+                        {
+                            
                         }
                     }
                 });

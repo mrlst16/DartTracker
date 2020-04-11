@@ -15,5 +15,6 @@ namespace DartTracker.Interface.Games
         Task TakeShot(int numberHit, ContactType contactType);
         Task RemoveLastShot();
         Task<bool> GameWon();
+        int PlayerUp { get; }
     }
 }

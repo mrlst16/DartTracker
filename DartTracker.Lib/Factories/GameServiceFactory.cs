@@ -18,7 +18,7 @@ namespace DartTracker.Lib.Factories
                 case GameType.Cricket200:
                     return new CricketGameService(game);
                 default:
-                    throw new NotImplementedException();
+                    return new CricketGameService(game);
             }
         }
     }

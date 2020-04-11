@@ -1,12 +1,15 @@
 ﻿using CommonStandard.Interface.Mappers;
 using DartTracker.Interface.Games;
 using DartTracker.Mobile.Interface.Factories;
+using DartTracker.Mobile.Interface.ViewModels;
 using DartTracker.Mobile.Skia;
+using DartTracker.Mobile.ViewModels;
 using DartTracker.Model.Shooting;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -15,28 +18,23 @@ using Xamarin.Forms.Xaml;
 namespace DartTracker.Mobile
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Dartboard : TabbedPage
+    public partial class DartboardPage : TabbedPage
     {
         private readonly IGameService _gameService;
         private readonly IMapper<ShotPointFromZero, Shot> _shotPointToShotMapper;
-
-        public Dartboard(
+        private readonly Page _scoreboard;
+        public DartboardPage(
             IGameService gameService,
             IMapper<ShotPointFromZero, Shot> shotPointToShotMapper,
-            View scoreboard
+            Page scoreboard
             )
         {
             InitializeComponent();
 
             _gameService = gameService;
             _shotPointToShotMapper = shotPointToShotMapper;
-            SetScoreBoard(scoreboard);
-        }
-
-        protected void SetScoreBoard(View scoreboard)
-        {
-            this.ScoreboardGrid.Children.Clear();
-            this.ScoreboardGrid.Children.Add(scoreboard, 0, 0);
+            _scoreboard = scoreboard;
+            this.Children.Add(_scoreboard);
         }
 
         private List<int> DisplayNumbers { get; } =
@@ -118,7 +116,11 @@ namespace DartTracker.Mobile
                     shotPoints.Add(shotPoint);
 
                     var shot = await this._shotPointToShotMapper.Map(shotPoint);
-                    await _gameService.TakeShot(shot.NumberHit, shot.Contact);
+
+                    if (_scoreboard.BindingContext is IGameViewModel viewModel)
+                    {
+                        await viewModel.TakeSot(shot);
+                    }
 
                     this.canvasView.InvalidateSurface();
                 }

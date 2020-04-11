@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DartTracker.Mobile.Lib.Mappers
+namespace DartTracker.Mobile.Mappers
 {
     public class ShotPointToShotMapper : IMapper<ShotPointFromZero, Shot>
     {
