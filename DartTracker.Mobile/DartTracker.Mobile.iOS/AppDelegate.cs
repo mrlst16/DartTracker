@@ -23,6 +23,9 @@ namespace DartTracker.Mobile.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+
+            Couchbase.Lite.Support.iOS.Activate();
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

@@ -1,4 +1,5 @@
-﻿using DartTracker.Interface.Factories;
+﻿using Couchbase.Lite;
+using DartTracker.Interface.Factories;
 using DartTracker.Lib.Factories;
 using DartTracker.Lib.Games.Cricket;
 using DartTracker.Mobile.Factories;
@@ -11,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Text;
 using Xamarin.Forms;
 
@@ -18,6 +21,23 @@ namespace DartTracker.Mobile.ViewModels
 {
     public class MainPageViewModel : INotifyPropertyChanged
     {
+
+        private DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration
+        {
+            Directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "darttracker")
+        };
+
+        private Database _database;
+        private Database DataBase
+        {
+            get
+            {
+                if (_database == null)
+                    _database = new Database("darttracker", databaseConfiguration);
+                return _database;
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public Command GoToGameCommand { get; protected set; }
@@ -52,7 +72,16 @@ namespace DartTracker.Mobile.ViewModels
         {
             get
             {
-                return new List<string>() { "game1" };
+                var result = new List<string>();
+
+                var document = DataBase.GetDocument("activegames");
+                if (document == null) return result;
+
+                var val = document.GetArray("value");
+                if (val == null) return result;
+
+                result = val.Select(x => x.ToString()).ToList();
+                return result;
             }
         }
 
