@@ -19,7 +19,7 @@
     </ContentPage>
 
     <ContentPage Title="Score Board">
-        <Grid>
+        <Grid x:Name="ScoreboardGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>

@@ -1,5 +1,6 @@
 ﻿using CommonStandard.Interface.Mappers;
 using DartTracker.Interface.Games;
+using DartTracker.Mobile.Interface.Factories;
 using DartTracker.Mobile.Skia;
 using DartTracker.Model.Shooting;
 using SkiaSharp;
@@ -7,6 +8,7 @@ using SkiaSharp.Views.Forms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -20,12 +22,21 @@ namespace DartTracker.Mobile
 
         public Dartboard(
             IGameService gameService,
-            IMapper<ShotPointFromZero, Shot> shotPointToShotMapper
+            IMapper<ShotPointFromZero, Shot> shotPointToShotMapper,
+            View scoreboard
             )
         {
+            InitializeComponent();
+
             _gameService = gameService;
             _shotPointToShotMapper = shotPointToShotMapper;
-            InitializeComponent();
+            SetScoreBoard(scoreboard);
+        }
+
+        protected void SetScoreBoard(View scoreboard)
+        {
+            this.ScoreboardGrid.Children.Clear();
+            this.ScoreboardGrid.Children.Add(scoreboard, 0, 0);
         }
 
         private List<int> DisplayNumbers { get; } =

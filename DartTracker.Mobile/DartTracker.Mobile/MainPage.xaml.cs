@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using DartTracker.Model.Enum;
+using System.ComponentModel;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace DartTracker.Mobile

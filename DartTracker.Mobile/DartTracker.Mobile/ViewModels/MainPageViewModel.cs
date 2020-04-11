@@ -1,5 +1,8 @@
 ﻿using DartTracker.Lib.Games.Cricket;
+using DartTracker.Mobile.Interface.Factories;
+using DartTracker.Mobile.Lib.Factories;
 using DartTracker.Mobile.Lib.Mappers;
+using DartTracker.Model.Enum;
 using DartTracker.Model.Games;
 using System;
 using System.Collections.Generic;
@@ -29,18 +32,65 @@ namespace DartTracker.Mobile.ViewModels
             }
         }
 
+        private string _gameType = "Darts";
+
+        public string GameType
+        {
+            get => _gameType;
+            set
+            {
+                _gameType = value;
+                var args = new PropertyChangedEventArgs(nameof(GameType));
+                PropertyChanged?.Invoke(this, args);
+            }
+        }
+
+        public List<string> SavedGames
+        {
+            get
+            {
+                return new List<string>() { "game1" };
+            }
+        }
+
+        public GameType ToGameType(string str)
+        {
+            switch (str.ToLowerInvariant())
+            {
+                case "cricket 200":
+                    return Model.Enum.GameType.Cricket200;
+                default:
+                    return 0;
+            }
+        }
+
+        private IScoreboardServiceFactory _scoreboardServiceFactory
+            = new ScoreboardServiceFactory();
+
         public MainPageViewModel()
         {
-            GoToGameCommand = new Command(async () =>
-            {
-                var vm = new CricketGameViewModel(NumberOfPlayers);
-                var page = new Dartboard(
-                    vm.GameService,
-                    new ShotPointToShotMapper()
-                    );
-                page.BindingContext = page;
-                await Application.Current.MainPage.Navigation.PushAsync(page);
-            });
+            GoToGameCommand = GoToGame();
+
+
+        }
+
+        private Command GoToGame()
+        {
+            return new Command(async () =>
+             {
+                 var vm = new CricketGameViewModel(NumberOfPlayers);
+                 var gameType = ToGameType(GameType);
+                 var scoreboardService = _scoreboardServiceFactory.Create(gameType);
+                 var scoreboard = scoreboardService.BuildScoreboard(vm.GameService.Game);
+
+                 var page = new Dartboard(
+                     vm.GameService,
+                     new ShotPointToShotMapper(),
+                     scoreboard
+                     );
+                 page.BindingContext = page;
+                 await Application.Current.MainPage.Navigation.PushAsync(page);
+             });
         }
     }
 }

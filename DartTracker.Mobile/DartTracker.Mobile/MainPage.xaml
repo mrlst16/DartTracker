@@ -7,15 +7,16 @@
              xmlns:local="clr-namespace:DartTracker.Mobile.ViewModels"
              x:Class="DartTracker.Mobile.MainPage">
 
-    <ContentPage>
+    <ContentPage Title="New Game">
         <ContentPage.BindingContext>
             <local:MainPageViewModel></local:MainPageViewModel>
         </ContentPage.BindingContext>
 
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height=".3*"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height=".2*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -23,9 +24,39 @@
             </Grid.ColumnDefinitions>
 
             <Editor Keyboard="Numeric" Grid.Column="0" Grid.Row="0" Text="{Binding NumberOfPlayers}" />
-            <Label Text="Cricket" Grid.Column="1" Grid.Row="0" />
 
-            <Button Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Text="Go" Command="{Binding GoToGameCommand}" />
+            <Picker x:Name="gamePicker" 
+                    Grid.Column="1" 
+                    Grid.Row="0" 
+                    Title="Select a Game" 
+                    TitleColor="Red" 
+                    SelectedItem="{Binding GameType}">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Cricket 200</x:String>
+                        <x:String>Cricket Cutthroat</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <StackLayout Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
+
+                <Label Text="{Binding GameType}"  />
+                <Label Text="About: " />
+            </StackLayout>
+
+            <Button Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Text="Creaete New Game" Command="{Binding GoToGameCommand}" />
         </Grid>
+    </ContentPage>
+
+    <ContentPage Title="Load Game" x:Name="LoadGameTab">
+        <ContentPage.BindingContext>
+            <local:MainPageViewModel></local:MainPageViewModel>
+        </ContentPage.BindingContext>
+        <CollectionView ItemsSource="{Binding SavedGames}">
+            <CollectionView.Header>
+                <Label Text="Monkey TYpe" />
+            </CollectionView.Header>
+        </CollectionView>
     </ContentPage>
 </TabbedPage>

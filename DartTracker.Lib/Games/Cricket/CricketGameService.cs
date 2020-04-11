@@ -47,7 +47,7 @@ namespace DartTracker.Lib.Games.Cricket
             Game game
             )
         {
-            game.Type = GameType.Cricket;
+            game.Type = GameType.Cricket200;
             Game = game;
         }
 

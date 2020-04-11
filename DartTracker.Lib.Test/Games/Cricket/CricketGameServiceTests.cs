@@ -25,7 +25,7 @@ namespace DartTracker.Lib.Test.Games.Cricket
                 );
 
             Assert.AreEqual(2, service.Game.Players.Count);
-            Assert.AreEqual(Model.Enum.GameType.Cricket, service.Game.Type);
+            Assert.AreEqual(Model.Enum.GameType.Cricket200, service.Game.Type);
 
             Assert.AreEqual(0, service.Incrementor.Shots);
             Assert.AreEqual(1, service.Incrementor.Round);
@@ -72,7 +72,7 @@ namespace DartTracker.Lib.Test.Games.Cricket
                 );
 
             Assert.AreEqual(2, service.Game.Players.Count);
-            Assert.AreEqual(Model.Enum.GameType.Cricket, service.Game.Type);
+            Assert.AreEqual(Model.Enum.GameType.Cricket200, service.Game.Type);
             Assert.IsFalse(await service.GameWon());
 
             Assert.AreEqual(0, service.Incrementor.Shots);

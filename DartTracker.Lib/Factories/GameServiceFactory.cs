@@ -15,7 +15,7 @@ namespace DartTracker.Lib.Factories
         {
             switch (game.Type)
             {
-                case GameType.Cricket:
+                case GameType.Cricket200:
                     return new CricketGameService(game);
                 default:
                     throw new NotImplementedException();

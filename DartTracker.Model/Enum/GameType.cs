@@ -6,7 +6,7 @@ namespace DartTracker.Model.Enum
 {
     public enum GameType
     {
-        Cricket = 1,
+        Cricket200 = 1,
         ThreeOOne = 2
     }
 }
