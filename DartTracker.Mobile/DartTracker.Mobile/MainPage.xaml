@@ -42,7 +42,7 @@
             <StackLayout Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
 
                 <Label Text="{Binding GameType}"  />
-                <Label Text="About: " />
+                <Label Text="About " />
             </StackLayout>
 
             <Button Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Text="Creaete New Game" Command="{Binding GoToGameCommand}" />

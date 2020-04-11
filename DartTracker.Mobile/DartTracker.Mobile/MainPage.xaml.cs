@@ -1,4 +1,5 @@
 ﻿using DartTracker.Model.Enum;
+using DartTracker.Model.Games;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -10,9 +11,14 @@ namespace DartTracker.Mobile
     [DesignTimeVisible(false)]
     public partial class MainPage : TabbedPage
     {
+        public static Game Game { get; set; }
+
         public MainPage()
         {
+
+
             InitializeComponent();
         }
+
     }
 }

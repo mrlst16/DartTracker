@@ -71,7 +71,6 @@ namespace DartTracker.Mobile.ViewModels
         {
             GoToGameCommand = GoToGame();
 
-
         }
 
         private Command GoToGame()
@@ -82,6 +81,7 @@ namespace DartTracker.Mobile.ViewModels
                  var gameType = ToGameType(GameType);
                  var scoreboardService = _scoreboardServiceFactory.Create(gameType);
                  var scoreboard = scoreboardService.BuildScoreboard(vm.GameService.Game);
+                 DartTracker.Mobile.MainPage.Game = vm.GameService.Game;
 
                  var page = new Dartboard(
                      vm.GameService,

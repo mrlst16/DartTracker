@@ -5,7 +5,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              mc:Ignorable="d"
-             x:Class="DartTracker.Mobile.Dartboard">
+             x:Class="DartTracker.Mobile.Dartboard"
+             Title="Dartboard"
+            >
     <ContentPage Title="Dart Board">
         <Grid>
             <Grid.ColumnDefinitions>
