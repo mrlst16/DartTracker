@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace DartTracker.Mobile.ViewModels
 {
-    public class Cricket200ViewModel : INotifyPropertyChanged, IGameViewModel
+    public class CricketViewModel : INotifyPropertyChanged, IGameViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -27,7 +27,7 @@ namespace DartTracker.Mobile.ViewModels
 
         public event EventHandler GameWonEvent;
 
-        public Cricket200ViewModel(
+        public CricketViewModel(
             IGameService gameService
             )
         {
@@ -71,7 +71,7 @@ namespace DartTracker.Mobile.ViewModels
             return result;
         }
 
-        public async Task TakeSot(Shot shot)
+        public async Task TakeShot(Shot shot)
         {
             await GameService.TakeShot(shot.NumberHit, shot.Contact);
             var args = new PropertyChangedEventArgs(nameof(PlayerScoreboards));

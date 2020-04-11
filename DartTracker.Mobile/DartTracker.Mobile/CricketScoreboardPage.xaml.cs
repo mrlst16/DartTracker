@@ -13,11 +13,11 @@ using Xamarin.Forms.Xaml;
 namespace DartTracker.Mobile
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Cricket200ScoreboardPage : ContentPage
+    public partial class CricketScoreboardPage : ContentPage
     {
         private readonly IGameService _gameService;
 
-        public Cricket200ScoreboardPage(
+        public CricketScoreboardPage(
             IGameService gameService
             )
         {

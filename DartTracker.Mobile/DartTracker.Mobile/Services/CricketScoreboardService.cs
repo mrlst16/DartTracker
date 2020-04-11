@@ -10,13 +10,13 @@ using Xamarin.Forms;
 
 namespace DartTracker.Mobile.Services
 {
-    public class Cricket200ScoreboardService : IScoreboardService
+    public class CricketScoreboardService : IScoreboardService
     {
         public Page BuildScoreboard(IGameService gameService)
         {
-            var result = new Cricket200ScoreboardPage(gameService);
+            var result = new CricketScoreboardPage(gameService);
             result.Title = "ScoreBoard";
-            result.BindingContext = new Cricket200ViewModel(gameService);
+            result.BindingContext = new CricketViewModel(gameService);
             return result;
         }
     }

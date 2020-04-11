@@ -105,7 +105,6 @@ namespace DartTracker.Lib.Games.Cricket
         public async Task RemoveLastShot()
         {
             if (Shots.Count < 1) return;
-
             Shots.RemoveAt(Shots.Count - 1);
         }
     }

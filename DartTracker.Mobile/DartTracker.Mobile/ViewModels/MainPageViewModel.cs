@@ -4,6 +4,7 @@ using DartTracker.Lib.Games.Cricket;
 using DartTracker.Mobile.Factories;
 using DartTracker.Mobile.Interface.Factories;
 using DartTracker.Mobile.Mappers;
+using DartTracker.Mobile.Services;
 using DartTracker.Model.Enum;
 using DartTracker.Model.Games;
 using System;
@@ -98,6 +99,7 @@ namespace DartTracker.Mobile.ViewModels
 
                  var page = new DartboardPage(
                      gameService,
+                     new DrawDartboardService(),
                      new ShotPointToShotMapper(),
                      scoreboard
                      );

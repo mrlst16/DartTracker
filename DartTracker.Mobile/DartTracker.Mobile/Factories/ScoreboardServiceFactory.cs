@@ -15,9 +15,9 @@ namespace DartTracker.Mobile.Factories
             switch (gameType)
             {
                 case GameType.Cricket200:
-                    return new Cricket200ScoreboardService();
+                    return new CricketScoreboardService();
                 default:
-                    return new Cricket200ScoreboardService();
+                    return new CricketScoreboardService();
             }
         }
     }
