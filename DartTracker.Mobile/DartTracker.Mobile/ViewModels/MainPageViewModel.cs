@@ -71,7 +71,7 @@ namespace DartTracker.Mobile.ViewModels
 
         public List<string> SavedGames
         {
-            get =>  _gameDataService
+            get => _gameDataService
                     ?.GameIndexes
                     ?.Select(x => x.Name)
                     ?.ToList()

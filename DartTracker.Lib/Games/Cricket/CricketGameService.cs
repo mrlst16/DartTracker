@@ -88,7 +88,7 @@ namespace DartTracker.Lib.Games.Cricket
             Shot shot = new Shot()
             {
                 Contact = contactType,
-                NumberHit = numberHit
+                NumberHit = NumberHit(numberHit, contactType)
             };
 
             Shots.Add(shot);
@@ -99,6 +99,18 @@ namespace DartTracker.Lib.Games.Cricket
                     Players = this.Game.Players,
                     WinningPlayer = this.WinningPlayer()
                 });
+            }
+        }
+
+        private int NumberHit(int numberHit, ContactType contactType)
+        {
+            switch (contactType)
+            {
+                case ContactType.BullsEye:
+                case ContactType.DoubleBullsEye:
+                    return 25;
+                default:
+                    return numberHit;
             }
         }
 
