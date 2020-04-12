@@ -8,10 +8,6 @@
              x:Class="DartTracker.Mobile.MainPage">
 
     <ContentPage Title="New Game">
-        <!--<ContentPage.BindingContext>
-            <local:MainPageViewModel></local:MainPageViewModel>
-        </ContentPage.BindingContext>-->
-
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height=".3*"/>
@@ -45,14 +41,11 @@
                 <Label Text="About " />
             </StackLayout>
 
-            <Button Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Text="Creaete New Game" Command="{Binding NewGameCommand}" />
+            <Button Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Text="Create New Game" Command="{Binding NewGameCommand}" />
         </Grid>
     </ContentPage>
 
     <ContentPage Title="Load Game" x:Name="LoadGameTab">
-        <!--<ContentPage.BindingContext>
-            <local:MainPageViewModel></local:MainPageViewModel>
-        </ContentPage.BindingContext>-->
         <CollectionView ItemsSource="{Binding SavedGames}">
             <CollectionView.Header>
                 <Label Text="Saved Games" />

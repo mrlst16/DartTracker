@@ -1,11 +1,12 @@
-﻿using DartTracker.Mobile.Interface.Services.Drawing;
+﻿using CommonStandard.Math.Trigonometry;
+using DartTracker.Mobile.Interface.Services.Drawing;
 using DartTracker.Mobile.Skia;
+using DartTracker.Model.Drawing;
 using DartTracker.Model.Shooting;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 
 namespace DartTracker.Mobile.Services
@@ -17,27 +18,29 @@ namespace DartTracker.Mobile.Services
 
         private List<int> _displayNumbers { get; } =
             new List<int>{
-                    17,  3, 19, 7, 16, 8, 11, 14, 9, 12, 5, 20, 1, 18, 4, 13, 6, 10, 15, 2
+                 6, 10, 15, 2, 17,  3, 19, 7, 16, 8, 11, 14, 9, 12, 5, 20, 1, 18, 4, 13
             };
 
         public void Draw(SKPaintSurfaceEventArgs eventArgs)
         {
+            var dimensions = CalculateDartboardDimensions(eventArgs);
+
+            PreDefinedPaints.RedThickStrokePaint.StrokeWidth = dimensions.DoublesAndTriplesStrokeWidth;
+            PreDefinedPaints.GreenThickStrokePaint.StrokeWidth = dimensions.DoublesAndTriplesStrokeWidth;
+
             var surface = eventArgs.Surface;
             var canvas = surface.Canvas;
             canvas.Clear(SKColors.LightGray);
 
-            int width = eventArgs.Info.Width;
-            int height = eventArgs.Info.Height;
-
-            canvas.Translate(width / 2, height / 2);
+            canvas.Translate(dimensions.CanvasWidth / 2, dimensions.CanvasHeight / 2);
 
             SKRect outerRect = new SKRect();
-            outerRect.Size = new SKSize(1000, 1000);
-            outerRect.Location = new SKPoint(-500, -500);
+            outerRect.Size = new SKSize(dimensions.BackgroudCircleDiameter, dimensions.BackgroudCircleDiameter);
+            outerRect.Location = new SKPoint(-1 * dimensions.BackgroudCircleRadius, -1 * dimensions.BackgroudCircleRadius);
 
             SKRect innerRect = new SKRect();
-            innerRect.Size = new SKSize(500, 500);
-            innerRect.Location = new SKPoint(-250, -250);
+            innerRect.Size = new SKSize(dimensions.InnerCircleDiameter, dimensions.InnerCircleDiameter);
+            innerRect.Location = new SKPoint(-1 * dimensions.InnerCircleDiameter / 2, -1 * dimensions.InnerCircleDiameter / 2);
 
             canvas.DrawOval(outerRect, PreDefinedPaints.BlackFillPaint);
 
@@ -46,7 +49,8 @@ namespace DartTracker.Mobile.Services
                 var degrees = (i * 18) - 9;
                 canvas.Save();
                 canvas.RotateDegrees(degrees);
-                canvas.DrawLine(0, 0, 0, 500, PreDefinedPaints.WhiteStrokePaint);
+                canvas.DrawLine(0, 0, 0, dimensions.BackgroudCircleRadius,
+                    PreDefinedPaints.GetWhiteSpokedPaint(dimensions.BackgroudCircleDiameter));
 
                 SKPath outerPath = new SKPath();
                 outerPath.AddArc(outerRect, 0, 18);
@@ -58,23 +62,81 @@ namespace DartTracker.Mobile.Services
 
                 SKPath innerPath = new SKPath();
                 innerPath.AddArc(innerRect, 0, 18);
-
                 canvas.DrawPath(innerPath, paint2);
-                canvas.RotateDegrees(-9);
-                canvas.DrawText(_displayNumbers[i].ToString(), 0, 635, PreDefinedPaints.BlackFontOutline);
 
                 canvas.Restore();
             }
 
-            canvas.DrawCircle(0, 0, 100, PreDefinedPaints.GreenFillPaint);
-            canvas.DrawCircle(0, 0, 50, PreDefinedPaints.RedFillPaint);
+            float numberDistance = dimensions.BackgroudCircleRadius * 1.15f;
+            PreDefinedPaints.BlackFontSolid.TextSize = dimensions.BackgroudCircleDiameter * .075f;
+            for (int i = 0; i < 20; i++)
+            {
+                var degrees = i * 18;
+
+                string text = _displayNumbers[i].ToString();
+                var (x, y) = RightTriangle.CalulatePointFromDegreesAndHyptoneus(degrees, numberDistance);
+                canvas.DrawText(text, new SKPoint(x, y + (PreDefinedPaints.BlackFontSolid.TextSize / 2)), PreDefinedPaints.BlackFontSolid);
+            }
+
+            SKRect bullsEyeRect = new SKRect();
+            bullsEyeRect.Size = new SKSize(dimensions.BullseyeCircleDiameter, dimensions.BullseyeCircleDiameter);
+            bullsEyeRect.Location = new SKPoint(-1 * dimensions.BullseyeCircleDiameter / 2, -1 * dimensions.BullseyeCircleDiameter / 2);
+
+            SKRect doubleBullseyeRect = new SKRect();
+            doubleBullseyeRect.Size = new SKSize(dimensions.DoubleBullCircleDiameter, dimensions.DoubleBullCircleDiameter);
+            doubleBullseyeRect.Location = new SKPoint(-1 * dimensions.DoubleBullCircleDiameter / 2, -1 * dimensions.DoubleBullCircleDiameter / 2);
+
+            canvas.DrawOval(bullsEyeRect, PreDefinedPaints.GreenFillPaint);
+            canvas.DrawOval(doubleBullseyeRect, PreDefinedPaints.RedFillPaint);
 
             //Draw the shots
             for (int i = 0; i < ShotPoints.Count; i++)
             {
                 var shotPoint = ShotPoints[i];
-                canvas.DrawCircle(new SKPoint((float)shotPoint.X, (float)shotPoint.Y), 10, PreDefinedPaints.WhiteFillPaint);
+                canvas.DrawCircle(new SKPoint((float)shotPoint.X, (float)shotPoint.Y), dimensions.ShotDiameter, PreDefinedPaints.WhiteFillPaint);
             }
+
+        }
+
+        private DartboardDimensions CalculateDartboardDimensions(SKPaintSurfaceEventArgs eventArgs)
+        {
+            if (App.DartboardDimensions?.WasCalculated ?? false) return App.DartboardDimensions;
+
+            var result = new DartboardDimensions();
+            result.CanvasWidth = eventArgs.Info.Width;
+            result.CanvasHeight = eventArgs.Info.Height;
+            result.BackgroudCircleDiameter = (float)(result.CanvasWidth * .8);
+            result.InnerCircleDiameter = result.BackgroudCircleDiameter / 2;
+            result.BackgroudCircleRadius = result.BackgroudCircleDiameter / 2;
+            result.BullseyeCircleDiameter = result.BackgroudCircleDiameter / 7.5f;
+            result.DoubleBullCircleDiameter = result.BackgroudCircleDiameter / 15;
+            result.DoublesAndTriplesStrokeWidth = result.BackgroudCircleRadius / 15;
+            result.ShotDiameter = result.BackgroudCircleDiameter / 100;
+            result.WasCalculated = true;
+            App.DartboardDimensions = result;
+            return result;
+        }
+
+        private void DrawGraph(SKCanvas canvas, float height, float width, float increment)
+        {
+            var paint = new SKPaint()
+            {
+                Style = SKPaintStyle.Stroke,
+                Color = SKColors.DarkSlateGray,
+                StrokeCap = SKStrokeCap.Round,
+                StrokeWidth = 1,
+                IsAntialias = true
+            };
+
+            float x = 0;
+
+            while (x < width / 2)
+            {
+                canvas.DrawLine(0, x, height, x, paint);
+                x += increment;
+            }
+
+
         }
     }
 }

@@ -10,6 +10,7 @@ using DartTracker.Lib.Factories;
 using DartTracker.Mobile.Factories;
 using DartTracker.Mobile.Interface.Factories;
 using DartTracker.Mobile.ViewModels;
+using DartTracker.Model.Drawing;
 using DartTracker.Model.Games;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace DartTracker.Mobile
     public partial class App : Application
     {
         public static IGameService GameService { get; set; }
+        public static DartboardDimensions DartboardDimensions { get; set; }
 
         private readonly IScoreboardServiceFactory _scoreboardServiceFactory
             = new ScoreboardServiceFactory();

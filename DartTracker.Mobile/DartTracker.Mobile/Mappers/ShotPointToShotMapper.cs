@@ -1,4 +1,5 @@
 ﻿using CommonStandard.Interface.Mappers;
+using DartTracker.Model.Drawing;
 using DartTracker.Model.Enum;
 using DartTracker.Model.Shooting;
 using System;
@@ -11,6 +12,12 @@ namespace DartTracker.Mobile.Mappers
 {
     public class ShotPointToShotMapper : IMapper<Point, Shot>
     {
+
+        public ShotPointToShotMapper(
+            )
+        {
+        }
+
         public async Task<Shot> Map(Point source)
         {
             var x = source.X;
@@ -38,11 +45,21 @@ namespace DartTracker.Mobile.Mappers
 
         private ContactType CalculateContactType(double distanceFromZero)
         {
-            if (distanceFromZero > 525) return ContactType.Miss;
-            if (distanceFromZero > 475 && distanceFromZero < 525) return ContactType.Double;
-            if (distanceFromZero > 225 && distanceFromZero < 275) return ContactType.Triple;
-            if (distanceFromZero > 50 && distanceFromZero < 100) return ContactType.BullsEye;
-            if (distanceFromZero < 50) return ContactType.DoubleBullsEye;
+            var dimensions = App.DartboardDimensions;
+            var doublesEnd = dimensions.BackgroudCircleRadius + (dimensions.DoublesAndTriplesStrokeWidth / 2);
+            var doublesStart = dimensions.BackgroudCircleRadius - (dimensions.DoublesAndTriplesStrokeWidth / 2);
+
+            var triplesEnd = (dimensions.InnerCircleDiameter / 2) + (dimensions.DoublesAndTriplesStrokeWidth / 2);
+            var triplesStart = (dimensions.InnerCircleDiameter / 2) - (dimensions.DoublesAndTriplesStrokeWidth / 2);
+
+            var doubleBullRadius = dimensions.DoubleBullCircleDiameter / 2;
+            var singleBullRadius = dimensions.BullseyeCircleDiameter / 2;
+
+            if (distanceFromZero > doublesEnd) return ContactType.Miss;
+            if (distanceFromZero > doublesStart && distanceFromZero < doublesEnd) return ContactType.Double;
+            if (distanceFromZero > triplesStart && distanceFromZero < triplesEnd) return ContactType.Triple;
+            if (distanceFromZero > doubleBullRadius && distanceFromZero < singleBullRadius) return ContactType.BullsEye;
+            if (distanceFromZero < doubleBullRadius) return ContactType.DoubleBullsEye;
 
             return ContactType.Single;
         }

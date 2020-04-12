@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\CommonStandard\CommonStandard.Interface\CommonStandard.Interface.csproj" />
     <ProjectReference Include="..\..\..\CommonStandard\CommonStandard.Interface\CommonStandard.Interface.csproj" />
+    <ProjectReference Include="..\..\..\CommonStandard\CommonStandard.Math\CommonStandard.Math.csproj" />
     <ProjectReference Include="..\..\..\CommonStandard\CommonStandard\CommonStandard.csproj" />
     <ProjectReference Include="..\..\DartTracker.Data\DartTracker.Data.csproj" />
     <ProjectReference Include="..\..\DartTracker.Lib\DartTracker.Lib.csproj" />

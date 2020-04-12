@@ -55,8 +55,7 @@ namespace DartTracker.Mobile.Skia
             Style = SKPaintStyle.Fill,
             Color = SKColors.Black,
             StrokeCap = SKStrokeCap.Round,
-            StrokeWidth = 4,
-            TextSize = 75,
+            TextAlign = SKTextAlign.Center,
             IsAntialias = true
         };
 
@@ -76,5 +75,30 @@ namespace DartTracker.Mobile.Skia
             IsAntialias = true
         };
 
+
+        public static SKPaint GetRedDoublesStrokePaint(float width) => new SKPaint()
+        {
+            Style = SKPaintStyle.Stroke,
+            Color = SKColors.Red,
+            StrokeWidth = width / 20,
+            IsAntialias = true
+        };
+
+        public static SKPaint GetGreenDoublesStrokePaint(float width) => new SKPaint()
+        {
+            Style = SKPaintStyle.Stroke,
+            Color = SKColors.Green,
+            StrokeWidth = width / 20,
+            IsAntialias = true
+        };
+
+        public static SKPaint GetWhiteSpokedPaint(float width) => new SKPaint()
+        {
+            Style = SKPaintStyle.Stroke,
+            Color = SKColors.White,
+            StrokeCap = SKStrokeCap.Round,
+            StrokeWidth = width / 250,
+            IsAntialias = true
+        };
     }
 }
