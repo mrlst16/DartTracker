@@ -4,10 +4,29 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="DartTracker.Mobile.SaveGamePage">
+             x:Class="DartTracker.Mobile.SaveGamePage"
+             Title="Save As">
     <ContentPage.Content>
-        <StackLayout>
-            
-        </StackLayout>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height=".2*" />
+            </Grid.RowDefinitions>
+            <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Text="Save As" />
+
+            <Editor Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"
+                    Placeholder="SaveAs"
+                    TextChanged="FilenameTextChanged" />
+
+            <Button Grid.Column="0" Grid.Row="2" Clicked="CancelButtonClicked" Text="Cancel" />
+            <Button Grid.Column="1" Grid.Row="2" Clicked="DontSaveButtonClicked" Text="Don't Save" />
+            <Button Grid.Column="2" Grid.Row="2" Clicked="SaveButtonClicked" Text="Save" />
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

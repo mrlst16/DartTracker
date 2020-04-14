@@ -69,10 +69,15 @@ namespace DartTracker.Lib.Games.Cricket
                    ?.OrderByDescending(x => x.Score)
                    ?.FirstOrDefault()
                    ?.IsClosedOut ?? false;
-            if (result) return result;
+            if (result || this.Incrementor.Players < 2) return result;
 
             var winningPlayer = WinningPlayer();
-            result = winningPlayer.Score >= 200
+            var secondPlacePlayer = ShotBoard
+                   ?.Select(kvp => kvp.Value)
+                   ?.OrderByDescending(x => x.Score)
+                   ?.ElementAt(1);
+
+            result = winningPlayer.Score - secondPlacePlayer.Score >= 200
             && !ShotBoard
                 .Where(x => x.Key != winningPlayer.ID)
                 .Any(x => x.Value.IsClosedOut);

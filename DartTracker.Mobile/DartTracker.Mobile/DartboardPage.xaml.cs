@@ -47,9 +47,14 @@ namespace DartTracker.Mobile
             {
                 try
                 {
+                    if (_drawDartboardService.ShotPoints.Count >= 3)
+                        _drawDartboardService.ShotPoints.Clear();
+
                     var x = touchEvent.Location.X - (width / 2);
                     var y = touchEvent.Location.Y - (height / 2);
 
+                    //For some reason, the touch event fires wayyy too many times.
+                    //so this HACK is here for a guard
                     if (_drawDartboardService.ShotPoints.Any()
                         && _drawDartboardService.ShotPoints.Last().X == x && _drawDartboardService.ShotPoints.Last().Y == y)
                         return;

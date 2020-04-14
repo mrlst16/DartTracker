@@ -75,23 +75,6 @@ namespace DartTracker.Mobile.Skia
             IsAntialias = true
         };
 
-
-        public static SKPaint GetRedDoublesStrokePaint(float width) => new SKPaint()
-        {
-            Style = SKPaintStyle.Stroke,
-            Color = SKColors.Red,
-            StrokeWidth = width / 20,
-            IsAntialias = true
-        };
-
-        public static SKPaint GetGreenDoublesStrokePaint(float width) => new SKPaint()
-        {
-            Style = SKPaintStyle.Stroke,
-            Color = SKColors.Green,
-            StrokeWidth = width / 20,
-            IsAntialias = true
-        };
-
         public static SKPaint GetWhiteSpokedPaint(float width) => new SKPaint()
         {
             Style = SKPaintStyle.Stroke,

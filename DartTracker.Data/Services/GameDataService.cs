@@ -67,7 +67,11 @@ namespace DartTracker.Data.Services
 
                 if (!gameIndexEntity.Value.Any(x => x.Name == indexName))
                 {
-                    gameIndexEntity.Value.Add(new EntityIndex() { });
+                    gameIndexEntity.Value.Add(new EntityIndex()
+                    {
+                        Key = indexName,
+                        Name = indexName
+                    });
                     _gameIndexResposity.Set("savedgames", gameIndexEntity);
                 }
                 return true;

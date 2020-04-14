@@ -150,19 +150,17 @@ namespace DartTracker.Mobile.ViewModels
                 }
                 var game = _gameFactory.Create(NumberOfPlayers);
                 game.Type = _selectedGameDescription.GameType;
-                var gameService = await _gameServiceFactory.Create(game);
-                DartTracker.Mobile.App.GameService = gameService;
+                DartTracker.Mobile.App.GameService = await _gameServiceFactory.Create(game);
 
                 var scoreboardService = _scoreboardServiceFactory.Create(game.Type);
-                var scoreboard = scoreboardService.BuildScoreboard(gameService);
+                var scoreboard = scoreboardService.BuildScoreboard(DartTracker.Mobile.App.GameService);
 
                 var page = new DartboardPage(
-                    gameService,
+                    DartTracker.Mobile.App.GameService,
                     new DrawDartboardService(),
                     new ShotPointToShotMapper(),
                     scoreboard
                     );
-                page.BindingContext = page;
                 await Application.Current.MainPage.Navigation.PushAsync(page);
             });
         }

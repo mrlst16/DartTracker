@@ -29,14 +29,13 @@
                      Minimum="1"
                      Value="1"
                      Increment="1"
-                     HorizontalOptions="Center"
-                     VerticalOptions="Center"
+                     HorizontalOptions="CenterAndExpand"
+                     VerticalOptions="CenterAndExpand"
                      ValueChanged="OnNumberOfPlayersChanged" />
             <Label Grid.Column="2" Grid.Row="0" 
                    Text="{Binding NumberOfPlayers}"
                    VerticalOptions="Center"
-                   HorizontalOptions="Center"
-                   />
+                   HorizontalOptions="Center" />
 
             <Label Grid.Column="0" Grid.Row="1" 
                    Text="Select Game"

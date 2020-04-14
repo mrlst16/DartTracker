@@ -89,13 +89,14 @@ namespace DartTracker.Mobile
                 {
                     if (e.Page.Title.ToLowerInvariant() == "dartboard")
                     {
-                        var result = await MainPage.DisplayAlert("Save game", "Would you like to save that game?", "yes", "No");
-                        if (result)
-                        {
-                            var page = new SaveGamePage();
-                            page.BindingContext = new SaveGameViewModel(_gameDataService);
-                            await Application.Current.MainPage.Navigation.PushAsync(page);
-                        }
+                        var viewModel = new SaveGameViewModel(_gameDataService);
+                        var page = new SaveGamePage(
+                            viewModel,
+                            _scoreboardServiceFactory,
+                            _gameDataService
+                            );
+                        page.BindingContext = viewModel;
+                        await Application.Current.MainPage.Navigation.PushModalAsync(page);
                     }
                 });
     }
