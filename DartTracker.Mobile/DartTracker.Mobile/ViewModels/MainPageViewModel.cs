@@ -5,11 +5,13 @@ using DartTracker.Mobile.Interface.Factories;
 using DartTracker.Mobile.Mappers;
 using DartTracker.Mobile.Services;
 using DartTracker.Model.Enum;
+using DartTracker.Model.Games;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Xamarin.Forms;
 
 namespace DartTracker.Mobile.ViewModels
@@ -35,12 +37,18 @@ namespace DartTracker.Mobile.ViewModels
             NewGameCommand = NewGame();
         }
 
-        private DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration
-        {
-            Directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "darttracker")
-        };
-
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private List<GameTypeDescription> _gameTypeDescriptions
+            = new List<GameTypeDescription>()
+            {
+                new GameTypeDescription(){
+                    Name = "Cricket 200",
+                    GameType = Model.Enum.GameType.Cricket200
+                }
+            };
+
+        public List<string> GameTypeNames => _gameTypeDescriptions.Select(x => x.Name).ToList();
 
         public Command NewGameCommand { get; protected set; }
 
@@ -56,16 +64,69 @@ namespace DartTracker.Mobile.ViewModels
             }
         }
 
-        private string _gameType = "Darts";
+        private GameTypeDescription _selectedGameDescription;
 
+        private string _gameType = "Darts";
         public string GameType
         {
             get => _gameType;
             set
             {
                 _gameType = value;
+                if (_gameType == "Darts") return;
+
+                _selectedGameDescription = _gameTypeDescriptions.FirstOrDefault(x => x.Name.ToLowerInvariant() == _gameType.ToLowerInvariant());
+                if (string.IsNullOrWhiteSpace(_selectedGameDescription?.About))
+                {
+                    _selectedGameDescription.About = AboutGame(_selectedGameDescription.GameType);
+                }
+                this.About = _selectedGameDescription.About;
                 var args = new PropertyChangedEventArgs(nameof(GameType));
                 PropertyChanged?.Invoke(this, args);
+            }
+        }
+
+        private string _about = string.Empty;
+        public string About
+        {
+            get => _about;
+            set
+            {
+                _about = value;
+                var args = new PropertyChangedEventArgs(nameof(About));
+                PropertyChanged?.Invoke(this, args);
+            }
+        }
+
+        private string AboutGame(GameType gameType)
+        {
+            string fileName = null;
+
+            switch (gameType)
+            {
+                case Model.Enum.GameType.Cricket200:
+                    fileName = "DartTracker.Mobile.Resources.cricket.txt";
+                    break;
+                default:
+                    fileName = null;
+                    break;
+            }
+
+            if (fileName == null) return null;
+
+            try
+            {
+                var assembly = IntrospectionExtensions.GetTypeInfo(typeof(MainPage)).Assembly;
+                Stream stream = assembly.GetManifestResourceStream(fileName);
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    var result = reader.ReadToEnd();
+                    return result;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
             }
         }
 
@@ -78,17 +139,6 @@ namespace DartTracker.Mobile.ViewModels
                         ?? new List<string>();
         }
 
-        private GameType ToGameType(string str)
-        {
-            switch (str.ToLowerInvariant())
-            {
-                case "cricket 200":
-                    return Model.Enum.GameType.Cricket200;
-                default:
-                    return 0;
-            }
-        }
-
         private Command NewGame()
         {
             return new Command(async () =>
@@ -99,7 +149,7 @@ namespace DartTracker.Mobile.ViewModels
                     return;
                 }
                 var game = _gameFactory.Create(NumberOfPlayers);
-                game.Type = ToGameType(GameType);
+                game.Type = _selectedGameDescription.GameType;
                 var gameService = await _gameServiceFactory.Create(game);
                 DartTracker.Mobile.App.GameService = gameService;
 

@@ -52,26 +52,27 @@ namespace DartTracker.Lib
 
         static async Task Main(string[] args)
         {
-            var game = new Game()
-            {
-                ID = Guid.NewGuid()
-            };
-            game.Type = await AskForGameType();
+            //var game = new Game()
+            //{
+            //    ID = Guid.NewGuid()
+            //};
+            //game.Type = await AskForGameType();
 
-            Console.WriteLine($"You selcted to play {game.Type}");
+            //Console.WriteLine($"You selcted to play {game.Type}");
 
-            List<string> playerNames = new List<string>();
-            AskForPlayersInput(ref playerNames);
+            //List<string> playerNames = new List<string>();
+            //AskForPlayersInput(ref playerNames);
 
-            game.Players = await _playerMapper.Map(new ConsolePlayerConversionRequest()
-            {
-                Game = game,
-                Names = playerNames
-            });
+            //game.Players = await _playerMapper.Map(new ConsolePlayerConversionRequest()
+            //{
+            //    Game = game,
+            //    Names = playerNames
+            //});
 
-            var service = await _gameServiceFactory.Create(game);
+            //var service = await _gameServiceFactory.Create(game);
 
-            OutputPlayers(service.Game.Players);
+            //OutputPlayers(service.Game.Players);
+
 
 
 

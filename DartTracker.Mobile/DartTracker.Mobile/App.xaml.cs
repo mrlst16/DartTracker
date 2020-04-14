@@ -1,5 +1,5 @@
 ﻿using CommonStandard.Interface.Repository;
-using CommonStandard.Repoository;
+using CommonStandard.Repository;
 using Couchbase.Lite;
 using DartTracker.Data.Interface.DataServices;
 using DartTracker.Data.Model;
@@ -57,16 +57,16 @@ namespace DartTracker.Mobile
             _gameIndexResposity = new CouchbaseJsonRepository<Entity<List<EntityIndex>>>(DataBase);
             _gameResposity = new CouchbaseJsonRepository<Entity<Game>>(DataBase);
             _gameDataService = new GameDataService(_gameIndexResposity, _gameResposity);
-
-            var page = new NavigationPage(new MainPage());
-            page.Popped += PromptToSaveGame();
-
             MainPageViewModel viewModel = new MainPageViewModel(
                    _scoreboardServiceFactory,
                    _gameFactory,
                    _gameServiceFactory,
                    _gameDataService
                );
+
+            var page = new NavigationPage(new MainPage(viewModel));
+            page.Popped += PromptToSaveGame();
+
 
             page.BindingContext = viewModel;
             MainPage = page;

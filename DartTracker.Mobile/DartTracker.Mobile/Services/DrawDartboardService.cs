@@ -116,27 +116,5 @@ namespace DartTracker.Mobile.Services
             App.DartboardDimensions = result;
             return result;
         }
-
-        private void DrawGraph(SKCanvas canvas, float height, float width, float increment)
-        {
-            var paint = new SKPaint()
-            {
-                Style = SKPaintStyle.Stroke,
-                Color = SKColors.DarkSlateGray,
-                StrokeCap = SKStrokeCap.Round,
-                StrokeWidth = 1,
-                IsAntialias = true
-            };
-
-            float x = 0;
-
-            while (x < width / 2)
-            {
-                canvas.DrawLine(0, x, height, x, paint);
-                x += increment;
-            }
-
-
-        }
     }
 }

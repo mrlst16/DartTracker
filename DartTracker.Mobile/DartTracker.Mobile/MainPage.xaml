@@ -10,38 +10,51 @@
     <ContentPage Title="New Game">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height=".3*"/>
+                <RowDefinition Height=".2*"/>
+                <RowDefinition Height=".2*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height=".2*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Editor Keyboard="Numeric" Grid.Column="0" Grid.Row="0" Text="{Binding NumberOfPlayers}" />
+            <Label Grid.Column="0" Grid.Row="0" 
+                   Text="Number of Players" 
+                   VerticalOptions="Center" />
+            <Stepper Grid.Column="1" Grid.Row="0"
+                     Maximum="8"
+                     Minimum="1"
+                     Value="1"
+                     Increment="1"
+                     HorizontalOptions="Center"
+                     VerticalOptions="Center"
+                     ValueChanged="OnNumberOfPlayersChanged" />
+            <Label Grid.Column="2" Grid.Row="0" 
+                   Text="{Binding NumberOfPlayers}"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   />
 
-            <Picker x:Name="gamePicker" 
-                    Grid.Column="1" 
-                    Grid.Row="0" 
+            <Label Grid.Column="0" Grid.Row="1" 
+                   Text="Select Game"
+                   VerticalOptions="Center"/>
+            <Picker Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"
+                    x:Name="gamePicker" 
                     Title="Select a Game" 
                     TitleColor="Red" 
+                    ItemsSource="{Binding GameTypeNames}"
                     SelectedItem="{Binding GameType}">
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>Cricket 200</x:String>
-                        <x:String>Cricket Cutthroat</x:String>
-                    </x:Array>
-                </Picker.ItemsSource>
             </Picker>
 
-            <StackLayout Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
-
+            <StackLayout Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3">
                 <Label Text="{Binding GameType}"  />
-                <Label Text="About " />
+                <Label Text="{Binding About}" />
             </StackLayout>
 
-            <Button Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Text="Create New Game" Command="{Binding NewGameCommand}" />
+            <Button Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Text="Create New Game" Command="{Binding NewGameCommand}" />
         </Grid>
     </ContentPage>
 
@@ -50,6 +63,11 @@
             <CollectionView.Header>
                 <Label Text="Saved Games" />
             </CollectionView.Header>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding .}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
         </CollectionView>
     </ContentPage>
 </TabbedPage>
