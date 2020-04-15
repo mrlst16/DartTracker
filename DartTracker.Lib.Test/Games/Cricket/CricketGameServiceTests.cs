@@ -8,6 +8,8 @@ using NSubstitute;
 using System.Threading.Tasks;
 using DartTracker.Model.Players;
 using DartTracker.Lib.Test.Helpers;
+using System.Linq;
+using DartTracker.Lib.Factories;
 
 namespace DartTracker.Lib.Test.Games.Cricket
 {
@@ -120,8 +122,18 @@ namespace DartTracker.Lib.Test.Games.Cricket
             Assert.IsTrue(await service.GameWon());
         }
 
+        [TestMethod]
+        public async Task PlaySaveAndReloadStateFromFactory()
+        {
+            var loaded = await CricketGameServiceData.TwoPlayersOneTurnAllDoubleBulls();
+            GameServiceFactory factory = new GameServiceFactory();
+            var result = await factory.Create(loaded.Game);
 
-       
+            Assert.IsTrue(result.Game.Players.Any());
+            Assert.AreNotEqual(0, result.Game.Players[0].Score);
+            Assert.AreEqual(75, result.Game.Players[0].Score);
+        }
+
 
     }
 }

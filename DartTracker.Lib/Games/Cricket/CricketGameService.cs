@@ -14,10 +14,8 @@ namespace DartTracker.Lib.Games.Cricket
 {
     public class CricketGameService : IGameService
     {
-        public DartGameIncrementor Incrementor { get => new DartGameIncrementor(_game.Players.Count).SetShots(Shots.Count); }
-        private Dictionary<Guid, CricketPlayerMarkTracker> ShotBoard { get => _game.Players.CalculateForCricket(Shots); }
-
-        public List<Shot> Shots { get; protected set; } = new List<Shot>();
+        public DartGameIncrementor Incrementor { get => new DartGameIncrementor(_game.Players.Count).SetShots(_game.Shots.Count); }
+        private Dictionary<Guid, CricketPlayerMarkTracker> ShotBoard { get => _game.Players.CalculateForCricket(_game.Shots); }
 
         private Game _game;
         public Game Game
@@ -85,7 +83,6 @@ namespace DartTracker.Lib.Games.Cricket
             return result;
         }
 
-
         public static readonly List<int> ScoringNumbers = new List<int>() { 15, 16, 17, 18, 19, 20, 25 };
 
         public async Task TakeShot(int numberHit, ContactType contactType)
@@ -96,12 +93,14 @@ namespace DartTracker.Lib.Games.Cricket
                 NumberHit = NumberHit(numberHit, contactType)
             };
 
-            Shots.Add(shot);
+            _game.Shots.Add(shot);
+
+
             if (await GameWon())
             {
                 GameWonEvent?.Invoke(this, new GameWonEvenArgs()
                 {
-                    Players = this.Game.Players,
+                    Players = this._game.Players,
                     WinningPlayer = this.WinningPlayer()
                 });
             }
@@ -121,8 +120,8 @@ namespace DartTracker.Lib.Games.Cricket
 
         public async Task RemoveLastShot()
         {
-            if (Shots.Count < 1) return;
-            Shots.RemoveAt(Shots.Count - 1);
+            if (_game.Shots.Count < 1) return;
+            _game.Shots.RemoveAt(_game.Shots.Count - 1);
         }
     }
 }

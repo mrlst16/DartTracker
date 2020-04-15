@@ -73,7 +73,7 @@ namespace DartTracker.Lib.Test.Helpers
         [TestMethod]
         public async Task OneTriple15()
         {
-            var game = CricketGameServiceData.Onelayer();
+            var game = CricketGameServiceData.OnePlayer();
 
             List<Player> players = game.Players;
             List<Shot> shots = new List<Shot>()
@@ -89,7 +89,7 @@ namespace DartTracker.Lib.Test.Helpers
         [TestMethod]
         public async Task OneTriple16()
         {
-            var game = CricketGameServiceData.Onelayer();
+            var game = CricketGameServiceData.OnePlayer();
 
             List<Player> players = game.Players;
             List<Shot> shots = new List<Shot>()
@@ -105,7 +105,7 @@ namespace DartTracker.Lib.Test.Helpers
         [TestMethod]
         public async Task OneTriple17()
         {
-            var game = CricketGameServiceData.Onelayer();
+            var game = CricketGameServiceData.OnePlayer();
 
             List<Player> players = game.Players;
             List<Shot> shots = new List<Shot>()
@@ -121,7 +121,7 @@ namespace DartTracker.Lib.Test.Helpers
         [TestMethod]
         public async Task OneTriple18()
         {
-            var game = CricketGameServiceData.Onelayer();
+            var game = CricketGameServiceData.OnePlayer();
 
             List<Player> players = game.Players;
             List<Shot> shots = new List<Shot>()
@@ -137,7 +137,7 @@ namespace DartTracker.Lib.Test.Helpers
         [TestMethod]
         public async Task OneTriple19()
         {
-            var game = CricketGameServiceData.Onelayer();
+            var game = CricketGameServiceData.OnePlayer();
 
             List<Player> players = game.Players;
             List<Shot> shots = new List<Shot>()
@@ -153,7 +153,7 @@ namespace DartTracker.Lib.Test.Helpers
         [TestMethod]
         public async Task OneTriple20()
         {
-            var game = CricketGameServiceData.Onelayer();
+            var game = CricketGameServiceData.OnePlayer();
 
             List<Player> players = game.Players;
             List<Shot> shots = new List<Shot>()
@@ -169,7 +169,7 @@ namespace DartTracker.Lib.Test.Helpers
         [TestMethod]
         public async Task OneDoubleBull()
         {
-            var game = CricketGameServiceData.Onelayer();
+            var game = CricketGameServiceData.OnePlayer();
 
             List<Player> players = game.Players;
             List<Shot> shots = new List<Shot>()
