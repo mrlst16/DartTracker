@@ -8,6 +8,7 @@ using DartTracker.Model.Enum;
 using DartTracker.Model.Games;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -130,13 +131,26 @@ namespace DartTracker.Mobile.ViewModels
             }
         }
 
-        public List<string> SavedGames
+        private ObservableCollection<string> _savedGames = new System.Collections.ObjectModel.ObservableCollection<string>();
+        public ObservableCollection<string> SavedGames
         {
-            get => _gameDataService
-                    ?.GameIndexes
-                    ?.Select(x => x.Name)
-                    ?.ToList()
-                        ?? new List<string>();
+            get
+            {
+                var fromDatabase = _gameDataService
+                  ?.GameIndexes
+                  ?.Select(x => x.Name)
+                  ?.ToList()
+                      ?? new List<string>();
+                _savedGames = new ObservableCollection<string>(fromDatabase);
+                return _savedGames;
+            }
+        }
+
+        public void AddSavedGameName(string name)
+        {
+            _savedGames.Add(name);
+            var args = new PropertyChangedEventArgs(nameof(SavedGames));
+            PropertyChanged?.Invoke(this, args);
         }
 
         private Command NewGame()

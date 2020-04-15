@@ -58,7 +58,10 @@
     </ContentPage>
 
     <ContentPage Title="Load Game" x:Name="LoadGameTab">
-        <CollectionView ItemsSource="{Binding SavedGames}">
+        <CollectionView
+            ItemsSource="{Binding SavedGames}"
+            SelectionMode="Single"
+            SelectionChangedCommand="{Binding LoadGame}">
             <CollectionView.Header>
                 <Label Text="Saved Games" />
             </CollectionView.Header>

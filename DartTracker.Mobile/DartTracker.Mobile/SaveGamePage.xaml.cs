@@ -1,6 +1,5 @@
 ﻿using DartTracker.Data.Interface.DataServices;
 using DartTracker.Mobile.Interface.Factories;
-using DartTracker.Mobile.Interface.Services.Scoreboard;
 using DartTracker.Mobile.Mappers;
 using DartTracker.Mobile.Services;
 using DartTracker.Mobile.ViewModels;
@@ -12,12 +11,14 @@ namespace DartTracker.Mobile
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SaveGamePage : ContentPage
     {
-        private readonly SaveGameViewModel _viewModel;
+        private readonly MainPageViewModel _viewModel;
         private readonly IScoreboardServiceFactory _scoreboardServiceFactory;
         private readonly IGameDataService _gameDataService;
 
+        private string _filename;
+
         public SaveGamePage(
-            SaveGameViewModel viewModel,
+            MainPageViewModel viewModel,
             IScoreboardServiceFactory scoreboardServiceFactory,
             IGameDataService gameDataService
             )
@@ -30,7 +31,7 @@ namespace DartTracker.Mobile
 
         private void FilenameTextChanged(object sender, TextChangedEventArgs e)
         {
-            _viewModel.Filename = e.NewTextValue;
+            _filename = e.NewTextValue;
         }
 
         private async void CancelButtonClicked(object sender, System.EventArgs e)
@@ -55,9 +56,14 @@ namespace DartTracker.Mobile
 
         private async void SaveButtonClicked(object sender, System.EventArgs e)
         {
-            var success = _gameDataService.SaveGame(App.GameService.Game, _viewModel.Filename);
+            if (string.IsNullOrWhiteSpace(_filename)) return;
+
+            var success = _gameDataService.SaveGame(App.GameService.Game, _filename);
             if (success)
+            {
                 await Application.Current.MainPage.Navigation.PopModalAsync();
+                _viewModel.AddSavedGameName(_filename);
+            }
         }
 
     }

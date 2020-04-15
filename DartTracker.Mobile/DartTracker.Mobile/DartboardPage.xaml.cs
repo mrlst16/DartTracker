@@ -47,8 +47,7 @@ namespace DartTracker.Mobile
             {
                 try
                 {
-                    if (_drawDartboardService.ShotPoints.Count >= 3)
-                        _drawDartboardService.ShotPoints.Clear();
+                   
 
                     var x = touchEvent.Location.X - (width / 2);
                     var y = touchEvent.Location.Y - (height / 2);
@@ -58,6 +57,10 @@ namespace DartTracker.Mobile
                     if (_drawDartboardService.ShotPoints.Any()
                         && _drawDartboardService.ShotPoints.Last().X == x && _drawDartboardService.ShotPoints.Last().Y == y)
                         return;
+
+                    if (_drawDartboardService.ShotPoints.Count >= 3)
+                        _drawDartboardService.ShotPoints.Clear();
+
                     var shotPoint = new Point(x, y);
                     _drawDartboardService.ShotPoints.Add(shotPoint);
 

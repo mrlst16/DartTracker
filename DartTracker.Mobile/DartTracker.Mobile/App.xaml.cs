@@ -34,6 +34,8 @@ namespace DartTracker.Mobile
         private readonly IRepository<Entity<Game>, string> _gameResposity;
         private readonly IGameDataService _gameDataService;
 
+        private MainPageViewModel viewModel;
+
         private DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration
         {
             Directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "darttracker")
@@ -57,7 +59,7 @@ namespace DartTracker.Mobile
             _gameIndexResposity = new CouchbaseJsonRepository<Entity<List<EntityIndex>>>(DataBase);
             _gameResposity = new CouchbaseJsonRepository<Entity<Game>>(DataBase);
             _gameDataService = new GameDataService(_gameIndexResposity, _gameResposity);
-            MainPageViewModel viewModel = new MainPageViewModel(
+            viewModel = new MainPageViewModel(
                    _scoreboardServiceFactory,
                    _gameFactory,
                    _gameServiceFactory,
@@ -89,7 +91,6 @@ namespace DartTracker.Mobile
                 {
                     if (e.Page.Title.ToLowerInvariant() == "dartboard")
                     {
-                        var viewModel = new SaveGameViewModel(_gameDataService);
                         var page = new SaveGamePage(
                             viewModel,
                             _scoreboardServiceFactory,
