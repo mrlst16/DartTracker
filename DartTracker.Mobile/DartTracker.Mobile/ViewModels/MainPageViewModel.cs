@@ -1,4 +1,5 @@
-﻿using Couchbase.Lite;
+﻿using CommonStandard.Helpers;
+using Couchbase.Lite;
 using DartTracker.Data.Interface.DataServices;
 using DartTracker.Interface.Factories;
 using DartTracker.Mobile.Interface.Factories;
@@ -36,6 +37,12 @@ namespace DartTracker.Mobile.ViewModels
             _gameServiceFactory = gameServiceFactory;
             _gameDataService = gameDataService;
             NewGameCommand = NewGame();
+            LoadGameCommand = LoadGame();
+
+            if (FileHelper.TryLoadEmbeddedResource<MainPage>("DartTracker.Mobile.Resources.darts.txt", out string result))
+            {
+                _about = result;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -113,22 +120,13 @@ namespace DartTracker.Mobile.ViewModels
                     break;
             }
 
-            if (fileName == null) return null;
+            if (fileName == null) return string.Empty;
 
-            try
+            if (FileHelper.TryLoadEmbeddedResource<MainPage>(fileName, out string result))
             {
-                var assembly = IntrospectionExtensions.GetTypeInfo(typeof(MainPage)).Assembly;
-                Stream stream = assembly.GetManifestResourceStream(fileName);
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    var result = reader.ReadToEnd();
-                    return result;
-                }
+                return result;
             }
-            catch (Exception e)
-            {
-                return null;
-            }
+            return string.Empty;
         }
 
         private ObservableCollection<string> _savedGames = new System.Collections.ObjectModel.ObservableCollection<string>();
@@ -178,5 +176,46 @@ namespace DartTracker.Mobile.ViewModels
                 await Application.Current.MainPage.Navigation.PushAsync(page);
             });
         }
+
+        private string _selectedSavedGame;
+        public string SelectedSavedGame
+        {
+            get => _selectedSavedGame;
+            set
+            {
+                _selectedSavedGame = value;
+                var args = new PropertyChangedEventArgs(nameof(SelectedSavedGame));
+                PropertyChanged?.Invoke(this, args);
+            }
+        }
+
+        public Command LoadGameCommand { get; protected set; }
+        public Command LoadGame()
+        {
+            return new Command(async () =>
+            {
+                if (string.IsNullOrWhiteSpace(SelectedSavedGame))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Put in better information", "Select a game", "Thanks for telling me.");
+                    return;
+                }
+                var game = _gameDataService.LoadGame(SelectedSavedGame);
+
+                var gameService = await _gameServiceFactory.Create(game);
+                App.GameService = gameService;
+                var scoreboardService = _scoreboardServiceFactory.Create(game.Type);
+                var scoreboard = scoreboardService.BuildScoreboard(gameService);
+
+                var page = new DartboardPage(
+                    gameService,
+                    new DrawDartboardService(),
+                    new ShotPointToShotMapper(),
+                    scoreboard
+                    );
+
+                await Application.Current.MainPage.Navigation.PushAsync(page);
+            });
+        }
+
     }
 }

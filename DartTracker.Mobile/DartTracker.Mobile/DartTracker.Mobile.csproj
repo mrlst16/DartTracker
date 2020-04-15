@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <None Remove="Resources\cricket.txt" />
+    <None Remove="Resources\darts.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,5 +62,6 @@
     <EmbeddedResource Include="Resources\cricket.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\darts.txt" />
   </ItemGroup>
 </Project>

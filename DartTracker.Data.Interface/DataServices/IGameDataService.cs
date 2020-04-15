@@ -6,8 +6,8 @@ namespace DartTracker.Data.Interface.DataServices
 {
     public interface IGameDataService
     {
-        bool SaveGame(Game game, string index);
-
         List<EntityIndex> GameIndexes { get; }
+        bool SaveGame(Game game, string index);
+        Game LoadGame(string name);
     }
 }

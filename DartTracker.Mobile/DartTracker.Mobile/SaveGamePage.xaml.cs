@@ -14,7 +14,7 @@ namespace DartTracker.Mobile
         private readonly MainPageViewModel _viewModel;
         private readonly IScoreboardServiceFactory _scoreboardServiceFactory;
         private readonly IGameDataService _gameDataService;
-
+        
         private string _filename;
 
         public SaveGamePage(

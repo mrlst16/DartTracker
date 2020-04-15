@@ -33,5 +33,10 @@ namespace DartTracker.Mobile
         {
             _viewModel.NumberOfPlayers = (int)e.NewValue;
         }
+
+        private void SelectSavedGame(object sender, SelectionChangedEventArgs e)
+        {
+            _viewModel.SelectedSavedGame = e.CurrentSelection[0].ToString();
+        }
     }
 }

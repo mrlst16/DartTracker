@@ -33,24 +33,32 @@ namespace DartTracker.Data.Services
             }
         }
 
+        public Game LoadGame(string name)
+        {
+            var gameEntity = _gameResposity.Get(name);
+            Game result = gameEntity?.Value ?? null;
+            return result;
+        }
+
         public bool SaveGame(Game game, string indexName)
         {
             try
             {
-                Entity<Game> gameEntity = _gameResposity.Get(game.ID.ToString());
+                Entity<Game> gameEntity = _gameResposity.Get(indexName);
                 if (gameEntity == null)
                 {
                     gameEntity = new Entity<Game>()
                     {
-                        Value = game,
                         ID = game.ID,
                         CreatedUTC = DateTime.UtcNow,
                     };
                 }
 
+                gameEntity.Value = game;
                 gameEntity.ModifiedUTC = DateTime.UtcNow;
 
-                bool gameSaved = _gameResposity.Set(game.ID.ToString(), gameEntity);
+                bool gameSaved = _gameResposity.Set(indexName, gameEntity);
+                var gsd = _gameResposity.Get(indexName);
                 if (!gameSaved) return false;
 
                 Entity<List<EntityIndex>> gameIndexEntity = _gameIndexResposity.Get("savedgames");

@@ -58,18 +58,36 @@
     </ContentPage>
 
     <ContentPage Title="Load Game" x:Name="LoadGameTab">
-        <CollectionView
-            ItemsSource="{Binding SavedGames}"
-            SelectionMode="Single"
-            SelectionChangedCommand="{Binding LoadGame}">
-            <CollectionView.Header>
-                <Label Text="Saved Games" />
-            </CollectionView.Header>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Label Text="{Binding .}" />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".2*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height=".2*" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0"
+                Text="Saved Games"
+                FontSize="Large" />
+
+            <CollectionView Grid.Column="0" Grid.Row="1"
+                    ItemsSource="{Binding SavedGames}"
+                    SelectionMode="Single"
+                    SelectionChanged="SelectSavedGame">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout>
+                            <Label Text="{Binding .}" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Grid.Column="0" Grid.Row="2"
+                    Text="Load"
+                    Command="{Binding LoadGameCommand}" />
+        </Grid>
     </ContentPage>
 </TabbedPage>

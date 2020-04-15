@@ -33,6 +33,7 @@ namespace DartTracker.Mobile
             _shotPointToShotMapper = shotPointToShotMapper;
             _scoreboard = scoreboard;
             this.Children.Add(_scoreboard);
+            
         }
 
         private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
