@@ -1,6 +1,7 @@
 ﻿using DartTracker.Data.Interface.DataServices;
+using DartTracker.Lib.Mappers;
+using DartTracker.Mobile.Factories;
 using DartTracker.Mobile.Interface.Factories;
-using DartTracker.Mobile.Mappers;
 using DartTracker.Mobile.Services;
 using DartTracker.Mobile.ViewModels;
 using Xamarin.Forms;
@@ -37,12 +38,16 @@ namespace DartTracker.Mobile
         private async void CancelButtonClicked(object sender, System.EventArgs e)
         {
             var scoreboardService = _scoreboardServiceFactory.Create(App.GameService.Game.Type);
-            var scoreboard = scoreboardService.BuildScoreboard(DartTracker.Mobile.App.GameService);
+            GameViewModelFactory factory = new GameViewModelFactory();
+            var viewModel = factory.Create(DartTracker.Mobile.App.GameService);
 
+            var scoreboard = scoreboardService.BuildScoreboard(viewModel);
+            
             var page = new DartboardPage(
                 DartTracker.Mobile.App.GameService,
                 new DrawDartboardService(DartTracker.Mobile.App.GameService),
-                new ShotPointToShotMapper(),
+                new ShotPointToShotMapper(App.DartboardDimensions),
+                viewModel,
                 scoreboard
                 );
             await Application.Current.MainPage.Navigation.PopModalAsync();

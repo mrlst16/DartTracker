@@ -2,8 +2,9 @@
 using Couchbase.Lite;
 using DartTracker.Data.Interface.DataServices;
 using DartTracker.Interface.Factories;
+using DartTracker.Lib.Mappers;
+using DartTracker.Mobile.Factories;
 using DartTracker.Mobile.Interface.Factories;
-using DartTracker.Mobile.Mappers;
 using DartTracker.Mobile.Services;
 using DartTracker.Model.Enum;
 using DartTracker.Model.Games;
@@ -163,14 +164,16 @@ namespace DartTracker.Mobile.ViewModels
                 var game = _gameFactory.Create(NumberOfPlayers);
                 game.Type = _selectedGameDescription.GameType;
                 DartTracker.Mobile.App.GameService = await _gameServiceFactory.Create(game);
-
+                GameViewModelFactory factory = new GameViewModelFactory();
+                var viewModel = factory.Create(DartTracker.Mobile.App.GameService);
                 var scoreboardService = _scoreboardServiceFactory.Create(game.Type);
-                var scoreboard = scoreboardService.BuildScoreboard(DartTracker.Mobile.App.GameService);
+                var scoreboard = scoreboardService.BuildScoreboard(viewModel);
 
                 var page = new DartboardPage(
                     DartTracker.Mobile.App.GameService,
                     new DrawDartboardService(DartTracker.Mobile.App.GameService),
-                    new ShotPointToShotMapper(),
+                    new ShotPointToShotMapper(App.DartboardDimensions),
+                    viewModel,
                     scoreboard
                     );
                 await Application.Current.MainPage.Navigation.PushAsync(page);
@@ -204,12 +207,17 @@ namespace DartTracker.Mobile.ViewModels
                 var gameService = await _gameServiceFactory.Create(game);
                 App.GameService = gameService;
                 var scoreboardService = _scoreboardServiceFactory.Create(game.Type);
-                var scoreboard = scoreboardService.BuildScoreboard(gameService);
+                GameViewModelFactory factory = new GameViewModelFactory();
+                var viewModel = factory.Create(DartTracker.Mobile.App.GameService);
+                var scoreboard = scoreboardService.BuildScoreboard(viewModel);
+
+                GameViewModelFactory gameViewModelFactory = new GameViewModelFactory();
 
                 var page = new DartboardPage(
                     gameService,
                     new DrawDartboardService(gameService),
-                    new ShotPointToShotMapper(),
+                    new ShotPointToShotMapper(App.DartboardDimensions),
+                    viewModel,
                     scoreboard
                     );
 

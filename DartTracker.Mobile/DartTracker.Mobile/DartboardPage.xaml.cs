@@ -2,8 +2,11 @@
 using CommonStandard.Interface.Mappers;
 using DartTracker.Interface.Games;
 using DartTracker.Lib.Helpers;
+using DartTracker.Lib.Mappers;
+using DartTracker.Mobile.Factories;
 using DartTracker.Mobile.Interface.Services.Drawing;
 using DartTracker.Mobile.Interface.ViewModels;
+using DartTracker.Model.Events;
 using DartTracker.Model.Shooting;
 using SkiaSharp.Views.Forms;
 using System;
@@ -18,13 +21,15 @@ namespace DartTracker.Mobile
     {
         private readonly IGameService _gameService;
         private readonly IDrawDartboardService _drawDartboardService;
-
-        private readonly IMapper<Point, Shot> _shotPointToShotMapper;
+        private readonly IGameViewModel _viewModel;
+        private IMapper<CommonStandard.Models.Math.Point, Shot> _shotPointToShotMapper;
         private readonly Page _scoreboard;
+
         public DartboardPage(
             IGameService gameService,
             IDrawDartboardService drawDartboardService,
-            IMapper<Point, Shot> shotPointToShotMapper,
+            IMapper<CommonStandard.Models.Math.Point, Shot> shotPointToShotMapper,
+            IGameViewModel viewModel,
             Page scoreboard
             )
         {
@@ -34,8 +39,18 @@ namespace DartTracker.Mobile
             _drawDartboardService = drawDartboardService;
             _shotPointToShotMapper = shotPointToShotMapper;
             _scoreboard = scoreboard;
+            _viewModel = viewModel;
             this.Children.Add(_scoreboard);
             this.playerLabel.Text = PlayerLableText();
+
+            _gameService = gameService;
+            _gameService.GameWonEvent += async (sender, eventArgs) =>
+            {
+                if (eventArgs is GameWonEvenArgs arg)
+                {
+                    await DisplayAlert("Winner", $"Player {arg.WinningPlayer.Order} wins!", "Finsih Game");
+                }
+            };
         }
 
         private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
@@ -43,7 +58,7 @@ namespace DartTracker.Mobile
             _drawDartboardService.Draw(e);
             int width = e.Info.Width;
             int height = e.Info.Height;
-
+            _shotPointToShotMapper = new ShotPointToShotMapper(App.DartboardDimensions);
             //Events
             this.canvasView.EnableTouchEvents = true;
             this.canvasView.Touch += async (touchSender, touchEvent) =>
@@ -55,19 +70,16 @@ namespace DartTracker.Mobile
 
                     //For some reason, the touch event fires wayyy too many times.
                     //so this HACK is here for a guard
-                    if (_drawDartboardService.ShotPoints.Any()
-                        && _drawDartboardService.ShotPoints.Last().X == x && _drawDartboardService.ShotPoints.Last().Y == y)
+                    var game = _gameService.Game;
+
+                    if (game.Shots.Any()
+                        && game.Shots.Last().X == x && game.Shots.Last().Y == y)
                         return;
 
-                    var shotPoint = new Point(x, y);
-                    _drawDartboardService.ShotPoints.Add(shotPoint);
+                    
+                    var shot = await this._shotPointToShotMapper.Map(new CommonStandard.Models.Math.Point(x, y));
 
-                    var shot = await this._shotPointToShotMapper.Map(shotPoint);
-
-                    if (_scoreboard.BindingContext is IGameViewModel viewModel)
-                    {
-                        await viewModel.TakeShot(shot);
-                    }
+                    await _viewModel.TakeShot(shot);
 
                     this.playerLabel.Text = PlayerLableText();
                     this.canvasView.InvalidateSurface();
@@ -81,13 +93,9 @@ namespace DartTracker.Mobile
 
         private void UndoButtonClicked(object sender, EventArgs e)
         {
-            _gameService.RemoveLastShot();
-            if (_drawDartboardService.ShotPoints.Any())
-            {
-                _drawDartboardService.ShotPoints.RemoveAt(_drawDartboardService.ShotPoints.Count - 1);
-                this.canvasView.InvalidateSurface();
-            }
+            _viewModel.RemoveLastShot();
             this.playerLabel.Text = PlayerLableText();
+            this.canvasView.InvalidateSurface();
         }
 
         private string PlayerLableText()

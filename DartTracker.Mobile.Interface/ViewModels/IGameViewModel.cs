@@ -8,5 +8,6 @@ namespace DartTracker.Mobile.Interface.ViewModels
     {
         Task TakeShot(Shot shot);
         IGameService GameService { get; }
+        Task RemoveLastShot();
     }
 }

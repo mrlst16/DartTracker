@@ -18,12 +18,10 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <ImageButton Grid.Column="0" Grid.Row="0"
-                    Source="undo.png"
+            <Button Grid.Column="0" Grid.Row="0"
+                    Text="Undo"
                     Clicked="UndoButtonClicked"
-                    x:Name="undoButton"
-                    HorizontalOptions="Center"
-                    VerticalOptions="CenterAndExpand"/>
+                    x:Name="undoButton"/>
             <Label Grid.Column="1" Grid.Row="0" Text="Player 0" x:Name="playerLabel" />
             <skia:SKCanvasView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
                 x:Name="canvasView" 

@@ -18,17 +18,9 @@ namespace DartTracker.Mobile
         private readonly IGameService _gameService;
 
         public CricketScoreboardPage(
-            IGameService gameService
             )
         {
-            _gameService = gameService;
-            _gameService.GameWonEvent += async (sender, eventArgs) =>
-            {
-                if (eventArgs is GameWonEvenArgs arg)
-                {
-                    await DisplayAlert("Winner", $"Player {arg.WinningPlayer.Order} wins!", "Finsih Game");
-                }
-            };
+            
             InitializeComponent();
         }
     }

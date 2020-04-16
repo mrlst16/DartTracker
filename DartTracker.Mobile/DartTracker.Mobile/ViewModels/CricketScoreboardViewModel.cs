@@ -9,7 +9,7 @@ using DartTracker.Model.Shooting;
 
 namespace DartTracker.Mobile.ViewModels
 {
-    public class CricketViewModel : INotifyPropertyChanged, IGameViewModel
+    public class CricketScoreboardViewModel : INotifyPropertyChanged, IGameViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -26,7 +26,7 @@ namespace DartTracker.Mobile.ViewModels
 
         public event EventHandler GameWonEvent;
 
-        public CricketViewModel(
+        public CricketScoreboardViewModel(
             IGameService gameService
             )
         {
@@ -73,6 +73,13 @@ namespace DartTracker.Mobile.ViewModels
         public async Task TakeShot(Shot shot)
         {
             await GameService.TakeShot(shot);
+            var args = new PropertyChangedEventArgs(nameof(PlayerScoreboards));
+            PropertyChanged?.Invoke(this, args);
+        }
+
+        public async Task RemoveLastShot()
+        {
+            await GameService.RemoveLastShot();
             var args = new PropertyChangedEventArgs(nameof(PlayerScoreboards));
             PropertyChanged?.Invoke(this, args);
         }
