@@ -28,7 +28,9 @@ namespace DartTracker.Mobile.Mappers
             return new Shot()
             {
                 Contact = CalculateContactType(distanceFromZero),
-                NumberHit = CalculateNumberHit(angle)
+                NumberHit = CalculateNumberHit(angle),
+                X = source.X,
+                Y = source.Y
             };
         }
 

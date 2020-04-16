@@ -41,7 +41,7 @@ namespace DartTracker.Mobile
 
             var page = new DartboardPage(
                 DartTracker.Mobile.App.GameService,
-                new DrawDartboardService(),
+                new DrawDartboardService(DartTracker.Mobile.App.GameService),
                 new ShotPointToShotMapper(),
                 scoreboard
                 );

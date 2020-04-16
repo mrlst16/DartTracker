@@ -72,7 +72,7 @@ namespace DartTracker.Mobile.ViewModels
 
         public async Task TakeShot(Shot shot)
         {
-            await GameService.TakeShot(shot.NumberHit, shot.Contact);
+            await GameService.TakeShot(shot);
             var args = new PropertyChangedEventArgs(nameof(PlayerScoreboards));
             PropertyChanged?.Invoke(this, args);
         }

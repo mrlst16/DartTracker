@@ -1,5 +1,7 @@
-﻿using CommonStandard.Interface.Mappers;
+﻿using CommonStandard.Extensions;
+using CommonStandard.Interface.Mappers;
 using DartTracker.Interface.Games;
+using DartTracker.Lib.Helpers;
 using DartTracker.Mobile.Interface.Services.Drawing;
 using DartTracker.Mobile.Interface.ViewModels;
 using DartTracker.Model.Shooting;
@@ -33,7 +35,7 @@ namespace DartTracker.Mobile
             _shotPointToShotMapper = shotPointToShotMapper;
             _scoreboard = scoreboard;
             this.Children.Add(_scoreboard);
-            
+            this.playerLabel.Text = PlayerLableText();
         }
 
         private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
@@ -48,8 +50,6 @@ namespace DartTracker.Mobile
             {
                 try
                 {
-                   
-
                     var x = touchEvent.Location.X - (width / 2);
                     var y = touchEvent.Location.Y - (height / 2);
 
@@ -58,9 +58,6 @@ namespace DartTracker.Mobile
                     if (_drawDartboardService.ShotPoints.Any()
                         && _drawDartboardService.ShotPoints.Last().X == x && _drawDartboardService.ShotPoints.Last().Y == y)
                         return;
-
-                    if (_drawDartboardService.ShotPoints.Count >= 3)
-                        _drawDartboardService.ShotPoints.Clear();
 
                     var shotPoint = new Point(x, y);
                     _drawDartboardService.ShotPoints.Add(shotPoint);
@@ -72,6 +69,7 @@ namespace DartTracker.Mobile
                         await viewModel.TakeShot(shot);
                     }
 
+                    this.playerLabel.Text = PlayerLableText();
                     this.canvasView.InvalidateSurface();
                 }
                 catch (Exception ex)
@@ -79,6 +77,55 @@ namespace DartTracker.Mobile
                 }
             };
 
+        }
+
+        private void UndoButtonClicked(object sender, EventArgs e)
+        {
+            _gameService.RemoveLastShot();
+            if (_drawDartboardService.ShotPoints.Any())
+            {
+                _drawDartboardService.ShotPoints.RemoveAt(_drawDartboardService.ShotPoints.Count - 1);
+                this.canvasView.InvalidateSurface();
+            }
+            this.playerLabel.Text = PlayerLableText();
+        }
+
+        private string PlayerLableText()
+        {
+            var game = _gameService.Game;
+
+            DartGameIncrementor incrementor =
+                new DartGameIncrementor(_gameService.Game.Players.Count)
+                .SetShots(Math.Max(0, game.Shots.Count - 1));
+            //adjust player up for display
+            var last3 = game.Shots.SplitSequentially(3)?.LastOrDefault()
+                ?? new System.Collections.Generic.List<Shot>();
+            int displayPlayerUp = incrementor.PlayerUp;
+            string result = $"Player {displayPlayerUp} ";
+
+            for (int i = 0; i < last3.Count; i++)
+            {
+                var shot = last3[i];
+                switch (shot.Contact)
+                {
+                    case Model.Enum.ContactType.Single:
+                        result += $"1 x {shot.NumberHit} ";
+                        break;
+                    case Model.Enum.ContactType.Double:
+                        result += $"2 x {shot.NumberHit} ";
+                        break;
+                    case Model.Enum.ContactType.Triple:
+                        result += $"3 x {shot.NumberHit} ";
+                        break;
+                    case Model.Enum.ContactType.BullsEye:
+                        result += $" B ";
+                        break;
+                    case Model.Enum.ContactType.DoubleBullsEye:
+                        result += $" DB ";
+                        break;
+                }
+            }
+            return result;
         }
     }
 }

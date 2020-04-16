@@ -1,4 +1,6 @@
-﻿using CommonStandard.Math.Trigonometry;
+﻿using CommonStandard.Extensions;
+using CommonStandard.Math.Trigonometry;
+using DartTracker.Interface.Games;
 using DartTracker.Mobile.Interface.Services.Drawing;
 using DartTracker.Mobile.Skia;
 using DartTracker.Model.Drawing;
@@ -7,12 +9,15 @@ using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace DartTracker.Mobile.Services
 {
     public class DrawDartboardService : IDrawDartboardService
     {
+        private readonly IGameService _gameService;
+
         public List<Point> ShotPoints { get; }
             = new List<Point>();
 
@@ -20,6 +25,13 @@ namespace DartTracker.Mobile.Services
             new List<int>{
                  6, 10, 15, 2, 17,  3, 19, 7, 16, 8, 11, 14, 9, 12, 5, 20, 1, 18, 4, 13
             };
+
+        public DrawDartboardService(
+            IGameService gameService
+            )
+        {
+            _gameService = gameService;
+        }
 
         public void Draw(SKPaintSurfaceEventArgs eventArgs)
         {
@@ -90,12 +102,18 @@ namespace DartTracker.Mobile.Services
             canvas.DrawOval(doubleBullseyeRect, PreDefinedPaints.RedFillPaint);
 
             //Draw the shots
-            for (int i = 0; i < ShotPoints.Count; i++)
+            var last3 = _gameService
+                ?.Game
+                ?.Shots
+                ?.Select(x => new Xamarin.Forms.Point(x.X, x.Y))
+                .SplitSequentially(3)
+                ?.LastOrDefault() ?? new List<Point>();
+
+            for (int i = 0; i < last3.Count; i++)
             {
-                var shotPoint = ShotPoints[i];
+                var shotPoint = last3[i];
                 canvas.DrawCircle(new SKPoint((float)shotPoint.X, (float)shotPoint.Y), dimensions.ShotDiameter, PreDefinedPaints.WhiteFillPaint);
             }
-
         }
 
         private DartboardDimensions CalculateDartboardDimensions(SKPaintSurfaceEventArgs eventArgs)
@@ -105,6 +123,8 @@ namespace DartTracker.Mobile.Services
             var result = new DartboardDimensions();
             result.CanvasWidth = eventArgs.Info.Width;
             result.CanvasHeight = eventArgs.Info.Height;
+            result.OneOneThousandthOfWitdth = result.CanvasWidth / 1000;
+            result.OneOneThousandthOfHeight = result.CanvasHeight / 1000;
             result.BackgroudCircleDiameter = (float)(result.CanvasWidth * .8);
             result.InnerCircleDiameter = result.BackgroudCircleDiameter / 2;
             result.BackgroudCircleRadius = result.BackgroudCircleDiameter / 2;

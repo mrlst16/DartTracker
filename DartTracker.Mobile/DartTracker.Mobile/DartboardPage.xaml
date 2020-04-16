@@ -6,18 +6,29 @@
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              mc:Ignorable="d"
              x:Class="DartTracker.Mobile.DartboardPage"
-             Title="Dartboard"
-            >
+             Title="Dartboard">
     <ContentPage Title="Dart Board">
         <Grid>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".3*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height=".15*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <skia:SKCanvasView Grid.Column="0" Grid.Row="0" x:Name="canvasView" PaintSurface="canvasView_PaintSurface" />
+
+            <ImageButton Grid.Column="0" Grid.Row="0"
+                    Source="undo.png"
+                    Clicked="UndoButtonClicked"
+                    x:Name="undoButton"
+                    HorizontalOptions="Center"
+                    VerticalOptions="CenterAndExpand"/>
+            <Label Grid.Column="1" Grid.Row="0" Text="Player 0" x:Name="playerLabel" />
+            <skia:SKCanvasView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                x:Name="canvasView" 
+                PaintSurface="canvasView_PaintSurface" />
         </Grid>
     </ContentPage>
-    
+
 </TabbedPage>

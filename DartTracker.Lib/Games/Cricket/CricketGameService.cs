@@ -92,9 +92,12 @@ namespace DartTracker.Lib.Games.Cricket
                 Contact = contactType,
                 NumberHit = NumberHit(numberHit, contactType)
             };
+            await TakeShot(shot);
+        }
 
+        public async Task TakeShot(Shot shot)
+        {
             _game.Shots.Add(shot);
-
 
             if (await GameWon())
             {

@@ -169,7 +169,7 @@ namespace DartTracker.Mobile.ViewModels
 
                 var page = new DartboardPage(
                     DartTracker.Mobile.App.GameService,
-                    new DrawDartboardService(),
+                    new DrawDartboardService(DartTracker.Mobile.App.GameService),
                     new ShotPointToShotMapper(),
                     scoreboard
                     );
@@ -208,7 +208,7 @@ namespace DartTracker.Mobile.ViewModels
 
                 var page = new DartboardPage(
                     gameService,
-                    new DrawDartboardService(),
+                    new DrawDartboardService(gameService),
                     new ShotPointToShotMapper(),
                     scoreboard
                     );

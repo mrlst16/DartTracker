@@ -16,5 +16,7 @@ namespace DartTracker.Model.Drawing
         public float DoubleBullCircleDiameter { get; set; }
         public float DoublesAndTriplesStrokeWidth { get; set; }
         public float ShotDiameter { get; set; }
+        public float OneOneThousandthOfWitdth { get; set; }
+        public float OneOneThousandthOfHeight { get; set; }
     }
 }

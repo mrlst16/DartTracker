@@ -13,6 +13,7 @@ namespace DartTracker.Interface.Games
         event EventHandler GameWonEvent;
         Game Game { get; }
         Task TakeShot(int numberHit, ContactType contactType);
+        Task TakeShot(Shot shot);
         Task RemoveLastShot();
         Task<bool> GameWon();
         int PlayerUp { get; }
