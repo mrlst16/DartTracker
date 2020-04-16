@@ -1,4 +1,5 @@
 ﻿using CommonStandard.Interface.Mappers;
+using CommonStandard.Models.Math;
 using DartTracker.Model.Drawing;
 using DartTracker.Model.Enum;
 using DartTracker.Model.Shooting;
@@ -6,16 +7,17 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
-namespace DartTracker.Mobile.Mappers
+namespace DartTracker.Lib.Mappers
 {
     public class ShotPointToShotMapper : IMapper<Point, Shot>
     {
-
+        private readonly DartboardDimensions _dartboardDimensions;
         public ShotPointToShotMapper(
+                DartboardDimensions dartboardDimensions
             )
         {
+            _dartboardDimensions = dartboardDimensions;
         }
 
         public async Task<Shot> Map(Point source)
@@ -47,15 +49,14 @@ namespace DartTracker.Mobile.Mappers
 
         private ContactType CalculateContactType(double distanceFromZero)
         {
-            var dimensions = App.DartboardDimensions;
-            var doublesEnd = dimensions.BackgroudCircleRadius + (dimensions.DoublesAndTriplesStrokeWidth / 2);
-            var doublesStart = dimensions.BackgroudCircleRadius - (dimensions.DoublesAndTriplesStrokeWidth / 2);
+            var doublesEnd = _dartboardDimensions.BackgroudCircleRadius + (_dartboardDimensions.DoublesAndTriplesStrokeWidth / 2);
+            var doublesStart = _dartboardDimensions.BackgroudCircleRadius - (_dartboardDimensions.DoublesAndTriplesStrokeWidth / 2);
 
-            var triplesEnd = (dimensions.InnerCircleDiameter / 2) + (dimensions.DoublesAndTriplesStrokeWidth / 2);
-            var triplesStart = (dimensions.InnerCircleDiameter / 2) - (dimensions.DoublesAndTriplesStrokeWidth / 2);
+            var triplesEnd = (_dartboardDimensions.InnerCircleDiameter / 2) + (_dartboardDimensions.DoublesAndTriplesStrokeWidth / 2);
+            var triplesStart = (_dartboardDimensions.InnerCircleDiameter / 2) - (_dartboardDimensions.DoublesAndTriplesStrokeWidth / 2);
 
-            var doubleBullRadius = dimensions.DoubleBullCircleDiameter / 2;
-            var singleBullRadius = dimensions.BullseyeCircleDiameter / 2;
+            var doubleBullRadius = _dartboardDimensions.DoubleBullCircleDiameter / 2;
+            var singleBullRadius = _dartboardDimensions.BullseyeCircleDiameter / 2;
 
             if (distanceFromZero > doublesEnd) return ContactType.Miss;
             if (distanceFromZero > doublesStart && distanceFromZero < doublesEnd) return ContactType.Double;

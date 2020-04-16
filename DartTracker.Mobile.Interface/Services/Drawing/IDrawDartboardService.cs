@@ -6,7 +6,6 @@ namespace DartTracker.Mobile.Interface.Services.Drawing
 {
     public interface IDrawDartboardService
     {
-        List<Point> ShotPoints { get; }
         void Draw(SKPaintSurfaceEventArgs eventArgs);
     }
 }

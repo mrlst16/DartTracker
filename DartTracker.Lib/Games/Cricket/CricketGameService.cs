@@ -97,6 +97,7 @@ namespace DartTracker.Lib.Games.Cricket
 
         public async Task TakeShot(Shot shot)
         {
+            shot.NumberHit = NumberHit(shot.NumberHit, shot.Contact);
             _game.Shots.Add(shot);
 
             if (await GameWon())
