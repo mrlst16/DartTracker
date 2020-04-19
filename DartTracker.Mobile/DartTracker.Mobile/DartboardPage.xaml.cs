@@ -76,7 +76,7 @@ namespace DartTracker.Mobile
                         && game.Shots.Last().X == x && game.Shots.Last().Y == y)
                         return;
 
-                    
+
                     var shot = await this._shotPointToShotMapper.Map(new CommonStandard.Models.Math.Point(x, y));
 
                     await _viewModel.TakeShot(shot);
@@ -130,6 +130,9 @@ namespace DartTracker.Mobile
                         break;
                     case Model.Enum.ContactType.DoubleBullsEye:
                         result += $" DB ";
+                        break;
+                    case Model.Enum.ContactType.Miss:
+                        result += $" Miss ";
                         break;
                 }
             }

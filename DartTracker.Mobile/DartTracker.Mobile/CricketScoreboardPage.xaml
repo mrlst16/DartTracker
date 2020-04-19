@@ -14,64 +14,88 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <CollectionView
-            ItemsSource="{Binding PlayerScoreboards}"
-            BackgroundColor="BlanchedAlmond"
             Grid.Column="0"
-            Grid.Row="0">
-
+            Grid.Row="0"
+            ItemsSource="{Binding PlayerScoreboards}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal" />
+            </CollectionView.ItemsLayout>
             <CollectionView.Header>
-                <Grid>
+                <Grid Margin="0, 0, 25, 0">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
-                    <Label Grid.Row="0" Grid.Column="0" Text="Player" BackgroundColor="{Binding BackgroundColor}" TextColor="{Binding TextColor}" />
-                    <Label Grid.Row="0" Grid.Column="1" Text="Score"/>
-                    <Label Grid.Row="0" Grid.Column="2" Text="15"/>
-                    <Label Grid.Row="0" Grid.Column="3" Text="16"/>
-                    <Label Grid.Row="0" Grid.Column="4" Text="17"/>
-                    <Label Grid.Row="0" Grid.Column="5" Text="18"/>
-                    <Label Grid.Row="0" Grid.Column="6" Text="19"/>
-                    <Label Grid.Row="0" Grid.Column="7" Text="20"/>
-                    <Label Grid.Row="0" Grid.Column="8" Text="Bull"/>
+                    <Label Grid.Row="0" Grid.Column="0" FontSize="Medium" Text="Player" />
+                    <Label Grid.Row="1" Grid.Column="0" FontSize="Medium" Text="15"/>
+                    <Label Grid.Row="2" Grid.Column="0" FontSize="Medium" Text="16"/>
+                    <Label Grid.Row="3" Grid.Column="0" FontSize="Medium" Text="17"/>
+                    <Label Grid.Row="4" Grid.Column="0" FontSize="Medium" Text="18"/>
+                    <Label Grid.Row="5" Grid.Column="0" FontSize="Medium" Text="19"/>
+                    <Label Grid.Row="6" Grid.Column="0" FontSize="Medium" Text="20"/>
+                    <Label Grid.Row="7" Grid.Column="0" FontSize="Medium" Text="Bull"/>
+                    <Label Grid.Row="8" Grid.Column="0" FontSize="Medium" Text="Score"/>
+
                 </Grid>
             </CollectionView.Header>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout>
-                        <Grid>
+                        <Grid Margin="0, 0, 25, 0">
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
 
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
 
-                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding PlayerName}" TextColor="{Binding TextColor}" BackgroundColor="{Binding BackgroundColor}" />
-                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding Score}"/>
-                            <Label Grid.Row="0" Grid.Column="2" Text="{Binding Fifteens}"/>
-                            <Label Grid.Row="0" Grid.Column="3" Text="{Binding Sixteens}"/>
-                            <Label Grid.Row="0" Grid.Column="4" Text="{Binding Seventeens}"/>
-                            <Label Grid.Row="0" Grid.Column="5" Text="{Binding Eighteens}"/>
-                            <Label Grid.Row="0" Grid.Column="6" Text="{Binding Nineteens}"/>
-                            <Label Grid.Row="0" Grid.Column="7" Text="{Binding Twentys}"/>
-                            <Label Grid.Row="0" Grid.Column="8" Text="{Binding Bulls}"/>
-
-                        </Grid>
-                    </StackLayout>
+                            <Label Grid.Row="0" Grid.Column="0" 
+                                   Text="{Binding PlayerName}"
+                                   TextColor="{Binding TextColor}" 
+                                   FontSize="Medium"
+                                   BackgroundColor="{Binding BackgroundColor}" />
+                            <Label Grid.Row="1" Grid.Column="0" 
+                                   FontSize="Medium"
+                                   Text="{Binding Fifteens}"/>
+                            <Label Grid.Row="2" Grid.Column="0"
+                                   FontSize="Medium"
+                                   Text="{Binding Sixteens}"/>
+                            <Label Grid.Row="3" Grid.Column="0"
+                                   FontSize="Medium"
+                                   Text="{Binding Seventeens}"/>
+                            <Label Grid.Row="4" Grid.Column="0"
+                                   FontSize="Medium"
+                                   Text="{Binding Eighteens}"/>
+                            <Label Grid.Row="5" Grid.Column="0" 
+                                   FontSize="Medium"
+                                   Text="{Binding Nineteens}"/>
+                            <Label Grid.Row="6" Grid.Column="0"
+                                   FontSize="Medium"
+                                   Text="{Binding Twentys}"/>
+                            <Label Grid.Row="7" Grid.Column="0"
+                                   FontSize="Medium"
+                                   Text="{Binding Bulls}"/>
+                            <Label Grid.Row="8" Grid.Column="0" 
+                                   FontSize="Medium"
+                                   Text="{Binding Score}"/>
+                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

@@ -62,7 +62,7 @@ namespace DartTracker.Mobile.ViewModels
                 };
                 if (player.Order == GameService.PlayerUp)
                 {
-                    vm.BackgroundColor = "Pink";
+                    vm.BackgroundColor = "LightGray";
                     vm.TextColor = "White";
                 }
                 result.Add(vm);

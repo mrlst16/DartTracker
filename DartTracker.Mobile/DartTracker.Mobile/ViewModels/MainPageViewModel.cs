@@ -14,7 +14,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Xamarin.Forms;
 
 namespace DartTracker.Mobile.ViewModels
