@@ -10,7 +10,7 @@ namespace DartTracker.Mobile.Factories
 {
     public class GameViewModelFactory
     {
-        public IGameViewModel Create(IGameService gameService)
+        public IScroreboardViewModel Create(IGameService gameService)
         {
             switch (gameService.Game.Type)
             {

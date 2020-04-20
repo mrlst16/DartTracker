@@ -9,7 +9,7 @@ using DartTracker.Model.Shooting;
 
 namespace DartTracker.Mobile.ViewModels
 {
-    public class CricketScoreboardViewModel : INotifyPropertyChanged, IGameViewModel
+    public class CricketScoreboardViewModel : INotifyPropertyChanged, IScroreboardViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

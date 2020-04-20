@@ -6,6 +6,7 @@ using DartTracker.Lib.Mappers;
 using DartTracker.Mobile.Factories;
 using DartTracker.Mobile.Interface.Services.Drawing;
 using DartTracker.Mobile.Interface.ViewModels;
+using DartTracker.Mobile.ViewModels;
 using DartTracker.Model.Events;
 using DartTracker.Model.Shooting;
 using SkiaSharp.Views.Forms;
@@ -21,15 +22,17 @@ namespace DartTracker.Mobile
     {
         private readonly IGameService _gameService;
         private readonly IDrawDartboardService _drawDartboardService;
-        private readonly IGameViewModel _viewModel;
+        private readonly IScroreboardViewModel _scoreboardViewModel;
         private IMapper<CommonStandard.Models.Math.Point, Shot> _shotPointToShotMapper;
         private readonly Page _scoreboard;
+
+        DartboardViewModel _dartboardViewModel;
 
         public DartboardPage(
             IGameService gameService,
             IDrawDartboardService drawDartboardService,
             IMapper<CommonStandard.Models.Math.Point, Shot> shotPointToShotMapper,
-            IGameViewModel viewModel,
+            IScroreboardViewModel scoreboardViewModel,
             Page scoreboard
             )
         {
@@ -39,9 +42,11 @@ namespace DartTracker.Mobile
             _drawDartboardService = drawDartboardService;
             _shotPointToShotMapper = shotPointToShotMapper;
             _scoreboard = scoreboard;
-            _viewModel = viewModel;
+            _scoreboardViewModel = scoreboardViewModel;
             this.Children.Add(_scoreboard);
-            this.playerLabel.Text = PlayerLableText();
+            _dartboardViewModel = new DartboardViewModel(_gameService);
+
+            this.BindingContext = _dartboardViewModel;
 
             _gameService = gameService;
             _gameService.GameWonEvent += async (sender, eventArgs) =>
@@ -79,9 +84,9 @@ namespace DartTracker.Mobile
 
                     var shot = await this._shotPointToShotMapper.Map(new CommonStandard.Models.Math.Point(x, y));
 
-                    await _viewModel.TakeShot(shot);
+                    await _scoreboardViewModel.TakeShot(shot);
 
-                    this.playerLabel.Text = PlayerLableText();
+                    _dartboardViewModel.CalculatePlayerUpAndRoundShots();
                     this.canvasView.InvalidateSurface();
                 }
                 catch (Exception ex)
@@ -93,50 +98,10 @@ namespace DartTracker.Mobile
 
         private void UndoButtonClicked(object sender, EventArgs e)
         {
-            _viewModel.RemoveLastShot();
-            this.playerLabel.Text = PlayerLableText();
+            _scoreboardViewModel.RemoveLastShot();
+            _dartboardViewModel.CalculatePlayerUpAndRoundShots();
             this.canvasView.InvalidateSurface();
         }
 
-        private string PlayerLableText()
-        {
-            var game = _gameService.Game;
-
-            DartGameIncrementor incrementor =
-                new DartGameIncrementor(_gameService.Game.Players.Count)
-                .SetShots(Math.Max(0, game.Shots.Count - 1));
-            //adjust player up for display
-            var last3 = game.Shots.SplitSequentially(3)?.LastOrDefault()
-                ?? new System.Collections.Generic.List<Shot>();
-            int displayPlayerUp = incrementor.PlayerUp;
-            string result = $"Player {displayPlayerUp} ";
-
-            for (int i = 0; i < last3.Count; i++)
-            {
-                var shot = last3[i];
-                switch (shot.Contact)
-                {
-                    case Model.Enum.ContactType.Single:
-                        result += $"1 x {shot.NumberHit} ";
-                        break;
-                    case Model.Enum.ContactType.Double:
-                        result += $"2 x {shot.NumberHit} ";
-                        break;
-                    case Model.Enum.ContactType.Triple:
-                        result += $"3 x {shot.NumberHit} ";
-                        break;
-                    case Model.Enum.ContactType.BullsEye:
-                        result += $" B ";
-                        break;
-                    case Model.Enum.ContactType.DoubleBullsEye:
-                        result += $" DB ";
-                        break;
-                    case Model.Enum.ContactType.Miss:
-                        result += $" Miss ";
-                        break;
-                }
-            }
-            return result;
-        }
     }
 }

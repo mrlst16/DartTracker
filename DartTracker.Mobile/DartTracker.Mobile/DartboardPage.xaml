@@ -10,19 +10,99 @@
     <ContentPage Title="Dart Board">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width=".3*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width=".15*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height=".15*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button Grid.Column="0" Grid.Row="0"
-                    Text="Undo"
+
+            <Grid Grid.Column="0" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.2*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0"
+                       Margin="15, 0, 0, 0"
+                       Text="{Binding PlayerUp}"
+                       VerticalOptions="CenterAndExpand"
+                       FontSize="Medium"
+                       />
+
+                <Grid Grid.Column="1" Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height=".7*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" 
+                           FontSize="Medium"
+                           HorizontalOptions="Center"
+                           Text="{Binding Shot1Contact}"
+                           />
+                    <Label Grid.Column="0" Grid.Row="1" 
+                           HorizontalOptions="Center"
+                           FontSize="Medium"
+                           Text="{Binding Shot1NumberHit}"
+                           />
+                </Grid>
+
+                <Grid Grid.Column="2" Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height=".7*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" 
+                           FontSize="Medium"
+                           HorizontalOptions="Center"
+                           Text="{Binding Shot2Contact}"
+                           />
+                    <Label Grid.Column="0" Grid.Row="1" 
+                           HorizontalOptions="Center"
+                           FontSize="Medium"
+                           Text="{Binding Shot2NumberHit}"
+                           />
+                </Grid>
+
+                <Grid Grid.Column="3" Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height=".7*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" 
+                           FontSize="Medium"
+                           HorizontalOptions="Center"
+                           Text="{Binding Shot3Contact}"
+                           />
+                    <Label Grid.Column="0" Grid.Row="1" 
+                           HorizontalOptions="Center"
+                           FontSize="Medium"
+                           Text="{Binding Shot3NumberHit}"
+                           />
+                </Grid>
+
+            </Grid>
+            <ImageButton Grid.Column="1" Grid.Row="0"
+                    Source="undo.png"
                     Clicked="UndoButtonClicked"
+                    BackgroundColor="White"
                     x:Name="undoButton"/>
-            <Label Grid.Column="1" Grid.Row="0" Text="Player 0" x:Name="playerLabel" />
+
             <skia:SKCanvasView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
                 x:Name="canvasView" 
                 PaintSurface="canvasView_PaintSurface" />

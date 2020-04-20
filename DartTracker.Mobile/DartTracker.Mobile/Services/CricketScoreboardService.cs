@@ -9,7 +9,7 @@ namespace DartTracker.Mobile.Services
     public class CricketScoreboardService : IScoreboardService
     {
 
-        public Page BuildScoreboard(IGameViewModel viewModel)
+        public Page BuildScoreboard(IScroreboardViewModel viewModel)
         {
             var result = new CricketScoreboardPage();
             result.Title = "ScoreBoard";

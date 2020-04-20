@@ -38,7 +38,6 @@
                    FontSize="Medium"
                    VerticalOptions="Center"
                    HorizontalOptions="Center" />
-
             
             <Label Grid.Column="0" Grid.Row="1" 
                    Text="Game"

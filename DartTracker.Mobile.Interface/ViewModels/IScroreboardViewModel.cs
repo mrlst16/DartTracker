@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DartTracker.Mobile.Interface.ViewModels
 {
-    public interface IGameViewModel
+    public interface IScroreboardViewModel
     {
         Task TakeShot(Shot shot);
         IGameService GameService { get; }
