@@ -22,6 +22,7 @@
 
             <Editor Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
                     Placeholder="Save As"
+                    Text="{Binding SaveAs}"
                     TextChanged="FilenameTextChanged" />
 
             <Button Grid.Column="0" Grid.Row="2" Clicked="CancelButtonClicked" Text="Cancel" />

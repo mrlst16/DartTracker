@@ -15,8 +15,7 @@ namespace DartTracker.Mobile
         private readonly MainPageViewModel _viewModel;
         private readonly IScoreboardServiceFactory _scoreboardServiceFactory;
         private readonly IGameDataService _gameDataService;
-        
-        private string _filename;
+        private SaveGameViewModel _saveGameViewModel;
 
         public SaveGamePage(
             MainPageViewModel viewModel,
@@ -27,12 +26,14 @@ namespace DartTracker.Mobile
             _viewModel = viewModel;
             _scoreboardServiceFactory = scoreboardServiceFactory;
             _gameDataService = gameDataService;
+            _saveGameViewModel = new SaveGameViewModel();
+            this.BindingContext = _saveGameViewModel;
             InitializeComponent();
         }
 
         private void FilenameTextChanged(object sender, TextChangedEventArgs e)
         {
-            _filename = e.NewTextValue;
+            _saveGameViewModel.SaveAs = e.NewTextValue;
         }
 
         private async void CancelButtonClicked(object sender, System.EventArgs e)
@@ -42,7 +43,7 @@ namespace DartTracker.Mobile
             var viewModel = factory.Create(DartTracker.Mobile.App.GameService);
 
             var scoreboard = scoreboardService.BuildScoreboard(viewModel);
-            
+
             var page = new DartboardPage(
                 DartTracker.Mobile.App.GameService,
                 new DrawDartboardService(DartTracker.Mobile.App.GameService),
@@ -61,13 +62,13 @@ namespace DartTracker.Mobile
 
         private async void SaveButtonClicked(object sender, System.EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(_filename)) return;
+            if (string.IsNullOrWhiteSpace(_saveGameViewModel.SaveAs)) return;
 
-            var success = _gameDataService.SaveGame(App.GameService.Game, _filename);
+            var success = _gameDataService.SaveGame(App.GameService.Game, _saveGameViewModel.SaveAs);
             if (success)
             {
                 await Application.Current.MainPage.Navigation.PopModalAsync();
-                _viewModel.AddSavedGameName(_filename);
+                _viewModel.AddSavedGameName(_saveGameViewModel.SaveAs);
             }
         }
 

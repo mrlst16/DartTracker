@@ -56,11 +56,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Helpers\" />
-    <Folder Include="Mappers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="Resources\cricket.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
