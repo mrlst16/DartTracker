@@ -1,9 +1,10 @@
 using DartTracker.Lib.Games.Cricket;
+using DartTracker.Lib.Games.Cricket.MarkTracker;
 using DartTracker.Model.Shooting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace DartTracker.Lib.Test
+namespace DartTracker.Lib.Test.Games.Cricket.MarkTracker
 {
     [TestClass]
     public class CricketPlayerMarkTrackerTests
@@ -12,16 +13,16 @@ namespace DartTracker.Lib.Test
         public void Add1Single20()
         {
             Guid playerid = Guid.NewGuid();
-            CricketPlayerMarkTracker tracker
-                = new CricketPlayerMarkTracker(playerid);
+            Cricket200PlayerMarkTracker tracker
+                = new Cricket200PlayerMarkTracker(playerid);
 
-            var shot = tracker.MarkShot(new Shot()
+            tracker.MarkShotFor(new Shot()
             {
                 Contact = Model.Enum.ContactType.Single,
                 NumberHit = 20
             }, false);
 
-            Assert.IsTrue(tracker.Marks[20] == 1);
+            Assert.IsTrue(tracker.MarksFor[20] == 1);
             Assert.IsTrue(tracker.Score == 0);
         }
 
@@ -29,16 +30,16 @@ namespace DartTracker.Lib.Test
         public void Add1Double20()
         {
             Guid playerid = Guid.NewGuid();
-            CricketPlayerMarkTracker tracker
-                = new CricketPlayerMarkTracker(playerid);
+            Cricket200PlayerMarkTracker tracker
+                = new Cricket200PlayerMarkTracker(playerid);
 
-            var shot = tracker.MarkShot(new Shot()
+            tracker.MarkShotFor(new Shot()
             {
                 Contact = Model.Enum.ContactType.Double,
                 NumberHit = 20
             }, false);
 
-            Assert.IsTrue(tracker.Marks[20] == 2);
+            Assert.IsTrue(tracker.MarksFor[20] == 2);
             Assert.IsTrue(tracker.Score == 0);
         }
 
@@ -46,16 +47,16 @@ namespace DartTracker.Lib.Test
         public void AddTripple20()
         {
             Guid playerid = Guid.NewGuid();
-            CricketPlayerMarkTracker tracker
-                = new CricketPlayerMarkTracker(playerid);
+            Cricket200PlayerMarkTracker tracker
+                = new Cricket200PlayerMarkTracker(playerid);
 
-            var shot = tracker.MarkShot(new Shot()
+            tracker.MarkShotFor(new Shot()
             {
                 Contact = Model.Enum.ContactType.Triple,
                 NumberHit = 20
             }, false);
 
-            Assert.IsTrue(tracker.Marks[20] == 3);
+            Assert.IsTrue(tracker.MarksFor[20] == 3);
             Assert.IsTrue(tracker.Score == 0);
         }
 
@@ -63,37 +64,35 @@ namespace DartTracker.Lib.Test
         public void Add5Bulls()
         {
             Guid playerid = Guid.NewGuid();
-            CricketPlayerMarkTracker tracker
-                = new CricketPlayerMarkTracker(playerid);
+            Cricket200PlayerMarkTracker tracker
+                = new Cricket200PlayerMarkTracker(playerid);
 
-            var shot1 = tracker.MarkShot(new Shot()
+            tracker.MarkShotFor(new Shot()
             {
                 Contact = Model.Enum.ContactType.DoubleBullsEye,
                 NumberHit = 25
             }, false);
 
-            Assert.IsTrue(tracker.Marks[25] == 2);
+            Assert.IsTrue(tracker.MarksFor[25] == 2);
             Assert.IsTrue(tracker.Score == 0);
 
-            var shot2 = tracker.MarkShot(new Shot()
+            tracker.MarkShotFor(new Shot()
             {
                 Contact = Model.Enum.ContactType.DoubleBullsEye,
                 NumberHit = 25
             }, false);
 
-            Assert.IsTrue(tracker.Marks[25] == 4);
+            Assert.IsTrue(tracker.MarksFor[25] == 4);
             Assert.IsTrue(tracker.Score == 25);
 
-            var shot3 = tracker.MarkShot(new Shot()
+            tracker.MarkShotFor(new Shot()
             {
                 Contact = Model.Enum.ContactType.BullsEye,
                 NumberHit = 25
             }, false);
 
-            Assert.IsTrue(tracker.Marks[25] == 5);
+            Assert.IsTrue(tracker.MarksFor[25] == 5);
             Assert.IsTrue(tracker.Score == 50);
         }
-
-
     }
 }

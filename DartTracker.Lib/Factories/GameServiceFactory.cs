@@ -16,9 +16,9 @@ namespace DartTracker.Lib.Factories
             switch (game.Type)
             {
                 case GameType.Cricket200:
-                    return new CricketGameService(game);
+                    return new Cricket200GameService(game);
                 default:
-                    return new CricketGameService(game);
+                    return new Cricket200GameService(game);
             }
         }
     }

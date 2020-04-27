@@ -1,31 +1,23 @@
 ﻿using DartTracker.Lib.Games.Cricket;
 using DartTracker.Lib.Test.Data.Cricket;
-using DartTracker.Model.Shooting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using NSubstitute;
 using System.Threading.Tasks;
-using DartTracker.Model.Players;
-using DartTracker.Lib.Test.Helpers;
-using System.Linq;
-using DartTracker.Lib.Factories;
 
 namespace DartTracker.Lib.Test.Games.Cricket
 {
     [TestClass]
-    public class CricketGameServiceTests
+    public class CricketCutthroatGameServiceTests
     {
         [TestMethod]
         public async Task TwoTurns_NoHits()
         {
 
-            var service = new Cricket200GameService(
+            var service = new CricketCutthroatGameService(
                 CricketGameServiceData.TwoPlayers()
                 );
 
             Assert.AreEqual(2, service.Game.Players.Count);
-            Assert.AreEqual(Model.Enum.GameType.Cricket200, service.Game.Type);
+            Assert.AreEqual(Model.Enum.GameType.CricketCutthroat, service.Game.Type);
 
             Assert.AreEqual(0, service.ShotCount);
             Assert.AreEqual(1, service.Round);
@@ -70,12 +62,12 @@ namespace DartTracker.Lib.Test.Games.Cricket
         [TestMethod]
         public async Task BothBoardsClosed_HitsAllTripples_WinTwoDoubleBulls()
         {
-            var service = new Cricket200GameService(
+            var service = new CricketCutthroatGameService(
                 CricketGameServiceData.TwoPlayers()
                 );
 
             Assert.AreEqual(2, service.Game.Players.Count);
-            Assert.AreEqual(Model.Enum.GameType.Cricket200, service.Game.Type);
+            Assert.AreEqual(Model.Enum.GameType.CricketCutthroat, service.Game.Type);
             Assert.IsFalse(await service.GameWon());
 
             Assert.AreEqual(0, service.ShotCount);
@@ -119,22 +111,9 @@ namespace DartTracker.Lib.Test.Games.Cricket
             Assert.IsFalse(await service.GameWon());
 
             await service.TakeShot(25, Model.Enum.ContactType.DoubleBullsEye);
-            Assert.AreEqual(25, service.Game.Players[0].Score);
+            Assert.AreEqual(25, service.Game.Players[1].Score);
             Assert.IsTrue(await service.GameWon());
         }
-
-        [TestMethod]
-        public async Task PlaySaveAndReloadStateFromFactory()
-        {
-            var loaded = await CricketGameServiceData.TwoPlayersOneTurnAllDoubleBulls();
-            GameServiceFactory factory = new GameServiceFactory();
-            var result = await factory.Create(loaded.Game);
-
-            Assert.IsTrue(result.Game.Players.Any());
-            Assert.AreNotEqual(0, result.Game.Players[0].Score);
-            Assert.AreEqual(75, result.Game.Players[0].Score);
-        }
-
 
     }
 }

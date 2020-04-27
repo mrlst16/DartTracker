@@ -1,5 +1,5 @@
-﻿using DartTracker.Interface.Games;
-using DartTracker.Lib.Helpers;
+﻿using DartTracker.Lib.Extensions;
+using DartTracker.Lib.Games.Cricket.MarkTracker;
 using DartTracker.Model.Enum;
 using DartTracker.Model.Events;
 using DartTracker.Model.Games;
@@ -12,13 +12,11 @@ using System.Threading.Tasks;
 
 namespace DartTracker.Lib.Games.Cricket
 {
-    public class CricketGameService : IGameService
+    public class Cricket200GameService : GameServiceBase
     {
-        public DartGameIncrementor Incrementor { get => new DartGameIncrementor(_game.Players.Count).SetShots(_game.Shots.Count); }
-        private Dictionary<Guid, CricketPlayerMarkTracker> ShotBoard { get => _game.Players.CalculateForCricket(_game.Shots); }
+        private Dictionary<Guid, Cricket200PlayerMarkTracker> ShotBoard { get => _game.Players.CalculateForCricket200(_game.Shots); }
 
-        private Game _game;
-        public Game Game
+        public override Game Game
         {
             get
             {
@@ -28,7 +26,7 @@ namespace DartTracker.Lib.Games.Cricket
                 {
                     x.Score = shotboard[x.ID].Score;
                     x.Order = i;
-                    x.Marks = shotboard[x.ID].Marks;
+                    x.Marks = shotboard[x.ID].MarksFor;
                     return x;
                 }).ToList();
                 return _game;
@@ -39,19 +37,15 @@ namespace DartTracker.Lib.Games.Cricket
             }
         }
 
-        public int PlayerUp => Incrementor.PlayerUp;
+        protected override GameType Type => GameType.Cricket200;
 
-        public event EventHandler GameWonEvent;
-
-        public CricketGameService(
+        public Cricket200GameService(
             Game game
-            )
+            ) : base(game)
         {
-            game.Type = GameType.Cricket200;
-            Game = game;
         }
 
-        private Player WinningPlayer()
+        public override async Task<Player> WinningPlayer()
         {
             var winnningPlayerId = ShotBoard
                 ?.Select(kvp => kvp.Value)
@@ -60,7 +54,7 @@ namespace DartTracker.Lib.Games.Cricket
             return this.Game.Players.FirstOrDefault(x => x.ID == winnningPlayerId);
         }
 
-        public async Task<bool> GameWon()
+        public override async Task<bool> GameWon()
         {
             var result = ShotBoard
                    ?.Select(kvp => kvp.Value)
@@ -69,7 +63,7 @@ namespace DartTracker.Lib.Games.Cricket
                    ?.IsClosedOut ?? false;
             if (result || this.Incrementor.Players < 2) return result;
 
-            var winningPlayer = WinningPlayer();
+            var winningPlayer = await WinningPlayer();
             var secondPlacePlayer = ShotBoard
                    ?.Select(kvp => kvp.Value)
                    ?.OrderByDescending(x => x.Score)
@@ -83,19 +77,10 @@ namespace DartTracker.Lib.Games.Cricket
             return result;
         }
 
-        public static readonly List<int> ScoringNumbers = new List<int>() { 15, 16, 17, 18, 19, 20, 25 };
 
-        public async Task TakeShot(int numberHit, ContactType contactType)
-        {
-            Shot shot = new Shot()
-            {
-                Contact = contactType,
-                NumberHit = NumberHit(numberHit, contactType)
-            };
-            await TakeShot(shot);
-        }
+        public override event EventHandler GameWonEvent;
 
-        public async Task TakeShot(Shot shot)
+        public override async Task TakeShot(Shot shot)
         {
             shot.NumberHit = NumberHit(shot.NumberHit, shot.Contact);
             _game.Shots.Add(shot);
@@ -105,27 +90,9 @@ namespace DartTracker.Lib.Games.Cricket
                 GameWonEvent?.Invoke(this, new GameWonEvenArgs()
                 {
                     Players = this._game.Players,
-                    WinningPlayer = this.WinningPlayer()
+                    WinningPlayer = await this.WinningPlayer()
                 });
             }
-        }
-
-        private int NumberHit(int numberHit, ContactType contactType)
-        {
-            switch (contactType)
-            {
-                case ContactType.BullsEye:
-                case ContactType.DoubleBullsEye:
-                    return 25;
-                default:
-                    return numberHit;
-            }
-        }
-
-        public async Task RemoveLastShot()
-        {
-            if (_game.Shots.Count < 1) return;
-            _game.Shots.RemoveAt(_game.Shots.Count - 1);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DartTracker.Model.Enum;
 using DartTracker.Model.Games;
+using DartTracker.Model.Players;
 using DartTracker.Model.Shooting;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,9 @@ namespace DartTracker.Interface.Games
         Task TakeShot(Shot shot);
         Task RemoveLastShot();
         Task<bool> GameWon();
+        Task<Player> WinningPlayer();
         int PlayerUp { get; }
+        int Round { get; }
+        int ShotCount { get; }
     }
 }

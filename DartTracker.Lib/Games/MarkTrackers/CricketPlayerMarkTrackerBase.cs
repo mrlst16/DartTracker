@@ -5,17 +5,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DartTracker.Lib.Games.Cricket
+namespace DartTracker.Lib.Games.MarkTrackers
 {
-    public class CricketPlayerMarkTracker
+    public abstract class CricketPlayerMarkTrackerBase
     {
-        private static List<ContactType> UnScorable = new List<ContactType>()
+        public static readonly List<int> ScoringNumbers = new List<int>() { 15, 16, 17, 18, 19, 20, 25 };
+
+        protected static List<ContactType> UnScorable = new List<ContactType>()
             {
                 ContactType.Miss,
                 ContactType.NotShot
             };
         public Guid PlayerID { get; protected set; }
-        public Dictionary<int, int> Marks { get; protected set; } = new Dictionary<int, int>()
+        public Dictionary<int, int> MarksFor { get; protected set; } = new Dictionary<int, int>()
             {
                 { 15, 0},
                 { 16, 0},
@@ -26,20 +28,17 @@ namespace DartTracker.Lib.Games.Cricket
                 { 25, 0}
             };
 
-        public bool IsClosedOut
+        public virtual bool IsClosedOut
         {
-            get
-            {
-                return Marks.All((kvp) => kvp.Value >= 3);
-            }
+            get => MarksFor.All((kvp) => kvp.Value >= 3);
         }
 
-        public int Score
+        public virtual int Score
         {
             get
             {
                 int result = 0;
-                foreach (var kvp in Marks)
+                foreach (var kvp in MarksFor)
                 {
                     var shotsOverClose = kvp.Value - 3;
                     if (shotsOverClose < 1)
@@ -51,44 +50,48 @@ namespace DartTracker.Lib.Games.Cricket
             }
         }
 
-        public CricketPlayerMarkTracker(
+        public CricketPlayerMarkTrackerBase(
                 Guid playerId
             )
         {
             PlayerID = playerId;
         }
 
-        public Shot MarkShot(Shot shot, bool isClosedOut)
+        public virtual void MarkShotFor(Shot shot, bool isClosedOut)
         {
             if (
                 UnScorable.Contains(shot.Contact)
-                || !Marks.ContainsKey(shot.NumberHit)
-                ) return shot;
+                || !MarksFor.ContainsKey(shot.NumberHit)
+                ) return;
 
-            int remainingShots = isClosedOut ? (3 - this.Marks[shot.NumberHit]) : 100;
+            int remainingShots = isClosedOut ? (3 - this.MarksFor[shot.NumberHit]) : 100;
             switch (shot.Contact)
             {
                 case ContactType.Single:
-                    Marks[shot.NumberHit]+= Math.Min(remainingShots, 1);
+                    MarksFor[shot.NumberHit] += Math.Min(remainingShots, 1);
                     break;
                 case ContactType.Double:
-                    Marks[shot.NumberHit] += Math.Min(remainingShots, 2);
+                    MarksFor[shot.NumberHit] += Math.Min(remainingShots, 2);
                     break;
                 case ContactType.Triple:
-                    Marks[shot.NumberHit] += Math.Min(remainingShots, 3);
+                    MarksFor[shot.NumberHit] += Math.Min(remainingShots, 3);
                     break;
                 case ContactType.BullsEye:
-                    Marks[25]+= Math.Min(remainingShots, 1);
+                    MarksFor[25] += Math.Min(remainingShots, 1);
                     break;
                 case ContactType.DoubleBullsEye:
-                    Marks[25] += Math.Min(remainingShots, 2);
+                    MarksFor[25] += Math.Min(remainingShots, 2);
                     break;
                 default:
                     break;
             }
 
-            return shot;
+            return;
+        }
+
+        public virtual bool ClosedOut(int number)
+        {
+            return MarksFor.ContainsKey(number) && MarksFor[number] >= 3;
         }
     }
-
 }

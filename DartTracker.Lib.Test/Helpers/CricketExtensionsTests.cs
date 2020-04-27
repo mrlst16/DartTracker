@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DartTracker.Lib.Helpers;
 using System.Linq;
+using DartTracker.Lib.Extensions;
 
 namespace DartTracker.Lib.Test.Helpers
 {
@@ -43,7 +44,7 @@ namespace DartTracker.Lib.Test.Helpers
                 new Shot(){Contact = Model.Enum.ContactType.DoubleBullsEye, NumberHit = 25}
             };
 
-            var shotBoard = players.CalculateForCricket(shots);
+            var shotBoard = players.CalculateForCricket200(shots);
             Assert.AreEqual(25, shotBoard.ElementAt(0).Value.Score);
         }
 
@@ -65,7 +66,7 @@ namespace DartTracker.Lib.Test.Helpers
 
             };
 
-            var shotBoard = players.CalculateForCricket(shots);
+            var shotBoard = players.CalculateForCricket200(shots);
             Assert.AreEqual(30, shotBoard.ElementAt(0).Value.Score);
             Assert.AreEqual(0, shotBoard.ElementAt(1).Value.Score);
         }
@@ -81,9 +82,9 @@ namespace DartTracker.Lib.Test.Helpers
                 new Shot(){Contact = Model.Enum.ContactType.Triple, NumberHit = 15}
             };
 
-            var shotBoard = players.CalculateForCricket(shots);
+            var shotBoard = players.CalculateForCricket200(shots);
             Assert.AreEqual(0, shotBoard.ElementAt(0).Value.Score);
-            Assert.AreEqual(3, shotBoard.ElementAt(0).Value.Marks[15]);
+            Assert.AreEqual(3, shotBoard.ElementAt(0).Value.MarksFor[15]);
         }
 
         [TestMethod]
@@ -97,9 +98,9 @@ namespace DartTracker.Lib.Test.Helpers
                 new Shot(){Contact = Model.Enum.ContactType.Triple, NumberHit = 16}
             };
 
-            var shotBoard = players.CalculateForCricket(shots);
+            var shotBoard = players.CalculateForCricket200(shots);
             Assert.AreEqual(0, shotBoard.ElementAt(0).Value.Score);
-            Assert.AreEqual(3, shotBoard.ElementAt(0).Value.Marks[16]);
+            Assert.AreEqual(3, shotBoard.ElementAt(0).Value.MarksFor[16]);
         }
 
         [TestMethod]
@@ -113,9 +114,9 @@ namespace DartTracker.Lib.Test.Helpers
                 new Shot(){Contact = Model.Enum.ContactType.Triple, NumberHit = 17}
             };
 
-            var shotBoard = players.CalculateForCricket(shots);
+            var shotBoard = players.CalculateForCricket200(shots);
             Assert.AreEqual(0, shotBoard.ElementAt(0).Value.Score);
-            Assert.AreEqual(3, shotBoard.ElementAt(0).Value.Marks[17]);
+            Assert.AreEqual(3, shotBoard.ElementAt(0).Value.MarksFor[17]);
         }
 
         [TestMethod]
@@ -129,9 +130,9 @@ namespace DartTracker.Lib.Test.Helpers
                 new Shot(){Contact = Model.Enum.ContactType.Triple, NumberHit = 18}
             };
 
-            var shotBoard = players.CalculateForCricket(shots);
+            var shotBoard = players.CalculateForCricket200(shots);
             Assert.AreEqual(0, shotBoard.ElementAt(0).Value.Score);
-            Assert.AreEqual(3, shotBoard.ElementAt(0).Value.Marks[18]);
+            Assert.AreEqual(3, shotBoard.ElementAt(0).Value.MarksFor[18]);
         }
 
         [TestMethod]
@@ -145,9 +146,9 @@ namespace DartTracker.Lib.Test.Helpers
                 new Shot(){Contact = Model.Enum.ContactType.Triple, NumberHit = 19}
             };
 
-            var shotBoard = players.CalculateForCricket(shots);
+            var shotBoard = players.CalculateForCricket200(shots);
             Assert.AreEqual(0, shotBoard.ElementAt(0).Value.Score);
-            Assert.AreEqual(3, shotBoard.ElementAt(0).Value.Marks[19]);
+            Assert.AreEqual(3, shotBoard.ElementAt(0).Value.MarksFor[19]);
         }
 
         [TestMethod]
@@ -161,9 +162,9 @@ namespace DartTracker.Lib.Test.Helpers
                 new Shot(){Contact = Model.Enum.ContactType.Triple, NumberHit = 20}
             };
 
-            var shotBoard = players.CalculateForCricket(shots);
+            var shotBoard = players.CalculateForCricket200(shots);
             Assert.AreEqual(0, shotBoard.ElementAt(0).Value.Score);
-            Assert.AreEqual(3, shotBoard.ElementAt(0).Value.Marks[20]);
+            Assert.AreEqual(3, shotBoard.ElementAt(0).Value.MarksFor[20]);
         }
 
         [TestMethod]
@@ -177,9 +178,11 @@ namespace DartTracker.Lib.Test.Helpers
                 new Shot(){Contact = Model.Enum.ContactType.Triple, NumberHit = 15}
             };
 
-            var shotBoard = players.CalculateForCricket(shots);
+            var shotBoard = players.CalculateForCricket200(shots);
             Assert.AreEqual(0, shotBoard.ElementAt(0).Value.Score);
-            Assert.AreEqual(3, shotBoard.ElementAt(0).Value.Marks[15]);
+            Assert.AreEqual(3, shotBoard.ElementAt(0).Value.MarksFor[15]);
         }
+
+
     }
 }
