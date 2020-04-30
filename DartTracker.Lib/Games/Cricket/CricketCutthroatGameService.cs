@@ -1,8 +1,5 @@
-﻿using DartTracker.Interface.Games;
-using DartTracker.Lib.Extensions;
-using DartTracker.Lib.Games.Cricket.MarkTracker;
+﻿using DartTracker.Lib.Extensions;
 using DartTracker.Lib.Games.MarkTrackers;
-using DartTracker.Lib.Helpers;
 using DartTracker.Model.Enum;
 using DartTracker.Model.Events;
 using DartTracker.Model.Games;
@@ -11,7 +8,6 @@ using DartTracker.Model.Shooting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DartTracker.Lib.Games.Cricket

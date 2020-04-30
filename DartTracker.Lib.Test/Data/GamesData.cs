@@ -1,16 +1,12 @@
 ﻿using DartTracker.Interface.Games;
 using DartTracker.Lib.Factories;
-using DartTracker.Lib.Games.Cricket;
 using DartTracker.Model.Games;
 using DartTracker.Model.Players;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace DartTracker.Lib.Test.Data.Cricket
+namespace DartTracker.Lib.Test.Data
 {
-    public static class CricketGameServiceData
+    public static class GamesData
     {
         public static Game OnePlayer()
         {

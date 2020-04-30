@@ -1,5 +1,4 @@
-﻿using DartTracker.Lib.Test.Data.Cricket;
-using DartTracker.Model.Players;
+﻿using DartTracker.Model.Players;
 using DartTracker.Model.Shooting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -9,6 +8,7 @@ using System.Threading.Tasks;
 using DartTracker.Lib.Helpers;
 using System.Linq;
 using DartTracker.Lib.Extensions;
+using DartTracker.Lib.Test.Data;
 
 namespace DartTracker.Lib.Test.Helpers
 {
@@ -19,7 +19,7 @@ namespace DartTracker.Lib.Test.Helpers
         [TestMethod]
         public async Task BothBoardsClosed_HitsAllTripples_WinTwoDoubleBulls_TestCalculate()
         {
-            var game = CricketGameServiceData.TwoPlayers();
+            var game = GamesData.TwoPlayers();
 
             List<Player> players = game.Players;
             List<Shot> shots = new List<Shot>()
@@ -51,7 +51,7 @@ namespace DartTracker.Lib.Test.Helpers
         [TestMethod]
         public async Task ScoreOnFifteensThenCloseFifteens()
         {
-            var game = CricketGameServiceData.TwoPlayers();
+            var game = GamesData.TwoPlayers();
 
             List<Player> players = game.Players;
             List<Shot> shots = new List<Shot>()
@@ -63,10 +63,10 @@ namespace DartTracker.Lib.Test.Helpers
                 new Shot(){Contact = Model.Enum.ContactType.Triple, NumberHit = 15},
                 new Shot(){Contact = Model.Enum.ContactType.Triple, NumberHit = 15},
                 new Shot(){Contact = Model.Enum.ContactType.Single, NumberHit = 16},
-
             };
 
             var shotBoard = players.CalculateForCricket200(shots);
+
             Assert.AreEqual(30, shotBoard.ElementAt(0).Value.Score);
             Assert.AreEqual(0, shotBoard.ElementAt(1).Value.Score);
         }
@@ -74,7 +74,7 @@ namespace DartTracker.Lib.Test.Helpers
         [TestMethod]
         public async Task OneTriple15()
         {
-            var game = CricketGameServiceData.OnePlayer();
+            var game = GamesData.OnePlayer();
 
             List<Player> players = game.Players;
             List<Shot> shots = new List<Shot>()
@@ -90,7 +90,7 @@ namespace DartTracker.Lib.Test.Helpers
         [TestMethod]
         public async Task OneTriple16()
         {
-            var game = CricketGameServiceData.OnePlayer();
+            var game = GamesData.OnePlayer();
 
             List<Player> players = game.Players;
             List<Shot> shots = new List<Shot>()
@@ -106,7 +106,7 @@ namespace DartTracker.Lib.Test.Helpers
         [TestMethod]
         public async Task OneTriple17()
         {
-            var game = CricketGameServiceData.OnePlayer();
+            var game = GamesData.OnePlayer();
 
             List<Player> players = game.Players;
             List<Shot> shots = new List<Shot>()
@@ -122,7 +122,7 @@ namespace DartTracker.Lib.Test.Helpers
         [TestMethod]
         public async Task OneTriple18()
         {
-            var game = CricketGameServiceData.OnePlayer();
+            var game = GamesData.OnePlayer();
 
             List<Player> players = game.Players;
             List<Shot> shots = new List<Shot>()
@@ -138,7 +138,7 @@ namespace DartTracker.Lib.Test.Helpers
         [TestMethod]
         public async Task OneTriple19()
         {
-            var game = CricketGameServiceData.OnePlayer();
+            var game = GamesData.OnePlayer();
 
             List<Player> players = game.Players;
             List<Shot> shots = new List<Shot>()
@@ -154,7 +154,7 @@ namespace DartTracker.Lib.Test.Helpers
         [TestMethod]
         public async Task OneTriple20()
         {
-            var game = CricketGameServiceData.OnePlayer();
+            var game = GamesData.OnePlayer();
 
             List<Player> players = game.Players;
             List<Shot> shots = new List<Shot>()
@@ -170,19 +170,44 @@ namespace DartTracker.Lib.Test.Helpers
         [TestMethod]
         public async Task OneDoubleBull()
         {
-            var game = CricketGameServiceData.OnePlayer();
+            var game = GamesData.OnePlayer();
 
             List<Player> players = game.Players;
             List<Shot> shots = new List<Shot>()
             {
-                new Shot(){Contact = Model.Enum.ContactType.Triple, NumberHit = 15}
+                new Shot(){Contact = Model.Enum.ContactType.DoubleBullsEye, NumberHit = 25}
             };
 
             var shotBoard = players.CalculateForCricket200(shots);
+
             Assert.AreEqual(0, shotBoard.ElementAt(0).Value.Score);
-            Assert.AreEqual(3, shotBoard.ElementAt(0).Value.MarksFor[15]);
+            Assert.AreEqual(2, shotBoard.ElementAt(0).Value.MarksFor[25]);
         }
 
+        [TestMethod]
+        public async Task SixDoubleBullsTwoPlayers()
+        {
+            var game = GamesData.TwoPlayers();
+
+            List<Player> players = game.Players;
+            List<Shot> shots = new List<Shot>()
+            {
+                new Shot(){Contact = Model.Enum.ContactType.DoubleBullsEye, NumberHit = 25},
+                new Shot(){Contact = Model.Enum.ContactType.DoubleBullsEye, NumberHit = 25},
+                new Shot(){Contact = Model.Enum.ContactType.DoubleBullsEye, NumberHit = 25},
+
+                new Shot(){Contact = Model.Enum.ContactType.DoubleBullsEye, NumberHit = 25},
+                new Shot(){Contact = Model.Enum.ContactType.DoubleBullsEye, NumberHit = 25},
+                new Shot(){Contact = Model.Enum.ContactType.DoubleBullsEye, NumberHit = 25}
+            };
+
+            var shotBoard = players.CalculateForCricket200(shots);
+
+            Assert.AreEqual(75, shotBoard.ElementAt(0).Value.Score);
+            Assert.AreEqual(0, shotBoard.ElementAt(1).Value.Score);
+            Assert.AreEqual(6, shotBoard.ElementAt(0).Value.MarksFor[25]);
+            Assert.AreEqual(3, shotBoard.ElementAt(1).Value.MarksFor[25]);
+        }
 
     }
 }

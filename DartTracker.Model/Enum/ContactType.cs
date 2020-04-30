@@ -12,6 +12,7 @@ namespace DartTracker.Model.Enum
         Triple = 4,
         BullsEye = 5,
         DoubleBullsEye = 6,
-        NotShot = 7
+        NotShot = 7,
+        Fluff = 8
     }
 }

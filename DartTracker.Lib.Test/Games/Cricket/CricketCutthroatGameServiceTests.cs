@@ -1,5 +1,5 @@
 ﻿using DartTracker.Lib.Games.Cricket;
-using DartTracker.Lib.Test.Data.Cricket;
+using DartTracker.Lib.Test.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 
@@ -13,7 +13,7 @@ namespace DartTracker.Lib.Test.Games.Cricket
         {
 
             var service = new CricketCutthroatGameService(
-                CricketGameServiceData.TwoPlayers()
+                GamesData.TwoPlayers()
                 );
 
             Assert.AreEqual(2, service.Game.Players.Count);
@@ -63,7 +63,7 @@ namespace DartTracker.Lib.Test.Games.Cricket
         public async Task BothBoardsClosed_HitsAllTripples_WinTwoDoubleBulls()
         {
             var service = new CricketCutthroatGameService(
-                CricketGameServiceData.TwoPlayers()
+                GamesData.TwoPlayers()
                 );
 
             Assert.AreEqual(2, service.Game.Players.Count);

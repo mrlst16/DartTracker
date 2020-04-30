@@ -1,5 +1,4 @@
 ﻿using DartTracker.Lib.Games.Cricket;
-using DartTracker.Lib.Test.Data.Cricket;
 using DartTracker.Model.Shooting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -10,6 +9,7 @@ using DartTracker.Model.Players;
 using DartTracker.Lib.Test.Helpers;
 using System.Linq;
 using DartTracker.Lib.Factories;
+using DartTracker.Lib.Test.Data;
 
 namespace DartTracker.Lib.Test.Games.Cricket
 {
@@ -21,7 +21,7 @@ namespace DartTracker.Lib.Test.Games.Cricket
         {
 
             var service = new Cricket200GameService(
-                CricketGameServiceData.TwoPlayers()
+                GamesData.TwoPlayers()
                 );
 
             Assert.AreEqual(2, service.Game.Players.Count);
@@ -71,7 +71,7 @@ namespace DartTracker.Lib.Test.Games.Cricket
         public async Task BothBoardsClosed_HitsAllTripples_WinTwoDoubleBulls()
         {
             var service = new Cricket200GameService(
-                CricketGameServiceData.TwoPlayers()
+                GamesData.TwoPlayers()
                 );
 
             Assert.AreEqual(2, service.Game.Players.Count);
@@ -126,7 +126,7 @@ namespace DartTracker.Lib.Test.Games.Cricket
         [TestMethod]
         public async Task PlaySaveAndReloadStateFromFactory()
         {
-            var loaded = await CricketGameServiceData.TwoPlayersOneTurnAllDoubleBulls();
+            var loaded = await GamesData.TwoPlayersOneTurnAllDoubleBulls();
             GameServiceFactory factory = new GameServiceFactory();
             var result = await factory.Create(loaded.Game);
 
