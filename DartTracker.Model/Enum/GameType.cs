@@ -8,6 +8,7 @@ namespace DartTracker.Model.Enum
     {
         Cricket200 = 1,
         CricketCutthroat = 2,
-        ThreeOOne = 3
+        ThreeOhOneOInOOut = 3,
+        FiveOhOneOInOOut = 4
     }
 }

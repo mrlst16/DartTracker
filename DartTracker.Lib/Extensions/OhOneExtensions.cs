@@ -1,4 +1,5 @@
-﻿using DartTracker.Lib.Games.MarkTrackers;
+﻿using DartTracker.Interface.Games.MarkTracker;
+using DartTracker.Lib.Games.MarkTrackers;
 using DartTracker.Lib.Helpers;
 using DartTracker.Model.Players;
 using DartTracker.Model.Shooting;
@@ -11,17 +12,34 @@ namespace DartTracker.Lib.Extensions
 {
     public static class OhOneExtensions
     {
-        private static Dictionary<Guid, OhOneShotTracker> StartShotboardForOhOne(this List<Player> players, int startingScore)
+        private static Dictionary<Guid, T> StartShotboardForOhOne<T>(this List<Player> players, int startingScore)
+            where T : IOhOneMarkTracker, new()
         {
             return players.ToDictionary(
                 (x) => x.ID,
-                (y) => new OhOneShotTracker(y.ID, startingScore));
+                (y) =>
+                {
+                    var result = new T();
+                    result.PlayerID = y.ID;
+                    result.Score = startingScore;
+                    return result;
+                });
         }
 
-        public static Dictionary<Guid, OhOneShotTracker> CalculateFor01OpenInOpenOut(this List<Player> players, List<Shot> shots, int startingScore)
+        public static Dictionary<Guid, OhOneOInOOutMarkTracker> CalculateFor01OpenInOpenOut(
+            this List<Player> players, List<Shot> shots, int startingScore)
+        {
+            return Calculate<OhOneOInOOutMarkTracker>(players, shots, startingScore);
+        }
+
+        private static Dictionary<Guid, T> Calculate<T>(
+            this List<Player> players,
+            List<Shot> shots,
+            int startingScore
+            ) where T : IOhOneMarkTracker, new()
         {
             DartGameIncrementor incrementor = new DartGameIncrementor(players.Count);
-            Dictionary<Guid, OhOneShotTracker> shotBoard = players.StartShotboardForOhOne(startingScore);
+            Dictionary<Guid, T> shotBoard = players.StartShotboardForOhOne<T>(startingScore);
 
             for (int i = 0; i < shots.Count; i++)
             {
@@ -33,7 +51,7 @@ namespace DartTracker.Lib.Extensions
                 //If the shot caused a bust
                 if (!tracker.MarkShot(shot))
                 {
-                    //Roll it back
+                    //skip the rest of the turn
                     int increment = 3 - (i % 3);
                     incrementor = incrementor.Increment(increment);
                     continue;

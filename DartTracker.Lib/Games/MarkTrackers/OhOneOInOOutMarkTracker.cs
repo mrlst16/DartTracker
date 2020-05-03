@@ -1,24 +1,27 @@
-﻿using DartTracker.Model.Shooting;
+﻿using DartTracker.Interface.Games.MarkTracker;
+using DartTracker.Model.Shooting;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DartTracker.Lib.Games.MarkTrackers
 {
-    public class OhOneShotTracker
+    public class OhOneOInOOutMarkTracker : IOhOneMarkTracker
     {
-        public Guid PlayerID { get; protected set; }
+        public Guid PlayerID { get; set; }
 
-        public int Score { get; protected set; }
+        public int Score { get; set; }
 
-        public OhOneShotTracker(Guid playerid, int startingScore)
+        public OhOneOInOOutMarkTracker()
+        {
+        }
+
+        public OhOneOInOOutMarkTracker(Guid playerid, int startingScore)
         {
             this.PlayerID = playerid;
             Score = startingScore;
         }
 
         /// <summary>
-        /// Marks a Shot.  This method will not subtract from score if the shot causes a bust
+        /// Marks a Shot.  This method will not subtract from score if the shot causes a bust. Returns false if bust.
         /// </summary>
         /// <param name="shot"></param>
         /// <returns>eFalse if bust. True if score => 0</returns>
