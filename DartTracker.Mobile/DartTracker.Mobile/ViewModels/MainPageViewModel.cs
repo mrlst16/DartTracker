@@ -53,10 +53,18 @@ namespace DartTracker.Mobile.ViewModels
                 new GameTypeDescription(){
                     Name = "Cricket 200",
                     GameType = Model.Enum.GameType.Cricket200
+                },
+                new GameTypeDescription(){
+                    Name = "Cricket Cutthroat",
+                    GameType = Model.Enum.GameType.CricketCutthroat
+                },
+                new GameTypeDescription(){
+                    Name = "301 Open-In Open-Out",
+                    GameType = Model.Enum.GameType.ThreeOhOneOInOOut
                 }
             };
 
-        public List<string> GameTypeNames => _gameTypeDescriptions.Select(x => x.Name).ToList();
+        public IEnumerable<string> GameTypeNames => _gameTypeDescriptions.Select(x => x.Name);
 
         public Command NewGameCommand { get; protected set; }
 

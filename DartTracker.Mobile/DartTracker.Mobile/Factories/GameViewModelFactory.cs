@@ -15,6 +15,7 @@ namespace DartTracker.Mobile.Factories
             switch (gameService.Game.Type)
             {
                 case Model.Enum.GameType.Cricket200:
+                case Model.Enum.GameType.CricketCutthroat:
                     return new CricketScoreboardViewModel(gameService);
                 default:
                     return new CricketScoreboardViewModel(gameService);

@@ -20,7 +20,6 @@ namespace DartTracker.Mobile
         public CricketScoreboardPage(
             )
         {
-            
             InitializeComponent();
         }
     }

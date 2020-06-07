@@ -1,6 +1,7 @@
 ﻿using DartTracker.Interface.Factories;
 using DartTracker.Interface.Games;
 using DartTracker.Lib.Games.Cricket;
+using DartTracker.Lib.Games.OhOne;
 using DartTracker.Model.Enum;
 using DartTracker.Model.Games;
 using System;
@@ -17,6 +18,10 @@ namespace DartTracker.Lib.Factories
             {
                 case GameType.Cricket200:
                     return new Cricket200GameService(game);
+                case GameType.CricketCutthroat:
+                    return new CricketCutthroatGameService(game);
+                case GameType.ThreeOhOneOInOOut:
+                    return new ThreeOhOneOinOOutGameService(game);
                 default:
                     return new Cricket200GameService(game);
             }
