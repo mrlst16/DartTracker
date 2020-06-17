@@ -25,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\CommonStandard\CommonStandard.Interface\CommonStandard.Interface.csproj" />
     <ProjectReference Include="..\..\..\CommonStandard\CommonStandard.Interface\CommonStandard.Interface.csproj" />
     <ProjectReference Include="..\..\..\CommonStandard\CommonStandard.Math\CommonStandard.Math.csproj" />
     <ProjectReference Include="..\..\..\CommonStandard\CommonStandard\CommonStandard.csproj" />
@@ -48,6 +47,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="DartboardPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="OhOneScoreboardPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="SaveGamePage.xaml">

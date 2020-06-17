@@ -8,6 +8,6 @@ namespace DartTracker.Mobile.Interface.Services.Scoreboard
 {
     public interface IScoreboardService
     {
-        Page BuildScoreboard(IScroreboardViewModel viewModel);
+        Page BuildScoreboard(IScoreboardVM viewModel);
     }
 }

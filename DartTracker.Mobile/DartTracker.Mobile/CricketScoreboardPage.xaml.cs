@@ -15,8 +15,6 @@ namespace DartTracker.Mobile
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CricketScoreboardPage : ContentPage
     {
-        private readonly IGameService _gameService;
-
         public CricketScoreboardPage(
             )
         {

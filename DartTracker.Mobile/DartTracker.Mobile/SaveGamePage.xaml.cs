@@ -15,7 +15,7 @@ namespace DartTracker.Mobile
         private readonly MainPageViewModel _viewModel;
         private readonly IScoreboardServiceFactory _scoreboardServiceFactory;
         private readonly IGameDataService _gameDataService;
-        private SaveGameViewModel _saveGameViewModel;
+        private SaveGameVM _saveGameViewModel;
 
         public SaveGamePage(
             MainPageViewModel viewModel,
@@ -26,7 +26,7 @@ namespace DartTracker.Mobile
             _viewModel = viewModel;
             _scoreboardServiceFactory = scoreboardServiceFactory;
             _gameDataService = gameDataService;
-            _saveGameViewModel = new SaveGameViewModel();
+            _saveGameViewModel = new SaveGameVM();
             this.BindingContext = _saveGameViewModel;
             InitializeComponent();
         }

@@ -1,9 +1,7 @@
 ﻿using CommonStandard.Extensions;
 using CommonStandard.Interface.Mappers;
 using DartTracker.Interface.Games;
-using DartTracker.Lib.Helpers;
 using DartTracker.Lib.Mappers;
-using DartTracker.Mobile.Factories;
 using DartTracker.Mobile.Interface.Services.Drawing;
 using DartTracker.Mobile.Interface.ViewModels;
 using DartTracker.Mobile.ViewModels;
@@ -22,7 +20,7 @@ namespace DartTracker.Mobile
     {
         private readonly IGameService _gameService;
         private readonly IDrawDartboardService _drawDartboardService;
-        private readonly IScroreboardViewModel _scoreboardViewModel;
+        private readonly IScoreboardVM _scoreboardViewModel;
         private IMapper<CommonStandard.Models.Math.Point, Shot> _shotPointToShotMapper;
         private readonly Page _scoreboard;
 
@@ -32,7 +30,7 @@ namespace DartTracker.Mobile
             IGameService gameService,
             IDrawDartboardService drawDartboardService,
             IMapper<CommonStandard.Models.Math.Point, Shot> shotPointToShotMapper,
-            IScroreboardViewModel scoreboardViewModel,
+            IScoreboardVM scoreboardViewModel,
             Page scoreboard
             )
         {

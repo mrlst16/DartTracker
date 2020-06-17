@@ -4,12 +4,8 @@ using System.Text;
 
 namespace DartTracker.Mobile.ViewModels
 {
-    public class CricketPlayerScoreboardVM
+    public class CricketPlayerScoreboardVM: PlayerScoreboardVM
     {
-        public string BackgroundColor { get; set; }
-        public string TextColor { get; set; } = "Black";
-        public string PlayerName { get; set; }
-        public int Score { get; set; }
         public int Fifteens { get; set; } = 0;
         public int Sixteens { get; set; } = 0;
         public int Seventeens { get; set; } = 0;

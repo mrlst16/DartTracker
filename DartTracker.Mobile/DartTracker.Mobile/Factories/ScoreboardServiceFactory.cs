@@ -16,6 +16,8 @@ namespace DartTracker.Mobile.Factories
             {
                 case GameType.Cricket200:
                     return new CricketScoreboardService();
+                case GameType.ThreeOhOneOInOOut:
+                    return new OhOneScoreboardService();
                 default:
                     return new CricketScoreboardService();
             }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DartTracker.Mobile.ViewModels
 {
-    public class SaveGameViewModel : INotifyPropertyChanged
+    public class SaveGameVM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

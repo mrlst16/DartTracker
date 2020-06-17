@@ -1,32 +1,25 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Threading.Tasks;
-using DartTracker.Interface.Games;
+﻿using DartTracker.Interface.Games;
 using DartTracker.Mobile.Interface.ViewModels;
 using DartTracker.Model.Events;
 using DartTracker.Model.Shooting;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace DartTracker.Mobile.ViewModels
 {
-    public class CricketScoreboardViewModel : INotifyPropertyChanged, IScroreboardViewModel
+    public class OhOneScoreboardVM : INotifyPropertyChanged, IScoreboardVM
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public ObservableCollection<CricketPlayerScoreboardVM> PlayerScoreboards
-        {
-            get
-            {
-                var result = Calculate();
-                return result;
-            }
-        }
-
-        public IGameService GameService { get; protected set; }
+        public IGameService GameService { get; set; }
 
         public event EventHandler GameWonEvent;
 
-        public CricketScoreboardViewModel(
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public OhOneScoreboardVM(
             IGameService gameService
             )
         {
@@ -41,24 +34,17 @@ namespace DartTracker.Mobile.ViewModels
             };
         }
 
-        private ObservableCollection<CricketPlayerScoreboardVM> Calculate()
+        private ObservableCollection<PlayerScoreboardVM> Calculate()
         {
-            ObservableCollection<CricketPlayerScoreboardVM> result
-                = new ObservableCollection<CricketPlayerScoreboardVM>();
+            ObservableCollection<PlayerScoreboardVM> result
+                = new ObservableCollection<PlayerScoreboardVM>();
             var players = GameService.Game.Players;
             foreach (var player in players)
             {
-                var vm = new CricketPlayerScoreboardVM()
+                var vm = new PlayerScoreboardVM()
                 {
                     PlayerName = player.Name,
-                    Score = player.Score,
-                    Fifteens = player.Marks[15],
-                    Sixteens = player.Marks[16],
-                    Seventeens = player.Marks[17],
-                    Eighteens = player.Marks[18],
-                    Nineteens = player.Marks[19],
-                    Twentys = player.Marks[20],
-                    Bulls = player.Marks[25]
+                    Score = player.Score
                 };
                 if (player.Order == GameService.PlayerUp)
                 {
@@ -68,6 +54,15 @@ namespace DartTracker.Mobile.ViewModels
                 result.Add(vm);
             }
             return result;
+        }
+
+        public ObservableCollection<PlayerScoreboardVM> PlayerScoreboards
+        {
+            get
+            {
+                var result = Calculate();
+                return result;
+            }
         }
 
         public async Task TakeShot(Shot shot)

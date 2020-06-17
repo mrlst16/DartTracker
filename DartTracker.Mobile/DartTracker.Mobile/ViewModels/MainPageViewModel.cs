@@ -64,7 +64,7 @@ namespace DartTracker.Mobile.ViewModels
                 }
             };
 
-        public IEnumerable<string> GameTypeNames => _gameTypeDescriptions.Select(x => x.Name);
+        public List<string> GameTypeNames => _gameTypeDescriptions.Select(x => x.Name).ToList();
 
         public Command NewGameCommand { get; protected set; }
 

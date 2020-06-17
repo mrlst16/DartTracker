@@ -1,24 +1,22 @@
 ﻿using DartTracker.Interface.Games;
 using DartTracker.Mobile.Interface.ViewModels;
 using DartTracker.Mobile.ViewModels;
-using DartTracker.Model.Games;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DartTracker.Mobile.Factories
 {
     public class GameViewModelFactory
     {
-        public IScroreboardViewModel Create(IGameService gameService)
+        public IScoreboardVM Create(IGameService gameService)
         {
             switch (gameService.Game.Type)
             {
                 case Model.Enum.GameType.Cricket200:
                 case Model.Enum.GameType.CricketCutthroat:
-                    return new CricketScoreboardViewModel(gameService);
+                    return new CricketScoreboardVM(gameService);
+                case Model.Enum.GameType.ThreeOhOneOInOOut:
+                    return new OhOneScoreboardVM(gameService);
                 default:
-                    return new CricketScoreboardViewModel(gameService);
+                    return new CricketScoreboardVM(gameService);
             }
         }
     }
